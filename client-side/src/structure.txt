@@ -1,0 +1,8 @@
+files that will retrieve data from Mongo:
+    1.UI_TeamsTable -- find vendors depending on the service needed or language
+    2.NewTemplate -- find if the name of the template is duplicated
+                    find the game's title
+                    find the usual languages of the game
+                    find any additional info of the game's object
+    3.sideMenu -- list all the existinging templates and display them
+    4. 

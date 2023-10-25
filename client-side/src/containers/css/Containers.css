@@ -1,0 +1,169 @@
+.App {
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  height: flex;
+}
+
+.App-footer {
+  display: flex;
+  background-color: #a6a6a6;
+  text-align: center;
+  height: 10vh;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  gap: 2rem;
+  background-color: rgb(228, 228, 228);
+}
+
+.public {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-page {
+  display: grid;
+  justify-items: center;
+}
+
+.App-title-intro {
+  color: black;
+  font-family: CerebriSans-SemiBold, -apple-system, BlinkMacSystemFont, Roboto,
+    sans-serif;
+  font-size: 38px;
+  font-weight: 400;
+  margin-left: 9%;
+  margin-right: 9%;
+  max-width: 800px;
+  text-align: center;
+  align-items: center;
+}
+.mainContainer {
+  height: 75%;
+  overflow: scroll;
+  overflow-x: hidden;
+  flex: 1;
+  max-width: 800px;
+  padding: 3rem;
+  border-radius: 25px;
+  background-color: #fcfeff;
+  align-items: stretch;
+  align-content: center;
+  justify-content: flex-start;
+  border-top: 10px;
+}
+
+.sideContainer {
+  flex: 1;
+  height: 500px;
+  max-width: 150px;
+  padding: 1rem;
+  background-color: #a6a6a6;
+  border-radius: 25px;
+  align-self: left;
+}
+
+.templateScreenshot {
+  width: 500px;
+}
+
+.vendorsList h1 {
+  text-align: left;
+  padding-left: 5rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.libraryDiv ul {
+  list-style-type: none;
+}
+
+table {
+  text-align: left;
+}
+
+.handoffListAdvise {
+  font-size: 10px;
+}
+
+.handoffList button {
+  margin-left: 5px;
+}
+
+.DevelopersList td,
+th {
+  padding-right: 1.5rem;
+}
+
+.GamesList td {
+  padding-right: 1.5rem;
+}
+
+.VendorsList td,
+th {
+  padding-right: 1rem;
+}
+.VendorsList a {
+  padding: 0;
+}
+
+/* CSS button:   https://getcssscan.com/css-buttons-examples  by Paper CSS*/
+.VendorsList button {
+  align-self: center;
+  background-color: #fff;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Neucha, sans-serif;
+  font-size: 1rem;
+  line-height: 23px;
+  outline: none;
+  padding: 0.75rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.AddVendorButton:hover {
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
+  transform: translate3d(0, 2px, 0);
+}
+
+.AddVendorButton:focus {
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
+}
+
+.temporalButtonChildToParent {
+  font-size: 10px;
+  color: rgb(94, 121, 209);
+}
+
+
+.NewGameDiv {
+
+  
+}

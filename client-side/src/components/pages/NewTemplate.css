@@ -1,0 +1,72 @@
+#templateLists {
+  margin: 5px;
+}
+div {
+  padding-bottom: 5px;
+}
+
+.TemplateBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  gap: 2rem;
+  background-color: rgb(228, 228, 228);
+  
+}
+
+label{
+  margin-right: 5px;
+}
+
+.newGameDiv div{
+
+  margin-top: 10px;
+}
+
+
+.titleInput {
+  align-items: left;
+  font: 1rem "PT Sans", sans-serif;
+  border: 0;
+  outline: 0;
+  padding: 12px 12px;
+  width: 80%;
+  height: 1px;
+}
+
+
+.dropDownGreetings {
+  margin-top: 7px;
+}
+
+
+.projectDetailsParagraph ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.projectDetailsParagraph input {
+  margin: 5px;
+}
+.teamsParagrapgh button {
+  margin: 1px;
+}
+
+.deadlineParagraph{
+  margin-bottom: 10px;
+}
+
+.teamsTable thead th{
+
+  padding-right: 10px;
+
+}
+
+textarea {
+  box-sizing: border-box;
+  border: 2px solid #4b4b4b;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+
+}
