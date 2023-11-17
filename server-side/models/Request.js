@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const handoffSchema = new mongoose.Schema({
+const requestSchema = new mongoose.Schema({
   projectTitle: { type: String, required: true },
   greeting: { type: String, required: true },
   introText: { type: String, required: true },
@@ -19,5 +19,5 @@ const handoffSchema = new mongoose.Schema({
   },
 });
 
-const Handoff = mongoose.model("Handoff", handoffSchema);
-module.exports = { Handoff };
+const Request = mongoose.model("request", requestSchema);
+module.exports = { Request };

@@ -19,9 +19,10 @@ app.use("/", require("./routes/root"));
 app.use("/vendors", require("./routes/vendorRoutes"));
 app.use("/templates", require("./routes/templateRoutes"));
 app.use("/languages", require("./routes/languagesRoutes"));
-app.use("/handoff", require("./routes/handoffRoutes"))
+app.use("/request", require("./routes/requestRoutes"))
 app.use("/developers", require("./routes/developersRoutes"))
 app.use("/games", require("./routes/videogameRoutes"))
+app.use("/users", require("./routes/userRoutes"))
 
 
 app.all("*", (req, res) => {
@@ -36,7 +37,7 @@ app.all("*", (req, res) => {
 });
 
 mongoose.connection.on("error", (err) => {
-  console.log(err);
+  log(err);
 });
 
-app.listen(PORT, () => console.log("Server started on port 3500"));
+app.listen(PORT, () => log("Server started on port 3500"));

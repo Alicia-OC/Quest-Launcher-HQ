@@ -1,12 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
-const HandoffSchema = require("../models/Handoff");
-let Handoff = HandoffSchema.Handoff;
+const RequestSchema = require("../models/Request");
+let Request = RequestSchema.Request;
 
-const getAllHandoff = asyncHandler(async (req, res) => {
+const getAllRequest = asyncHandler(async (req, res) => {
   try {
-    Handoff.find({}).then((data) => {
-      const formattedHandoff = data.map(
+    Request.find({}).then((data) => {
+      const formattedRequest = data.map(
         ({
           _id,
           projectTitle,
@@ -41,16 +41,16 @@ const getAllHandoff = asyncHandler(async (req, res) => {
           };
         }
       );
-      res.status(200).json(formattedHandoff);
-      console.log(formattedHandoff);
-      return formattedHandoff;
+      res.status(200).json(formattedRequest);
+      console.log(formattedRequest);
+      return formattedRequest;
     });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-const createNewHandoff = asyncHandler(async (req, res) => {
+const createNewRequest = asyncHandler(async (req, res) => {
   const {
     projectTitle,
     greeting,
@@ -99,7 +99,7 @@ const createNewHandoff = asyncHandler(async (req, res) => {
   }
 
   //check for nickname duplicate
-  const duplicate = await Handoff.findOne({ projectTitle }).lean().exec();
+  const duplicate = await Request.findOne({ projectTitle }).lean().exec();
   //The lean option tells Mongoose to skip hydrating the result documents. This makes queries faster and less memory intensive, but the result documents are plain old JavaScript objects
   //exec() function is used to execute the query. It can handle promises and executes the query easily.
   if (duplicate) {
@@ -107,7 +107,7 @@ const createNewHandoff = asyncHandler(async (req, res) => {
       message: "Duplicate project title, please choose a different one",
     });
   }
-  const handoffObject = {
+  const requestObject = {
     projectTitle: projectTitle,
     greeting: greeting,
     introText: introText,
@@ -122,12 +122,12 @@ const createNewHandoff = asyncHandler(async (req, res) => {
     requirements: requirements,
     deadlines: deadlines,
   };
-  const newHandoff = await Handoff.create(handoffObject);
+  const newRequest = await Request.create(requestObject);
 
-  if (newHandoff) {
-    console.log("handoff created");
+  if (newRequest) {
+    console.log("Request created");
     res.status(201).json({
-      message: `New handoff titled ${projectTitle} has been created. You will receive a mail with the handoff to be sent!`,
+      message: `New Request titled ${projectTitle} has been created. You will receive a mail with the Request to be sent!`,
     });
   } else {
     res.status(400).json({ message: "Invalid data" });
@@ -135,6 +135,6 @@ const createNewHandoff = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  getAllHandoff,
-  createNewHandoff,
+  getAllRequest,
+  createNewRequest,
 };

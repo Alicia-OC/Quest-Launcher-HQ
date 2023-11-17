@@ -48,7 +48,9 @@ const createNewVendor = asyncHandler(async (req, res) => {
     } else {
       serviceProvided = "TRA";
     }
+    
     console.log(newVendor);
+
     res.status(201).json({
       message: `New vendor ${nickname} created. The targate language is ${language}, and the service provided is ${serviceProvided}`,
     });
