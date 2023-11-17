@@ -6,9 +6,11 @@ let User = UserSchema.User;
 const getUser = asyncHandler(async (req, res) => {
   try {
     User.find({}).then((data) => {
-      const formattedUser = data.map(({ _id, username }) => {
-        return { _id, username };
-      });
+      const formattedUser = data.map(
+        ({ _id, fullName, username, email, role, active, requests }) => {
+          return { _id, fullName, username, email, role, active, requests };
+        }
+      );
       res.status(200).json(formattedUser);
       return formattedUser;
       console.log();
@@ -33,11 +35,9 @@ const createNewUser = asyncHandler(async (req, res) => {
   //exec() function is used to execute the query. It can handle promises and executes the query easily.
 
   if (duplicatedUsername || duplicatedEmail) {
-    return res
-      .status(409)
-      .json({
-        message: "duplicated username or email, please choose a different one",
-      });
+    return res.status(409).json({
+      message: "duplicated username or email, please choose a different one",
+    });
   }
   const hashedPwd = await bcrypt.hash(password, 10); //10 salt rounds
   const userObject = {
@@ -64,7 +64,22 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // @access Private
 
-const updateUser = asyncHandler(async (req, res) => {});
+const updateUser = asyncHandler(async (req, res) => {
+  const { userId, reqId } = req.body;
+
+  const user = await User.findById(userId).exec();
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  user.requests.push(reqId);
+
+  const updatedUser = await user.save();
+
+  res.json({ message: `${updatedUser.username} requests updated` })
+
+  
+});
 
 // @desc Update a user
 // @route PATCH /users

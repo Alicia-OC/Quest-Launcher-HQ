@@ -20,13 +20,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     min: 5,
   },
-  role: [
-    {
-      type: String,
-      required: true,
-      default: "",
-    },
-  ],
+  role: {
+    type: String,
+    required: true,
+    default: "",
+  },
+  requests: { type: Array, required: false, default: [""] },
   active: {
     type: Boolean,
     default: true,
