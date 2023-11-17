@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import "./NewTemplate.css";
-import TextAreaComponent from "../../features/templates/textArea";
 
 function NewGame() {
   return (
-    <div className="">
+    <div className="NewGameDiv">
       <div className="">
         <form method="post">
           <div>
-            <label>Client</label>
+            <label>Developer</label>
             <input
-              className="titleInput"
+              className="NewGameTitleInput"
               type="text"
               placeholder="Write the developer's name"
             ></input>{" "}
@@ -18,7 +17,7 @@ function NewGame() {
           <div>
             <label>Games </label>
             <input
-              className="titleInput"
+              className="NewGameTitleInput"
               type="text"
               placeholder="Write the game's title here"
             ></input>

@@ -1,0 +1,106 @@
+.creationForm-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 0 1rem;
+}
+
+.creationForm-form {
+  margin: 5rem;
+  padding: 30px;
+  background: #fff;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 7px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+}
+
+.register-side-div{
+  background: #d4d4d4;
+  width: 100%;
+}
+
+.creationForm-form button {
+  color: #fff;
+}
+.homeButton {
+  align-items: center;
+}
+.creationForm h2 {
+  font-size: 27px;
+  text-align: center;
+  margin: 0px 0 1rem;
+}
+
+.form-group-div-checkbox {
+  font-size: 15px;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.form-group-div {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.form-group-div label {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.form-group-div input {
+  transition: 0.2s;
+  width: 95%;
+  height: 3rem;
+  
+}
+.form-group-div select {
+  transition: 0.2s border-color;
+  width: 95%;
+  height: 3rem;
+}
+.submit-btn {
+  text-align: center;
+}
+
+.submit-btn input {
+  border: none;
+  font-size: 16px;
+  padding: 13px 0;
+  border-radius: 7px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s ease;
+  width: 30%;
+}
+
+.goBack-btn {
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 16px;
+  padding: 13px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+
+  width: 30%;
+}
+
+.invalidInput {
+  border-color: #f91919;
+  background: #f9f0f1;
+}
+
+.submitForm {
+}
+
+.passwordCheckbox {
+}
+
+.formError {
+  border-color: #f91919;
+  background: #f9f0f1;
+}

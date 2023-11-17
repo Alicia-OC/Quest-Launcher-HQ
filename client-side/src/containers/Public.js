@@ -2,8 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Public = () => {
   let navigate = useNavigate();
-  const routeChange = () => {
+  const routeLogin = () => {
     navigate("login");
+  };
+  const routeNewAccount = () => {
+    navigate("register");
   };
 
   const content = (
@@ -11,7 +14,9 @@ const Public = () => {
       <main className="public__main">
         <div>
           <h1>Welcome!</h1>
-          <button onClick={routeChange}> Log to start!</button>
+          <button onClick={routeLogin}> Log to start!</button>
+          <button onClick={routeNewAccount}> Create an account</button>
+
         </div>
       </main>
     </section>

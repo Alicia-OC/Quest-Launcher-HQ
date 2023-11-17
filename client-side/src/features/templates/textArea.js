@@ -10,6 +10,7 @@ const TextAreaComponent = (props) => {
     /**clears the text area when you click the remove button */
     if (instrucctionsButton) {
       document.getElementById("textArea").value = "";
+      childToParent(e);
     }
     e.preventDefault();
   }
@@ -19,7 +20,7 @@ const TextAreaComponent = (props) => {
     const value = document.getElementById("textArea").value;
     props.changeInstructions(value);
   }
-  
+
   return (
     <div>
       {" "}

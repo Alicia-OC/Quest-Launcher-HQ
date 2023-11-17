@@ -5,7 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 let CreateDeadlines = (props) => {
   const [transDate, settransDate] = useState();
   const [proofDate, setProofDate] = useState();
-  const [timezone, setTimeZone] = useState("CEST");
+  const [timezone, setTimeZone] = useState("CET");
+  const date = new Date();
   const months = [
     "January",
     "February",

@@ -46,11 +46,14 @@ const NewVendor = () => {
     })
       .then(alert(`New vendor ${nickname} has been created!`))
       .then(location.reload())
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert('Please check your username and email again, there seems to be a duplicate')
+      });
   };
 
   return (
-    <div>
+    <div className="creationForm">
       <form name="newVendorForm" action={mongoDB_Vendors} method="POST">
         <label>Full name</label>{" "}
         <input

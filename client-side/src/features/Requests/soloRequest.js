@@ -1,6 +1,10 @@
 import { useParams } from "react-router-dom";
 import GetRequest from "./fetchRequest.js";
 
+/**CSS */
+
+import "../../containers/css/SoloRequest.css";
+
 function SoloRequest() {
   const { requestId } = useParams();
   const request = GetRequest();
@@ -36,9 +40,7 @@ function SoloRequest() {
       for (let i = 0; i < team.length; i++) {
         let object = (
           <tr>
-            <tr>
-              <strong>{team[i].language}</strong>
-            </tr>
+            <td className="languageColumnSoloRequest">{team[i].language}</td>
             <td>{team[i].translator}</td>
             <td>{team[i].proofreader}</td>
           </tr>
@@ -50,6 +52,19 @@ function SoloRequest() {
     return array;
   };
 
+  let instructionsBlock = () => {
+    if (instructions.length === 0) {
+      return '';
+    } else {
+      return (
+        <>
+          <label>Instructions: </label>
+          <p1>{instructions}</p1>
+        </>
+      );
+    }
+  };
+
   let attachmentsLoop = attachments.map((item) => <li>{item}</li>);
   let reqsLoop = requirements.map((item) => <li>{item}</li>);
 
@@ -57,12 +72,12 @@ function SoloRequest() {
     <div className="SoloRequest">
       <div className="introduction">
         <h3>{projectTitle}</h3>
-        <p1>{greeting}</p1>
+        <p1>{greeting},</p1>
         <br />
         <p1>{introText}</p1>
         <br /> <br />
-        <label>Instructions:</label>
-        <p1>{instructions}</p1>
+        {instructionsBlock()}
+        <br />
       </div>
       <div className="details">
         <label>
@@ -72,29 +87,31 @@ function SoloRequest() {
         </label>
         <br />
         <label>
-          <b>Videogame/App:</b>
+          <b>Videogame/App: </b>
         </label>
         <p1>{game}</p1> <br />
         <label>
-          <b>MQ project:</b>
+          <b>MQ project: </b>
         </label>
         <p1>{mqproject}</p1> <br />
         <label>
-          <b>Wordcound:</b>
+          <b>Wordcound: </b>
         </label>
-        <p1>{wordcount}</p1> <br />
+        <p1>{wordcount} words</p1> <br />
         <label>
-          <b>Files in scope:</b>
+          <b>File in scope: </b>
         </label>
         <p1>{files}</p1> <br />
       </div>
-      <br></br>
-      <div className="TeamsTable">
+      <br />{" "}
+      <div className="teamTableDisplayed">
         <label>
           {" "}
-          <u>Teams</u>
+          <u>Team:</u>
         </label>
-        <table className="">
+        <br />
+        <br />
+        <table>
           <thead>
             <th></th>
             <th>Translation</th>
@@ -103,6 +120,7 @@ function SoloRequest() {
           <tbody>{teamTableLoop()}</tbody>
         </table>
       </div>
+      <br />{" "}
       <div className="req-att-list">
         <label>Attachments list</label> <br></br>
         <ul>{attachmentsLoop}</ul>
@@ -113,8 +131,14 @@ function SoloRequest() {
       <div className="Deadlines">
         <label>Deadlines:</label>
         <br></br>
-        <ul>TRA: {deadlines.translation}</ul>
-        <ul>PRF: {deadlines.proofreading}</ul>
+        <ul>
+          <strong>TRA: </strong>
+          {deadlines.translation}
+        </ul>
+        <ul>
+          <strong>PRF: </strong>
+          {deadlines.proofreading}
+        </ul>
       </div>
     </div>
   );

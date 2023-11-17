@@ -6,17 +6,6 @@
   padding: 12px 14px;
 }
 
-a {
-  color: black;
-  text-decoration: none;
-  padding: 12px 14px;
-}
-a:hover {
-  text-decoration: none;
-  cursor: pointer;
-  background-color: #ebebeb;
-}
-
 .NavbarItem-left {
   color: inherit;
   float: left;
@@ -52,7 +41,7 @@ a:hover {
 }
 
 .dropdown-content a:hover {
-  background-color: #ddd;
+  background-color: #949ad4;
   color: black;
 }
 

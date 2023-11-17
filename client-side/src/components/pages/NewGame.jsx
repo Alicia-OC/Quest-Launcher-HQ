@@ -24,7 +24,7 @@ function NewGame() {
           </div>
           <div>
             <label>Links of interest</label>
-            <input type="text" className="NewGameTitleInput"></input>
+            <input type="text" className="titleInput"></input>
           </div>
           <input type="submit" value="Save" className="saveButton"></input>
         </form>

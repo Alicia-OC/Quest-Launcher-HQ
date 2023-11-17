@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar(userLogged) {
-  let userName = "Alicia"
-  
+  let userName = "Alicia";
+
   if (userLogged) {
     return (
       <>
@@ -18,11 +18,8 @@ function Navbar(userLogged) {
             <div class="dropdown-content">
               <Link to="/Profile">Profile</Link>
               <Link to="/Library">Library</Link>
-              <button
-                className="logOutButton"
-                type="text">
-                Log out
-              </button>
+
+              <Link to="/"> Log out</Link>
             </div>
           </div>
           <div className="NavbarItem-right" id="NavbarFav">
@@ -38,6 +35,7 @@ function Navbar(userLogged) {
               <Link to="/NewTemplate">Template</Link>
               <Link to="/NewTeam">Team</Link>
               <Link to="/NewGame">Game</Link>
+              <Link to="/NewVendor">Vendor</Link>
             </div>
           </div>
         </nav>
@@ -54,7 +52,9 @@ function Navbar(userLogged) {
 
           <div className="NavbarItem-right" id="loginNavbar">
             {" "}
-            <Link to="/login">Log in</Link>
+            <Link to="/login">Log in </Link>
+            <Link to="/register">New User</Link>
+
           </div>
         </nav>
       </>
@@ -71,6 +71,5 @@ function Header(props) {
     </div>
   );
 }
-
 
 export default Header;

@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./containers/Home.jsx";
 import NoMatch from "./containers/NoMatch";
 import Login from "./features/auth/Login.js";
+import RegisterAccount from "./features/auth/RegisterAccount.js";
 import DashLayout from "./containers/DashLayout.js";
 import Library from "./components/pages/ProfileLibrary.js";
 import UserProfile from "./components/pages/Profile.js";
@@ -28,9 +29,10 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="*" element={<NoMatch />} />
+        <Route path="*" element={<NoMatch />} />{" "}
+        <Route path="register" element={<RegisterAccount />} />
         <Route path="/" element={<DashLayout isUserLoged={userLogged} />}>
+          <Route path="login" element={<Login />} />
           <Route index element={<Home isUserLoged={userLogged} />} />
           <Route path="/NewRequest">
             <Route index element={<NewRequest />} />
@@ -53,7 +55,6 @@ function App() {
             element={<VendorPerLangList />}
           />
         </Route>
-
         <Route path="/LogOut" element={<NewGame />} />
       </Routes>
     </>
