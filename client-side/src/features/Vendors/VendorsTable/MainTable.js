@@ -4,6 +4,7 @@ import { GetLanguages } from "../../languagesList/fetchLanguages";
 import { baseLanguages } from "../../../apis";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import LanguageDropDown from "../../../components/pages/elements/languagesDropdown";
 
 let this_handoff_added_langs = baseLanguages.map((lang) => lang);
 
@@ -113,6 +114,7 @@ const MainTable = (props) => {
       language: selectElement.options[selectElement.selectedIndex].text,
       languageCode: selectElement.options[selectElement.selectedIndex].value,
     };
+    console.log(object);
     let valueLang = object.language;
     let valueArr = this_handoff_added_langs.map((language) => {
       return language.language;
@@ -122,6 +124,7 @@ const MainTable = (props) => {
       this_handoff_added_langs.push(object);
       setFullTable(RowContent(serviceClicked));
     }
+    console.log(this_handoff_added_langs);
   };
   /**1. The service buttons, calls a funcntion when they're click (ServiceButtonClicked).
    */
@@ -295,14 +298,12 @@ const MainTable = (props) => {
     let rows = table.rows;
     let tableToObjectArr = [];
 
-
     for (let index = 0; index < rows.length; index++) {
       let language = rows[index].id;
       let selectTRoptions;
       let selectPRFoptions;
       let result;
       if (language) {
-
         if (serviceClicked === "TEP") {
           selectTRoptions = document.querySelector(
             `#${language}-Translator > select`
@@ -311,7 +312,7 @@ const MainTable = (props) => {
           selectPRFoptions = document.querySelector(
             `#${language}-Proofreader > select`
           ).value;
-          
+
           result = {
             language: language,
             translator: selectTRoptions,
@@ -379,6 +380,12 @@ const MainTable = (props) => {
         </p1>
       </div>
       {LanguagesDropDown()}
+      
+      <div className="AddLanguageButton">
+        <select id="languagesDropdown"><LanguageDropDown /></select>
+        <button onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
+      </div>
+
     </div>
   );
 };

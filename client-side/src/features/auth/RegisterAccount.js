@@ -21,7 +21,7 @@ function NewUserCreation() {
       document.forms["newUserForm"][
         ("fullName", "username", "email", "password")
       ].value;
-    if (x == "") {
+    if (x === "") {
       alert("All fields must be filled out");
       return;
     } else {
@@ -36,11 +36,9 @@ function NewUserCreation() {
       }
 
       if (username.length < 4 || username.match(/[a-zA-Z0-9_]/g)) {
-        alert("test");
       }
 
       if (fullName.length < 0 || !fullName.match(/[A-Za-z]/g)) {
-        alert("test");
       }
     }
   }
@@ -57,7 +55,7 @@ function NewUserCreation() {
       role: userRole,
     };
 
-    /*Axios.post(mongoDB_Users, {
+    Axios.post(mongoDB_Users, {
       fullName: fullName,
       username: username,
       email: email,
@@ -72,7 +70,7 @@ function NewUserCreation() {
       } else {
         alert("User created succesfully!");
       }
-    });*/
+    });
   };
 
   return (

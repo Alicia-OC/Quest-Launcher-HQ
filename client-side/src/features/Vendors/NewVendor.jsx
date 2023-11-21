@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { mongoDB_Vendors } from "../../apis";
 import Axios from "axios";
+import LanguagesDropDown from "../../components/pages/elements/languagesDropdown";
 
 const NewVendor = () => {
+  
   const [language, setLanguage] = useState();
   const [fullName, setFullName] = useState();
   const [nickname, setNickname] = useState();
@@ -20,14 +22,23 @@ const NewVendor = () => {
         "transService",
         "proofService")
       ].value;
-    if (x == "") {
+    if (x === "") {
       alert("This field must be filled out");
       return false;
     }
   }
 
+  let listener = () =>
+    document
+      .getElementById("languagesDropdown")
+      .addEventListener("change", (event) => {
+        return event.target.value;
+      });
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    listener();
+    console.log(language);
     const formErrors = validateForm();
     const newVendor = {
       language: language,
@@ -36,19 +47,23 @@ const NewVendor = () => {
       service: { translation: translation, proofreading: proofreading },
       email: email,
     };
-    console.log(newVendor);
     Axios.post(mongoDB_Vendors, {
-      language: language,
-      fullName: fullName,
-      nickname: nickname,
-      service: { translation: translation, proofreading: proofreading },
-      email: email,
+      language: newVendor.language,
+      fullName: newVendor.fullName,
+      nickname: newVendor.nickname,
+      service: {
+        translation: newVendor.service.translation,
+        proofreading: newVendor.service.proofreading,
+      },
+      email: newVendor.email,
     })
       .then(alert(`New vendor ${nickname} has been created!`))
-      .then(location.reload())
+      //.then(location.reload())
       .catch((err) => {
         console.log(err);
-        alert('Please check your username and email again, there seems to be a duplicate')
+        alert(
+          "Please check the nickname and email again, there seems to be a duplicate"
+        );
       });
   };
 
@@ -102,12 +117,7 @@ const NewVendor = () => {
         </select>
         <br></br>
         <label>Target language</label>
-        <input
-          name="language"
-          onChange={(e) => {
-            setLanguage(e.target.value);
-          }}
-        ></input>{" "}
+        <LanguagesDropDown />
         <br></br>
         <label>E-mail</label>
         <input
