@@ -4,7 +4,6 @@ import Axios from "axios";
 import LanguagesDropDown from "../../components/pages/elements/languagesDropdown";
 
 const NewVendor = () => {
-  
   const [language, setLanguage] = useState();
   const [fullName, setFullName] = useState();
   const [nickname, setNickname] = useState();
@@ -28,16 +27,8 @@ const NewVendor = () => {
     }
   }
 
-  let listener = () =>
-    document
-      .getElementById("languagesDropdown")
-      .addEventListener("change", (event) => {
-        return event.target.value;
-      });
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    listener();
     console.log(language);
     const formErrors = validateForm();
     const newVendor = {
@@ -47,7 +38,9 @@ const NewVendor = () => {
       service: { translation: translation, proofreading: proofreading },
       email: email,
     };
-    Axios.post(mongoDB_Vendors, {
+    console.log(newVendor);
+    
+     Axios.post(mongoDB_Vendors, {
       language: newVendor.language,
       fullName: newVendor.fullName,
       nickname: newVendor.nickname,
@@ -65,6 +58,8 @@ const NewVendor = () => {
           "Please check the nickname and email again, there seems to be a duplicate"
         );
       });
+      
+      
   };
 
   return (
@@ -116,8 +111,9 @@ const NewVendor = () => {
           <option>No</option>
         </select>
         <br></br>
-        <label>Target language</label>
-        <LanguagesDropDown />
+        <LanguagesDropDown
+          getlanguage={(thisLanguage) => setLanguage(thisLanguage)}
+        />
         <br></br>
         <label>E-mail</label>
         <input

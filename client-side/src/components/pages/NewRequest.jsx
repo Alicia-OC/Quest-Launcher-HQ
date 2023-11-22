@@ -5,7 +5,7 @@ import Axios from "axios";
 import RequestList from "../../features/templates/att-req-lists";
 import TextAreaComponent from "../../features/templates/textArea";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable";
-
+import MainTableV2 from "../../features/Vendors/VendorsTable/MaintableV2.js";
 
 /* DEFAULT VARIABLES */
 import { mongoDB_Request, initialParagraph, randomGreetings } from "../../apis";
@@ -157,10 +157,7 @@ function NewRequest() {
                 </li>
               </ul>
             </div>
-            <MainTable
-              getService={(serviceCall) => setThisService(serviceCall)}
-              getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
-            />
+           
             <RequestList
               getAttachments={(theseAttachments) =>
                 setAttachments(theseAttachments)
@@ -173,6 +170,10 @@ function NewRequest() {
               getProofDL={(thisDL) => setProofDL(thisDL)}
             />
           </form>{" "}
+          <MainTableV2
+            getService={(serviceCall) => setThisService(serviceCall)}
+            getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+          />
           <input
             type="submit"
             value="Create"

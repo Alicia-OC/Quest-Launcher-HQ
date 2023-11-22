@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { GetProofreaders, GetTranslators } from "../_GetVendorsData";
 import { GetLanguages } from "../../languagesList/fetchLanguages";
-import { baseLanguages } from "../../../apis";
+import { baseLanguages2 } from "../../../apis";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import LanguageDropDown from "../../../components/pages/elements/languagesDropdown";
 import SelectLanguage from "../../../components/pages/elements/SelectLanguage";
 
-let this_handoff_added_langs = baseLanguages.map((lang) => lang);
+let this_handoff_added_langs = baseLanguages2;
 
 const MainTable = (props) => {
-  
-  let this_handoff_added_langs2 = () => {
+  const this_handoff_added_langs2 = () => {
     let langs = GetLanguages();
     let array = [];
     if (langs) {
@@ -20,9 +19,8 @@ const MainTable = (props) => {
       }
     }
     console.log(array);
-    return array
+    return array;
   };
-
 
   const translators = GetTranslators();
   const proofreaders = GetProofreaders();
@@ -75,7 +73,7 @@ const MainTable = (props) => {
     const myValue = e.currentTarget.value;
     let language;
     for (let i = 0; i < this_handoff_added_langs.length; i++) {
-      if (this_handoff_added_langs[i].language === myValue) {
+      if (this_handoff_added_langs[i] === myValue) {
         language = this_handoff_added_langs[i];
       }
     }
@@ -122,28 +120,23 @@ const MainTable = (props) => {
    * 4. checks that those two arrays don't have any duplicate. If !duplicate,
    *    push the new language to the languages array for this particular handoff
    */
-  const NewLanguagesButtonClicked = (e) => {
-    e.preventDefault();
+  const [additionalLanguage, setAdditionalLanguage] = useState();
 
-    console.log(e.target.value);
-
-    let selectElement = document.querySelector("#languagesDropdown");
-    let object = {
-      language: selectElement.options[selectElement.selectedIndex].text,
-      languageCode: selectElement.options[selectElement.selectedIndex].value,
-    };
-    console.log(object);
-    let valueLang = object.language;
-    let valueArr = this_handoff_added_langs.map((language) => {
-      return language.language;
-    });
-
-    if (!valueArr.includes(valueLang)) {
-      this_handoff_added_langs.push(object);
-      setFullTable(RowContent(serviceClicked));
-    }
-    console.log(this_handoff_added_langs);
+  const handleChange = (e) => {
+    setAdditionalLanguage(e.target.value);
   };
+
+  const NewLanguagesButtonClicked = (e) => {
+    console.log(additionalLanguage);
+    e.preventDefault();
+    if (!this_handoff_added_langs.includes(additionalLanguage)) {
+      this_handoff_added_langs.push(additionalLanguage);
+      setFullTable(RowContent(serviceClicked));
+    } else {
+      console.log("fail");
+    }
+  };
+
   /**1. The service buttons, calls a funcntion when they're click (ServiceButtonClicked).
    */
   let buttonsContent = //updates serviceHeads & serviceClicked
@@ -186,32 +179,20 @@ const MainTable = (props) => {
 
   let RowContent = (serviceClicked) => {
     const TEP_Loop = this_handoff_added_langs.map((langMapped) => (
-      <tr
-        className="fullLanguageRow"
-        id={langMapped.language}
-        key={langMapped.languageCode}
-      >
-        <th>{langMapped.language}</th>
-        <th
-          key={langMapped + "-Translator"}
-          id={langMapped.language + "-Translator"}
-        >
-          <select className="selectTrans">
-            {translatorLoop(langMapped.languageCode)}
-          </select>
+      <tr className="fullLanguageRow" id={langMapped} key={langMapped}>
+        <th>{langMapped}</th>
+        <th key={langMapped + "-Translator"} id={langMapped + "-Translator"}>
+          <select className="selectTrans">{translatorLoop(langMapped)}</select>
         </th>
 
-        <th
-          key={langMapped + "-Proofreader"}
-          id={langMapped.language + "-Proofreader"}
-        >
+        <th key={langMapped + "-Proofreader"} id={langMapped + "-Proofreader"}>
           <select className="selectproof">
-            {proofreaderLoop(langMapped.languageCode)}{" "}
+            {proofreaderLoop(langMapped)}{" "}
           </select>
         </th>
         <button
-          value={langMapped.language}
-          id={langMapped.languageCode}
+          value={langMapped}
+          id={langMapped}
           onClick={(e) => {
             HandleDelete(e);
           }}
@@ -222,23 +203,14 @@ const MainTable = (props) => {
     ));
 
     const TRA_Loop = this_handoff_added_langs.map((langMapped) => (
-      <tr
-        className="fullLanguageRow"
-        id={langMapped.language}
-        key={langMapped.languageCode}
-      >
-        <th>{langMapped.language}</th>
-        <th
-          key={langMapped + "-Translator"}
-          id={langMapped.language + "-Translator"}
-        >
-          <select className="selectTrans">
-            {translatorLoop(langMapped.languageCode)}
-          </select>
+      <tr className="fullLanguageRow" id={langMapped} key={langMapped}>
+        <th>{langMapped}</th>
+        <th key={langMapped + "-Translator"} id={langMapped + "-Translator"}>
+          <select className="selectTrans">{translatorLoop(langMapped)}</select>
         </th>
         <button
-          value={langMapped.language}
-          id={langMapped.languageCode}
+          value={langMapped}
+          id={langMapped}
           onClick={(e) => {
             HandleDelete(e);
           }}
@@ -249,20 +221,17 @@ const MainTable = (props) => {
     ));
 
     const PROOF_Loop = this_handoff_added_langs.map((langMapped) => (
-      <tr id={langMapped.language}>
+      <tr id={langMapped}>
         {" "}
-        <th>{langMapped.language}</th>
-        <th
-          key={langMapped + "-Proofreader"}
-          id={langMapped.language + "-Proofreader"}
-        >
+        <th>{langMapped}</th>
+        <th key={langMapped + "-Proofreader"} id={langMapped + "-Proofreader"}>
           <select id="selectproof" className="selectproof">
-            {proofreaderLoop(langMapped.languageCode)}{" "}
+            {proofreaderLoop(langMapped)}{" "}
           </select>
         </th>
         <button
-          value={langMapped.language}
-          id={langMapped.languageCode}
+          value={langMapped}
+          id={langMapped}
           onClick={(e) => {
             HandleDelete(e);
           }}
@@ -377,20 +346,6 @@ const MainTable = (props) => {
     return result;
   };
 
-  const [additionalLanguage, setAdditionalLanguage] = useState();
-  const [arrLangTest, setArrLangTest] = useState([]);
-
-  const handleChange = (e) => {
-    e.preventDefault();
-    setAdditionalLanguage(e.target.value);
-
-    if (!arrLangTest.includes(e.target.value)) {
-      arrLangTest.push(e.target.value);
-      console.log(arrLangTest);
-    }
-    //console.log(this_handoff_added_langs);
-  };
-
   return (
     <div className="MainTable">
       {buttonsContent}
@@ -411,7 +366,6 @@ const MainTable = (props) => {
           <em> Please click to save the list</em>
         </p1>
       </div>
-      {LanguagesDropDown()}
       <div className="AddLanguageButton">
         <SelectLanguage value={additionalLanguage} onChange={handleChange} />
         <button onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
