@@ -6,6 +6,8 @@ import RequestList from "../../features/templates/att-req-lists";
 import TextAreaComponent from "../../features/templates/textArea";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable";
 import MainTableV2 from "../../features/Vendors/VendorsTable/MaintableV2.js";
+import PickServiceButtons from "./elements/PickServiceButtons.js";
+import MainTable3 from "../../features/Vendors/VendorsTable/MainTableV3.js";
 
 /* DEFAULT VARIABLES */
 import { mongoDB_Request, initialParagraph, randomGreetings } from "../../apis";
@@ -14,7 +16,7 @@ import { mongoDB_Request, initialParagraph, randomGreetings } from "../../apis";
 import CreateDeadlines from "../../features/templates/createDeadlines";
 import { GetGames } from "../../features/Games/fetchGames";
 
-function NewRequest() {
+function NewRequest(props) {
   const [greetings, setGreetings] = useState("hi");
   const [instructions, setInstructions] = useState();
   const [attachments, setAttachments] = useState();
@@ -49,13 +51,8 @@ function NewRequest() {
       {greet}
     </option>
   ));
-  /** const GamesLoop = games.map((game) => (
-    <option id={game} key={game} value={game}>
-      {game}
-    </option>
-  ));
-*/
-  const randomreeting = Math.floor(Math.random() * randomGreetings.length);
+
+  const randomgreeting = Math.floor(Math.random() * randomGreetings.length);
   function handleChange() {
     let greetingValue = document.querySelector("#greetingsSelectDropdown");
     setGreetings(greetingValue.value);
@@ -80,8 +77,7 @@ function NewRequest() {
       requirements: requirements,
       deadlines: { translation: transDL, proofreading: proofDL },
     };
-    console.log(teamTable);
-
+    console.log(object);
     Axios.post(mongoDB_Request, {
       projectTitle: document.getElementById("projectTitleInput").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
@@ -108,7 +104,60 @@ function NewRequest() {
 
   /**      .then(location.reload());
    */
-  console.log();
+
+  const [servicetest, setservicetest] = useState();
+
+  const tableChanged = (e) => {
+    console.log(e.target.value);
+    console.log("test");
+    let table = document.getElementsByTagName("table")[0];
+    let rows = table.rows;
+    let tableToObjectArr = [];
+
+    for (let index = 0; index < rows.length; index++) {
+      let language = rows[index].id;
+      let selectTRoptions;
+      let selectPRFoptions;
+      let result;
+      if (language) {
+        if (thisService === "TEP") {
+          selectTRoptions = document.querySelector(
+            `#${language}-Translator > select`
+          ).value;
+
+          selectPRFoptions = document.querySelector(
+            `#${language}-Proofreader > select`
+          ).value;
+
+          result = {
+            language: language,
+            translator: selectTRoptions,
+            proofreader: selectPRFoptions,
+          };
+        } else if (thisService === "TRA") {
+          selectTRoptions = document.querySelector(
+            `#${language}-Translator > select`
+          ).value;
+          result = {
+            language: language,
+            translator: selectTRoptions,
+          };
+        } else if (thisService === "PRF") {
+          selectPRFoptions = document.querySelector(
+            `#${language}-Proofreader > select`
+          ).value;
+          result = {
+            language: language,
+            proofreader: selectPRFoptions,
+          };
+        }
+      }
+      tableToObjectArr.push(result);
+    }
+    const tableToObjectArrSliced = tableToObjectArr.slice(1);
+    console.log(tableToObjectArrSliced);
+  };
+
   return (
     <>
       <div className="">
@@ -157,7 +206,29 @@ function NewRequest() {
                 </li>
               </ul>
             </div>
-           
+            <PickServiceButtons
+              getService={(thisService) => {
+                setThisService(thisService);
+              }}
+            />
+            <div className="MainTable">
+              <table>
+                <MainTable3
+                  getService={(serviceCall) => setThisService(serviceCall)}
+                  getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+                  service={thisService}
+                  onChange={(e) => {
+                    tableChanged(e);
+                  }}
+                />
+              </table>
+            </div>
+            ____
+            <MainTableV2
+              getService={(serviceCall) => setThisService(serviceCall)}
+              getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+              service={thisService}
+            />
             <RequestList
               getAttachments={(theseAttachments) =>
                 setAttachments(theseAttachments)
@@ -170,10 +241,6 @@ function NewRequest() {
               getProofDL={(thisDL) => setProofDL(thisDL)}
             />
           </form>{" "}
-          <MainTableV2
-            getService={(serviceCall) => setThisService(serviceCall)}
-            getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
-          />
           <input
             type="submit"
             value="Create"

@@ -1,6 +1,13 @@
 import { React, useState } from "react";
 import { GetLanguages } from "../../../features/languagesList/fetchLanguages";
 
+
+const SelectTeam = ({ service, language, onChange }) => {
+
+
+
+}
+
 const SelectLanguage = ({ label, value, onChange }) => {
   const DB_languages = GetLanguages();
 

@@ -39,8 +39,8 @@ const NewVendor = () => {
       email: email,
     };
     console.log(newVendor);
-    
-     Axios.post(mongoDB_Vendors, {
+
+    Axios.post(mongoDB_Vendors, {
       language: newVendor.language,
       fullName: newVendor.fullName,
       nickname: newVendor.nickname,
@@ -58,8 +58,6 @@ const NewVendor = () => {
           "Please check the nickname and email again, there seems to be a duplicate"
         );
       });
-      
-      
   };
 
   return (
@@ -114,7 +112,6 @@ const NewVendor = () => {
         <LanguagesDropDown
           getlanguage={(thisLanguage) => setLanguage(thisLanguage)}
         />
-        <br></br>
         <label>E-mail</label>
         <input
           name="email"
@@ -123,6 +120,7 @@ const NewVendor = () => {
           }}
         ></input>{" "}
         <br></br>
+        <br />
         <input
           type="submit"
           value="Submit"
