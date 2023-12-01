@@ -92,11 +92,11 @@ const MainTable = (props) => {
   const [additionalLanguage, setAdditionalLanguage] = useState();
 
   const handleChange = (e) => {
+    console.log('das');
     setAdditionalLanguage(e.target.value);
   };
 
   const NewLanguagesButtonClicked = (e) => {
-    console.log(additionalLanguage);
     e.preventDefault();
     if (!this_handoff_added_langs.includes(additionalLanguage)) {
       this_handoff_added_langs.push(additionalLanguage);

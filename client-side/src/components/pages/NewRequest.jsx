@@ -5,7 +5,6 @@ import Axios from "axios";
 import RequestList from "../../features/templates/att-req-lists";
 import TextAreaComponent from "../../features/templates/textArea";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable";
-import MainTableV2 from "../../features/Vendors/VendorsTable/MaintableV2.js";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
 import MainTable3 from "../../features/Vendors/VendorsTable/MainTableV3.js";
 
@@ -18,7 +17,7 @@ import { GetGames } from "../../features/Games/fetchGames";
 
 function NewRequest(props) {
   const [greetings, setGreetings] = useState("hi");
-  const [instructions, setInstructions] = useState();
+  const [instructions, setInstructions] = useState('');
   const [attachments, setAttachments] = useState();
   const [requirements, setRequirements] = useState();
   const [thisService, setThisService] = useState();
@@ -58,58 +57,8 @@ function NewRequest(props) {
     setGreetings(greetingValue.value);
   }
 
-  function HandleSubmit(e) {
-    e.preventDefault();
-    setprojectTitle(document.getElementById("projectTitleInput").value);
-    setGame(document.getElementById("gamesSelectOptions").value);
-    setMqproject(document.getElementById("mqProjectInput").value);
-    setWordcount(document.getElementById("wordcountInput").value);
-    setFiles(document.getElementById("filesInput").value);
-    const object = {
-      projectTitle: document.getElementById("projectTitleInput").value,
-      game: document.getElementById("gamesSelectOptions").value,
-      greeting: document.getElementById("greetingsSelectOptions").value,
-      introText: initialParagraph,
-      instructions: instructions,
-      service: thisService,
-      languageTeam: teamTable,
-      attachments: attachments,
-      requirements: requirements,
-      deadlines: { translation: transDL, proofreading: proofDL },
-    };
-    console.log(object);
-    Axios.post(mongoDB_Request, {
-      projectTitle: document.getElementById("projectTitleInput").value,
-      greeting: document.getElementById("greetingsSelectOptions").value,
-      introText: initialParagraph,
-      instructions: instructions,
-      game: document.getElementById("gamesSelectOptions").value,
-      mqproject: document.getElementById("mqProjectInput").value,
-      wordcount: document.getElementById("wordcountInput").value,
-      files: document.getElementById("filesInput").value,
-      service: thisService,
-      languageTeam: teamTable,
-      attachments: attachments,
-      requirements: requirements,
-      deadlines: { translation: transDL, proofreading: proofDL },
-    })
-      .catch((err) => {
-        alert(
-          "The request wasnt createDispatchHook, please make sure all required fields are filled"
-        );
-        console.log(err);
-      })
-      .then(alert(`New request ${projectTitle} has been created!`));
-  }
-
-  /**      .then(location.reload());
-   */
-
-  const [servicetest, setservicetest] = useState();
-
-  const tableChanged = (e) => {
+const tableChanged = (e) => {
     console.log(e.target.value);
-    console.log("test");
     let table = document.getElementsByTagName("table")[0];
     let rows = table.rows;
     let tableToObjectArr = [];
@@ -155,8 +104,61 @@ function NewRequest(props) {
       tableToObjectArr.push(result);
     }
     const tableToObjectArrSliced = tableToObjectArr.slice(1);
-    console.log(tableToObjectArrSliced);
+    setTeamTable(tableToObjectArrSliced)
+    console.log(teamTable);
   };
+
+
+  function HandleSubmit(e) {
+    console.log(teamTable);
+    e.preventDefault();
+    setprojectTitle(document.getElementById("projectTitleInput").value);
+    setGame(document.getElementById("gamesSelectOptions").value);
+    setMqproject(document.getElementById("mqProjectInput").value);
+    setWordcount(document.getElementById("wordcountInput").value);
+    setFiles(document.getElementById("filesInput").value);
+    const object = {
+      projectTitle: document.getElementById("projectTitleInput").value,
+      game: document.getElementById("gamesSelectOptions").value,
+      greeting: document.getElementById("greetingsSelectOptions").value,
+      introText: initialParagraph,
+      instructions: instructions,
+      service: thisService,
+      languageTeam: teamTable,
+      attachments: attachments,
+      requirements: requirements,
+      deadlines: { translation: transDL, proofreading: proofDL },
+    };
+    console.log(object);
+
+
+     Axios.post(mongoDB_Request, {
+      projectTitle: document.getElementById("projectTitleInput").value,
+      greeting: document.getElementById("greetingsSelectOptions").value,
+      introText: initialParagraph,
+      instructions: instructions,
+      game: document.getElementById("gamesSelectOptions").value,
+      mqproject: document.getElementById("mqProjectInput").value,
+      wordcount: document.getElementById("wordcountInput").value,
+      files: document.getElementById("filesInput").value,
+      service: thisService,
+      languageTeam: teamTable,
+      attachments: attachments,
+      requirements: requirements,
+      deadlines: { translation: transDL, proofreading: proofDL },
+    })
+      .catch((err) => {
+        alert(
+          "The request wasnt createDispatchHook, please make sure all required fields are filled"
+        );
+        console.log(err);
+      })
+      .then(alert(`New request ${projectTitle} has been created!`));
+    
+  }
+
+  /**      .then(location.reload());
+   */
 
   return (
     <>
@@ -211,23 +213,13 @@ function NewRequest(props) {
                 setThisService(thisService);
               }}
             />
-            <div className="MainTable">
-              <table>
-                <MainTable3
-                  getService={(serviceCall) => setThisService(serviceCall)}
-                  getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
-                  service={thisService}
-                  onChange={(e) => {
-                    tableChanged(e);
-                  }}
-                />
-              </table>
-            </div>
-            ____
-            <MainTableV2
+            <MainTable3
               getService={(serviceCall) => setThisService(serviceCall)}
               getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
               service={thisService}
+              onChange={(e) => {
+                tableChanged(e);
+              }}
             />
             <RequestList
               getAttachments={(theseAttachments) =>

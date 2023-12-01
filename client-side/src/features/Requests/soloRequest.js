@@ -34,7 +34,7 @@ function SoloRequest() {
 
   let teamTableLoop = () => {
     let array = [];
-    const team = languageTeam.slice(1);
+    const team = languageTeam
 
     if (team) {
       for (let i = 0; i < team.length; i++) {

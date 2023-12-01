@@ -14,5 +14,4 @@ const GetLanguages = () => {
   return languages;
 };
 
-
 export { GetLanguages };
