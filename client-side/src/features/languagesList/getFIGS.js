@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { GetLanguages } from "./fetchLanguages";
 
-const getFIGS = () => {
+function GetFIGS() {
   let DB_languages = GetLanguages();
+  const [languages, setLanguages] = useState();
+
   let languagesMapped = [];
   let result;
 
@@ -32,7 +35,6 @@ const getFIGS = () => {
   );
 
   return content;*/
-};
+}
 
-
-export default getFIGS;
+//export const figs_mapped = GetFIGS();

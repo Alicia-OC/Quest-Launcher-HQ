@@ -5,20 +5,24 @@ import { baseLanguages2 } from "../../../apis";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import SelectLanguage from "../../../components/pages/elements/SelectLanguage";
-import getFIGS from "../../languagesList/getFIGS";
+import { GetFIGS } from "../../languagesList/fetchLanguages";
 
 let this_handoff_added_lang = baseLanguages2;
 
 const MainTable3 = (props) => {
   let requestService = props.service;
-  const translators = GetTranslators();
-  const proofreaders = GetProofreaders();
-  
+
+  /** useState const */
   const [fullTable, setFullTable] = useState();
   const [additionalLanguage, setAdditionalLanguage] = useState();
-  const [this_handoff_added_langs, setThis_handoff_added_lang] = useState();
 
+  /**backend data */
+  const translators = GetTranslators();
+  const proofreaders = GetProofreaders();
+  const figs = GetFIGS();
+  const figsArr = [];
 
+  console.log(figs);
   /** 1. Stores in a const the language that triggered the delete function
    * 2. loops through the language array, looks for the object whose language is the same as the trigger
    *    and gives the var language the value of said object
