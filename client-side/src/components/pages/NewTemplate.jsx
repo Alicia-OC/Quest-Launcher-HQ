@@ -5,6 +5,7 @@ import Axios from "axios";
 import RequestList from "../../features/templates/att-req-lists";
 import TextAreaComponent from "../../features/templates/textArea";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable";
+import PickServiceButtons from "./elements/PickServiceButtons";
 
 /* DEFAULT VARIABLES */
 import { initialParagraph, mongoDB_Template } from "../../apis";
@@ -20,8 +21,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 /* CSS */
 import "./NewTemplate.css";
 
-
-function NewTemplate() {
+function NewTemplate(props) {
   const [instructions, setInstructions] = useState();
   const [attachments, setAttachments] = useState();
   const [requirements, setRequirements] = useState();
@@ -52,7 +52,6 @@ function NewTemplate() {
     const element = document.querySelector("#gamesSelectOptions");
     const id = element.options[element.selectedIndex].id;
     const findDeveloper = DB_games.find((dev) => dev._id === id);
-
     setDeveloper(findDeveloper.developer);
   };
 
@@ -136,7 +135,20 @@ function NewTemplate() {
           />{" "}
         </div>
 
-        <MainTable getService={(serviceCall) => setThisService(serviceCall)} />
+        <PickServiceButtons
+          getService={(thisService) => {
+            setThisService(thisService);
+          }}
+        />
+        <MainTable
+          getService={(serviceCall) => setThisService(serviceCall)}
+          getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+          service={thisService}
+          onChange={(e) => {
+            tableChanged(e);
+          }}
+        />
+
         <RequestList
           getAttachments={(theseAttachments) =>
             setAttachments(theseAttachments)

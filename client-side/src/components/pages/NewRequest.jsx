@@ -4,9 +4,8 @@ import Axios from "axios";
 /* SMALL COMPONENTS */
 import RequestList from "../../features/templates/att-req-lists";
 import TextAreaComponent from "../../features/templates/textArea";
-import MainTable from "../../features/Vendors/VendorsTable/MainTable";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
-import MainTable3 from "../../features/Vendors/VendorsTable/MainTableV3.js";
+import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
 
 /* DEFAULT VARIABLES */
 import { mongoDB_Request, initialParagraph, randomGreetings } from "../../apis";
@@ -17,7 +16,7 @@ import { GetGames } from "../../features/Games/fetchGames";
 
 function NewRequest(props) {
   const [greetings, setGreetings] = useState("hi");
-  const [instructions, setInstructions] = useState('');
+  const [instructions, setInstructions] = useState("");
   const [attachments, setAttachments] = useState();
   const [requirements, setRequirements] = useState();
   const [thisService, setThisService] = useState();
@@ -57,8 +56,7 @@ function NewRequest(props) {
     setGreetings(greetingValue.value);
   }
 
-const tableChanged = (e) => {
-    console.log(e.target.value);
+  const tableChanged = (e) => {
     let table = document.getElementsByTagName("table")[0];
     let rows = table.rows;
     let tableToObjectArr = [];
@@ -104,14 +102,24 @@ const tableChanged = (e) => {
       tableToObjectArr.push(result);
     }
     const tableToObjectArrSliced = tableToObjectArr.slice(1);
-    setTeamTable(tableToObjectArrSliced)
+    setTeamTable(tableToObjectArrSliced);
     console.log(teamTable);
   };
+  /** tableChanged is only triggered if one of the select option changes, which means
+   * adding languages won't trigger the finction hence won't take the table values.
+   * Should fix that.
+   */
 
+  const listChanged = (e) => {
+    console.log(e.target.value);
+  };
 
   function HandleSubmit(e) {
-    console.log(teamTable);
     e.preventDefault();
+
+    let attFormatted = attachments.map((att) => att.value);
+    let reqFormatted = requirements.map((req) => req.value);
+
     setprojectTitle(document.getElementById("projectTitleInput").value);
     setGame(document.getElementById("gamesSelectOptions").value);
     setMqproject(document.getElementById("mqProjectInput").value);
@@ -125,14 +133,13 @@ const tableChanged = (e) => {
       instructions: instructions,
       service: thisService,
       languageTeam: teamTable,
-      attachments: attachments,
-      requirements: requirements,
+      attachments: attFormatted,
+      requirements: reqFormatted,
       deadlines: { translation: transDL, proofreading: proofDL },
     };
     console.log(object);
 
-
-     Axios.post(mongoDB_Request, {
+    /**Axios.post(mongoDB_Request, {
       projectTitle: document.getElementById("projectTitleInput").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: initialParagraph,
@@ -153,8 +160,7 @@ const tableChanged = (e) => {
         );
         console.log(err);
       })
-      .then(alert(`New request ${projectTitle} has been created!`));
-    
+      .then(alert(`New request ${projectTitle} has been created!`)); */
   }
 
   /**      .then(location.reload());
@@ -213,7 +219,7 @@ const tableChanged = (e) => {
                 setThisService(thisService);
               }}
             />
-            <MainTable3
+            <MainTable
               getService={(serviceCall) => setThisService(serviceCall)}
               getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
               service={thisService}
@@ -226,6 +232,9 @@ const tableChanged = (e) => {
                 setAttachments(theseAttachments)
               }
               getRequirements={(theseReqs) => setRequirements(theseReqs)}
+              onChange={(e) => {
+                listChanged(e);
+              }}
             />
             <CreateDeadlines
               setService={thisService}

@@ -11,7 +11,6 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 /* CSS */
 import "react-datepicker/dist/react-datepicker.css";
 
-
 let RequestLists = (props) => {
   const [attachment, setAttachment] = useState([
     {
@@ -36,12 +35,21 @@ let RequestLists = (props) => {
     },
   ]);
 
+
+
+  let attFormatted = attachment.map((att) => att.value);
+  let reqFormatted = requirements.map((req) => req.value);
+
+  props.getAttachments(attachment);
+  props.getRequirements(requirements);
+
   /**attachments */
   function addAttachment(newAttachment) {
     setAttachment((prevAttachment) => {
       return [...prevAttachment, newAttachment];
     });
   }
+
   function deleteAttachment(e, id) {
     e.preventDefault();
     setAttachment((prevAttachment) => {
@@ -56,6 +64,7 @@ let RequestLists = (props) => {
       return [...prevRequirements, newRequirements];
     });
   }
+
   function deleteRequirements(e, id) {
     e.preventDefault();
     setRequirements((prevRequirements) => {
@@ -74,8 +83,6 @@ let RequestLists = (props) => {
 
   const childToParentLists = (e) => {
     e.preventDefault();
-    let attFormatted = attachment.map((att) => att.value);
-    let reqFormatted = requirements.map((req) => req.value);
     props.getAttachments(attFormatted);
     props.getRequirements(reqFormatted);
   };

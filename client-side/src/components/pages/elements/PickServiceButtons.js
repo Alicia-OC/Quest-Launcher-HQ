@@ -9,6 +9,7 @@ const PickServiceButtons = (props) => {
     setServiceClicked(valueClicked);
     props.getService(e.target.value);
   };
+  
   const buttonsContent = //updates serviceHeads & serviceClicked
     (
       <div className="buttonsToPickService">
