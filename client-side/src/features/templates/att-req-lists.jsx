@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 /* DATABASE DEPENDENCIES*/
 import CreateAttachment from "./createAttachment";
-import CreateRequirements from "./createRequirements";
+import CreateRequirement from "./createRequirement";
 
 /* FONTAWESOME */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,33 +12,8 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import "react-datepicker/dist/react-datepicker.css";
 
 let RequestLists = (props) => {
-  const [attachment, setAttachment] = useState([
-    {
-      value: "Att 1",
-    },
-    {
-      value: "Att 2",
-    },
-    {
-      value: "Att 3",
-    },
-  ]);
-  const [requirements, setRequirements] = useState([
-    {
-      value: "Req 1",
-    },
-    {
-      value: "Req 2",
-    },
-    {
-      value: "Req 3",
-    },
-  ]);
-
-
-
-  let attFormatted = attachment.map((att) => att.value);
-  let reqFormatted = requirements.map((req) => req.value);
+  const [attachment, setAttachment] = useState([]);
+  const [requirements, setRequirements] = useState([]);
 
   props.getAttachments(attachment);
   props.getRequirements(requirements);
@@ -75,33 +50,20 @@ let RequestLists = (props) => {
   }
 
   /**1. Button to send the att/req list props, couldn't think of anything better :( ) */
-  const childToParentCall = (
-    <button onClick={(e) => childToParentLists(e)}>
-      <FontAwesomeIcon icon={faCheck} />{" "}
-    </button>
-  );
-
-  const childToParentLists = (e) => {
-    e.preventDefault();
-    props.getAttachments(attFormatted);
-    props.getRequirements(reqFormatted);
-  };
 
   return (
     <>
       <div className="RequestLists">
         <div className="attachementsList">
-          <label>
-            Attachments list{childToParentCall}
-            <p1 className="temporalButtonChildToParent">
-              <em>Please click to save the list</em>
-            </p1>
-          </label>
+          <h4>List of items attached to this request:</h4>{" "}
           <ul id="templateLists">
             {attachment.map((attachmentItem, index) => {
               return (
                 <li id={attachmentItem}>
-                  {attachmentItem.value}
+                  <input
+                    onChange={(e) => console.log(e.target.value)}
+                    value={attachmentItem.value}
+                  ></input>
                   <button onClick={(e) => deleteAttachment(e, index)}>-</button>
                 </li>
               );
@@ -110,17 +72,16 @@ let RequestLists = (props) => {
           </ul>
         </div>
         <div className="deliverablesList">
-          <label>
-            Requirements list{childToParentCall}{" "}
-            <p1 className="temporalButtonChildToParent">
-              <em>Please click to save the list</em>
-            </p1>
-          </label>
+          <h4>List of items expected to be received upon delivery:</h4>{" "}
           <ul id="templateLists">
             {requirements.map((reqItem, index) => {
               return (
                 <li id={reqItem}>
-                  {reqItem.value}
+                  <input
+                    onChange={(e) => console.log(e.target.value)}
+                    value={reqItem.value}
+                  ></input>
+
                   <button
                     id={reqItem}
                     onClick={(e) => deleteRequirements(e, index)}
@@ -130,7 +91,7 @@ let RequestLists = (props) => {
                 </li>
               );
             })}
-            <CreateRequirements onAddReq={addRequirements} />
+            <CreateRequirement onAddReq={addRequirements} />
           </ul>
         </div>
       </div>

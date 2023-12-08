@@ -6,6 +6,7 @@ import RequestList from "../../features/templates/att-req-lists";
 import TextAreaComponent from "../../features/templates/textArea";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable";
 import PickServiceButtons from "./elements/PickServiceButtons";
+import NewInput from "./elements/NewInput";
 
 /* DEFAULT VARIABLES */
 import { initialParagraph, mongoDB_Template } from "../../apis";
@@ -27,12 +28,18 @@ function NewTemplate(props) {
   const [requirements, setRequirements] = useState();
   const [thisService, setThisService] = useState();
   const [templateTitle, setTemplateTitle] = useState();
-  const [developer, setDeveloper] = useState();
+  const [developer, setDeveloper] = useState("Frozen District");
+  const [introText, setIntroText] = useState(
+    "Write a small instroduction to the project here."
+  );
+  const [languageTeam, setLanguageTeam] = useState();
 
   const DB_devs = GetDevelopers();
   const DB_games = GetGames();
 
   let GamesLoop = [];
+  let DevLoop = [];
+
   if (DB_games) {
     for (let i = 0; i < DB_games.length; i++) {
       GamesLoop.push(
@@ -47,47 +54,98 @@ function NewTemplate(props) {
     }
   }
 
-  const GetDeveloper = (e) => {
-    e.preventDefault();
+  const GetDeveloper = () => {
     const element = document.querySelector("#gamesSelectOptions");
     const id = element.options[element.selectedIndex].id;
     const findDeveloper = DB_games.find((dev) => dev._id === id);
     setDeveloper(findDeveloper.developer);
   };
 
+  const tableChanged = (e) => {
+    let table = document.getElementsByTagName("table")[0];
+    let rows = table.rows;
+    let tableToObjectArr = [];
+
+    for (let index = 0; index < rows.length; index++) {
+      let language = rows[index].id;
+      let selectTRoptions;
+      let selectPRFoptions;
+      let result;
+      if (language) {
+        if (thisService === "TEP") {
+          selectTRoptions = document.querySelector(
+            `#${language}-Translator > select`
+          ).value;
+
+          selectPRFoptions = document.querySelector(
+            `#${language}-Proofreader > select`
+          ).value;
+
+          result = {
+            language: language,
+            translator: selectTRoptions,
+            proofreader: selectPRFoptions,
+          };
+        } else if (thisService === "TRA") {
+          selectTRoptions = document.querySelector(
+            `#${language}-Translator > select`
+          ).value;
+          result = {
+            language: language,
+            translator: selectTRoptions,
+          };
+        } else if (thisService === "PRF") {
+          selectPRFoptions = document.querySelector(
+            `#${language}-Proofreader > select`
+          ).value;
+          result = {
+            language: language,
+            proofreader: selectPRFoptions,
+          };
+        }
+      }
+      tableToObjectArr.push(result);
+    }
+    const tableToObjectArrSliced = tableToObjectArr.slice(1);
+    setLanguageTeam(tableToObjectArrSliced);
+  };
+  /** tableChanged is only triggered if one of the select option changes, which means
+   * adding languages won't trigger the finction hence won't take the table values.
+   * Should fix that.
+   */
+
   function HandleSubmit(e) {
     e.preventDefault();
-    setTemplateTitle(document.getElementById("titleInput").value);
+
+    let attFormatted = attachments.map((att) => att.value);
+    let reqFormatted = requirements.map((req) => req.value);
+    console.log(attFormatted);
+
     const object = {
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
-      developer: document.getElementById("developerSelectOptions").value,
+      developer: developer,
       instructions: instructions,
-      languageTeam: {
-        language: "dsad",
-        translator: "dassa",
-        proofreader: "dassd",
-      },
+      introText: introText,
+      languageTeam: languageTeam,
       attachments: attachments,
       requirements: requirements,
     };
-
+    console.log(object);
     Axios.post(mongoDB_Template, {
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
-      developer: document.getElementById("developerSelectOptions").value,
+      developer: developer,
       instructions: instructions,
-      languageTeam: {
-        language: "dsad",
-        translator: "dassa",
-        proofreader: "dassd",
-      },
-      attachments: attachments,
-      requirements: requirements,
+      languageTeam: languageTeam,
+      introText: introText,
+
+      attachments: attFormatted,
+      requirements: reqFormatted,
     })
       .then(alert(`New template ${templateTitle} has been created!`))
-      .catch((err) => console.log(err))
-      .then(location.reload());
+      .catch((err) => console.log(err));
+    //.then(location.reload());
 
     console.log(object);
   }
@@ -99,11 +157,10 @@ function NewTemplate(props) {
           {" "}
           <div className="templateTitle">
             <label>Template title:</label>
-            <input
-              id="titleInput"
-              type="text"
-              placeholder="Write your template's name here"
-            ></input>
+            <NewInput
+              getInput={(title) => setTemplateTitle(title)}
+              placeholder="Write your template's title here"
+            />
           </div>
           <div className="gamesDiv">
             <div>
@@ -126,7 +183,13 @@ function NewTemplate(props) {
             </div>
           </div>
           <div className="introText" data-type="select">
-            <p>{initialParagraph}</p>
+            <textarea
+              onChange={(e) => setIntroText(e.target.value)}
+              placeholder={introText}
+              rows="4"
+              cols="100"
+              type="text"
+            ></textarea>
           </div>
           <TextAreaComponent
             changeInstructions={(thisInstructions) =>
@@ -142,7 +205,7 @@ function NewTemplate(props) {
         />
         <MainTable
           getService={(serviceCall) => setThisService(serviceCall)}
-          getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+          getTeamTable={(thisTeamTable) => setLanguageTeam(thisTeamTable)}
           service={thisService}
           onChange={(e) => {
             tableChanged(e);
@@ -158,7 +221,7 @@ function NewTemplate(props) {
 
         <input
           type="submit"
-          value="Save"
+          value="Create"
           onClick={(e) => HandleSubmit(e)}
         ></input>
       </form>

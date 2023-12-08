@@ -6,9 +6,10 @@ import RequestList from "../../features/templates/att-req-lists";
 import TextAreaComponent from "../../features/templates/textArea";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
+import NewInput from "./elements/NewInput.js";
 
 /* DEFAULT VARIABLES */
-import { mongoDB_Request, initialParagraph, randomGreetings } from "../../apis";
+import { initialParagraph, randomGreetings } from "../../apis";
 
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines";
@@ -103,7 +104,6 @@ function NewRequest(props) {
     }
     const tableToObjectArrSliced = tableToObjectArr.slice(1);
     setTeamTable(tableToObjectArrSliced);
-    console.log(teamTable);
   };
   /** tableChanged is only triggered if one of the select option changes, which means
    * adding languages won't trigger the finction hence won't take the table values.
@@ -120,18 +120,18 @@ function NewRequest(props) {
     let attFormatted = attachments.map((att) => att.value);
     let reqFormatted = requirements.map((req) => req.value);
 
-    setprojectTitle(document.getElementById("projectTitleInput").value);
     setGame(document.getElementById("gamesSelectOptions").value);
-    setMqproject(document.getElementById("mqProjectInput").value);
-    setWordcount(document.getElementById("wordcountInput").value);
-    setFiles(document.getElementById("filesInput").value);
+
     const object = {
-      projectTitle: document.getElementById("projectTitleInput").value,
+      projectTitle: projectTitle,
       game: document.getElementById("gamesSelectOptions").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: initialParagraph,
       instructions: instructions,
+      wordcount: wordcount,
+      mqproject: mqproject,
       service: thisService,
+      files: files,
       languageTeam: teamTable,
       attachments: attFormatted,
       requirements: reqFormatted,
@@ -165,15 +165,17 @@ function NewRequest(props) {
 
   /**      .then(location.reload());
    */
-
   return (
     <>
       <div className="">
         <div className="">
           <form>
             {" "}
-            <label className="">Request's title:</label>
-            <input id="projectTitleInput"></input>
+            <label className="">Project title:</label>
+            <NewInput
+              getInput={(title) => setprojectTitle(title)}
+              placeholder="Write your request's title here"
+            />
             <div className="introText" data-type="select">
               <div className="dropDownGreetings" data-type="select">
                 <select
@@ -201,16 +203,25 @@ function NewRequest(props) {
               <ul>
                 <li>
                   <label>MQ project</label>
-                  <input id="mqProjectInput" type="text"></input>
+                  <NewInput
+                    getInput={(project) => setMqproject(project)}
+                    placeholder=""
+                  />
                 </li>
                 <li>
                   <label>WC</label>
-                  <input id="wordcountInput" type="text"></input>
+                  <NewInput
+                    getInput={(number) => setWordcount(number)}
+                    placeholder=""
+                  />
                 </li>
                 <li>
                   {" "}
                   <label>Files</label>
-                  <input id="filesInput" type="text"></input>
+                  <NewInput
+                    getInput={(name) => setFiles(name)}
+                    placeholder=""
+                  />
                 </li>
               </ul>
             </div>
