@@ -8,14 +8,9 @@ const templateSchema = new mongoose.Schema({
   templateTitle: { type: String, required: true },
   developer: { type: String, required: true },
   game: { type: String, required: true },
+  introText: { type: String, required: true },
   instructions: { type: String, required: false },
-  languageTeam: [
-    {
-      language: { type: String, required: true },
-      translator: { type: String, required: true },
-      proofreader: { type: String, required: true },
-    },
-  ],
+  languageTeam: { type: Array, required: true },
   attachments: { type: Array, required: true },
   requirements: { type: Array, required: true },
 });

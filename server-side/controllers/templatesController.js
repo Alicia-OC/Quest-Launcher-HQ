@@ -24,19 +24,26 @@ const createTemplate = asyncHandler(async (req, res) => {
     developer,
     instructions,
     languageTeam,
+    introText,
     attachments,
     requirements,
   } = req.body;
+
   console.log(
-    templateTitle,
-    game,
-    instructions,
-    languageTeam,
-    attachments,
-    requirements
+    {
+    templateTitle: templateTitle,
+    game: game,
+    developer: developer,
+    introText: introText,
+    instructions: instructions,
+    languageTeam: languageTeam,
+    attachments: attachments,
+    requirements: requirements,
+  }
   );
   if (
     !templateTitle ||
+    !introText ||
     !developer ||
     !game ||
     !languageTeam ||
@@ -59,6 +66,7 @@ const createTemplate = asyncHandler(async (req, res) => {
     templateTitle: templateTitle,
     game: game,
     developer: developer,
+    introText: introText,
     instructions: instructions,
     languageTeam: languageTeam,
     attachments: attachments,
@@ -97,7 +105,7 @@ const deleteTemplate = asyncHandler(async (req, res) => {
 });
 
 const updateTemplate = asyncHandler(async (req, res) => {
-  const { id, templateTitle, developer, game, instructions } = req.body;
+  const { id, templateTitle, introText, developer, game, instructions } = req.body;
 
   const template = await Template.findById(id).exec();
 
@@ -113,6 +121,7 @@ const updateTemplate = asyncHandler(async (req, res) => {
   template.title = templateTitle;
   template.developer = developer;
   template.game = game;
+  introText.introText = introText
   template.instructions = instructions;
 
   const updatedTemplate = await template.save();
