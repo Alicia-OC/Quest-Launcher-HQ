@@ -245,7 +245,18 @@ const MainTable = (props) => {
   };
 
   if (!requestService) {
+    return (
+      <div className="MainTable">
+        <table>{RowContent('TEP')}</table>
+        <div className="AddLanguageButton">
+          <SelectLanguage value={additionalLanguage} onChange={handleChange} />
+          <button onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
+        </div>
+      </div>
+    );
+
   } else {
+    
     return (
       <div className="MainTable">
         <table>{RowContent(requestService)}</table>

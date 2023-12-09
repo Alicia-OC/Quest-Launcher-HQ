@@ -16,6 +16,7 @@ import CreateDeadlines from "../../features/templates/createDeadlines";
 import { GetGames } from "../../features/Games/fetchGames";
 
 function NewRequest(props) {
+  const [projectTitle, setprojectTitle] = useState();
   const [greetings, setGreetings] = useState("hi");
   const [instructions, setInstructions] = useState("");
   const [attachments, setAttachments] = useState();
@@ -23,7 +24,6 @@ function NewRequest(props) {
   const [thisService, setThisService] = useState();
   const [transDL, setTransDL] = useState();
   const [proofDL, setProofDL] = useState();
-  const [projectTitle, setprojectTitle] = useState();
   const [teamTable, setTeamTable] = useState();
   const [game, setGame] = useState();
   const [mqproject, setMqproject] = useState();

@@ -143,7 +143,7 @@ const Library = ({}) => {
           >
             <FontAwesomeIcon icon={faPlus} />{" "}
           </button>{" "}
-          <Link to="/Vendors">Templates</Link>
+          <Link to="/TemplateList">Templates</Link>
           <div>{dropDownTemplates}</div>
         </div>
         <div>
@@ -153,7 +153,7 @@ const Library = ({}) => {
           >
             <FontAwesomeIcon icon={faPlus} />{" "}
           </button>{" "}
-          <Link to="/RequestListed">Requests created</Link>
+          <Link to="/RequestList">Requests created</Link>
           <div></div>
         </div>
       </div>

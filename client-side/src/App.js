@@ -14,14 +14,18 @@ import NewTemplate from "./components/pages/NewTemplate.jsx";
 import NewGame from "./components/pages/NewGame.jsx";
 import NewRequest from "./components/pages/NewRequest.jsx";
 import NewVendor from "./features/Vendors/NewVendor.jsx";
+import NewRequestFromTemplate from "./components/pages/NewRequestFromTemplate.js";
 
 /* DATABASE GET */
 import VendorList from "./features/Vendors/VendorList.jsx";
 import VendorPerLangList from "./features/Vendors/VendorPerLangList.jsx";
 import GamesList from "./features/Games/gamesList.js";
 import DevelopersList from "./features/developersList/developersList.js";
-import RequestListed from "./features/Requests/RequestListed.js";
+import RequestList from "./features/Requests/RequestList.js";
+import TemplateList from "./features/templates/templatesList.js";
+
 import SoloRequest from "./features/Requests/soloRequest.js";
+import SoloTemplate from "./features/templates/soloTemplate.js";
 
 function App() {
   const [userLogged, setUser] = useState(true);
@@ -47,14 +51,24 @@ function App() {
           <Route path="/Vendors" element={<VendorList />} />
           <Route path="/Games" element={<GamesList />} />
           <Route path="/Developers" element={<DevelopersList />} />
-          <Route path="/RequestListed" element={<RequestListed />} />
+
+          <Route path="/RequestList" element={<RequestList />} />
+          <Route path="/TemplateList" element={<TemplateList />} />
+
           <Route path="/Request/:requestId" element={<SoloRequest />} />
+          <Route path="/Template/:templateId" element={<SoloTemplate />} />
+          <Route
+            path="/NewRequestFromTemplate/:templateReqId"
+            element={<NewRequestFromTemplate />}
+          />
+
           <Route
             path="/Vendors-/:language"
             thisLanguage="FR"
             element={<VendorPerLangList />}
           />
         </Route>
+
         <Route path="/LogOut" element={<NewGame />} />
       </Routes>
     </>

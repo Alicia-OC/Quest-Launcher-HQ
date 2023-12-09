@@ -18,6 +18,22 @@ let RequestLists = (props) => {
   props.getAttachments(attachment);
   props.getRequirements(requirements);
 
+  const TemplateAttachments = props.sendTemplateAttachments;
+  const TemplateRequirements = props.sendTemplateRequirements;
+
+  let TemplateAttachmentsLoop;
+  let TemplateRequirementsLoop;
+
+  if (TemplateAttachments && TemplateRequirements) {
+    TemplateAttachmentsLoop = TemplateAttachments.map((item) => (
+      <li>{item}</li>
+    ));
+
+    TemplateRequirementsLoop = TemplateRequirements.map((item) => (
+      <li>{item}</li>
+    ));
+  }
+
   /**attachments */
   function addAttachment(newAttachment) {
     setAttachment((prevAttachment) => {
@@ -57,6 +73,7 @@ let RequestLists = (props) => {
         <div className="attachementsList">
           <h4>List of items attached to this request:</h4>{" "}
           <ul id="templateLists">
+            {TemplateAttachmentsLoop}
             {attachment.map((attachmentItem, index) => {
               return (
                 <li id={attachmentItem}>
@@ -74,6 +91,7 @@ let RequestLists = (props) => {
         <div className="deliverablesList">
           <h4>List of items expected to be received upon delivery:</h4>{" "}
           <ul id="templateLists">
+            {TemplateRequirementsLoop}
             {requirements.map((reqItem, index) => {
               return (
                 <li id={reqItem}>
@@ -81,6 +99,7 @@ let RequestLists = (props) => {
                     onChange={(e) => console.log(e.target.value)}
                     value={reqItem.value}
                   ></input>
+                  
 
                   <button
                     id={reqItem}
@@ -91,6 +110,8 @@ let RequestLists = (props) => {
                 </li>
               );
             })}
+          </ul>
+          <ul id="templateLists">
             <CreateRequirement onAddReq={addRequirements} />
           </ul>
         </div>

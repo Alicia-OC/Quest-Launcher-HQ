@@ -23,7 +23,7 @@ function CreateRequirements(props) {
   return (
     <div>
       <form className="create-requirement">
-        <input onChange={handleChange} placeholder="Add requirement" />
+        <input onChange={handleChange} placeholder="Write something here" />
         <button onClick={submitReq}>Add</button>
       </form>
     </div>

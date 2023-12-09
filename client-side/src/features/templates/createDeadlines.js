@@ -89,6 +89,8 @@ let CreateDeadlines = (props) => {
         default:
           return tepDL;
       }
+    } else {
+      return tepDL;
     }
   };
 

@@ -23,7 +23,7 @@ function CreateAttachment(props) {
   return (
     <div>
       <form className="create-attachment">
-        <input onChange={handleChange} placeholder="Add attachment" />
+        <input onChange={handleChange} placeholder="Write something here" />
         <button onClick={submitAttachment}>Add</button>
       </form>
     </div>
