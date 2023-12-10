@@ -99,7 +99,6 @@ let RequestLists = (props) => {
                     onChange={(e) => console.log(e.target.value)}
                     value={reqItem.value}
                   ></input>
-                  
 
                   <button
                     id={reqItem}

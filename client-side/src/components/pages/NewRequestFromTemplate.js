@@ -7,27 +7,25 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 /* SMALL COMPONENTS */
 import RequestList from "../../features/templates/att-req-lists";
-import TextAreaComponent from "../../features/templates/textArea";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
 import NewInput from "./elements/NewInput.js";
+import NewTextArea from "./elements/NewTextArea.js";
 
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines";
-import { GetGames } from "../../features/Games/fetchGames";
 import { randomGreetings } from "../../apis.js";
 
 import GetTemplate from "../../features/templates/GetTemplate";
 
 function NewRequestFromTemplate() {
+  const template = GetTemplate();
+  const { templateReqId } = useParams();
   const [projectTitle, setprojectTitle] = useState();
   const [greetings, setGreetings] = useState("hi");
 
-  const template = GetTemplate();
-  const { templateReqId } = useParams();
   let filteredObject;
   let templateObject = {};
-
   if (template) {
     filteredObject = template.filter(
       (element) => element._id === templateReqId
@@ -40,12 +38,22 @@ function NewRequestFromTemplate() {
     introText,
     instructions,
     developer,
+    templateTitle,
     languageTeam,
     attachments,
     requirements,
   } = templateObject;
 
+  const [instructionsIsEditable, setInstructionsIsEditable] = useState(false);
+  const [instructionsContent, setInstructionsContent] = useState(instructions);
+  const [thisService, setThisService] = useState();
+  const [thisAttachments, setThisAttachments] = useState();
+  const [thisRequirements, setThisRequirements] = useState();
+  const [teamTable, setTeamTable] = useState();
+  const [thisIntroText, setThisIntroText] = useState(instructions);
+
   const randomgreeting = Math.floor(Math.random() * randomGreetings.length);
+
   function handleChange() {
     let greetingValue = document.querySelector("#greetingsSelectDropdown");
     setGreetings(greetingValue.value);
@@ -56,13 +64,6 @@ function NewRequestFromTemplate() {
     </option>
   ));
 
-  const [instructionsIsEditable, setInstructionsIsEditable] = useState(false);
-  const [instructionsContent, setInstructionsContent] = useState(instructions);
-  const [thisService, setThisService] = useState();
-  const [thisAttachments, setThisAttachments] = useState();
-  const [thisRequirements, setThisRequirements] = useState();
-  const [teamTable, setTeamTable] = useState();
-
   const editInstructions = (e) => {
     e.preventDefault();
     setInstructionsIsEditable(!instructionsIsEditable);
@@ -70,6 +71,7 @@ function NewRequestFromTemplate() {
     instructionsIsEditable
       ? setInstructionsContent("hello")
       : setInstructionsContent("hi");
+    setThisIntroText(<textarea></textarea>);
   };
 
   const tableChanged = (e) => {
@@ -177,6 +179,10 @@ function NewRequestFromTemplate() {
     <div>
       <div>
         <form>
+          <p className="requestWarning">
+            {" "}
+            **You are using the template <i>{templateTitle}</i> for this request
+          </p>
           <label className="">Project title:</label>
           <NewInput
             getInput={(title) => setprojectTitle(title)}
@@ -192,20 +198,17 @@ function NewRequestFromTemplate() {
             </select>
           </div>
           <div className="introText" data-type="select">
-            <p>
-              {introText}
-              <button onClick={(e) => editInstructions(e)}>
-                <FontAwesomeIcon icon={faEdit} />{" "}
-              </button>
-            </p>
+            <NewTextArea
+              getText={(text) => setThisIntroText(text)}
+              defaultValue={introText}
+            />
+            <p>Specific instructions:</p>
+            <NewTextArea
+              getText={(text) => setThisIntroText(text)}
+              defaultValue={instructions}
+            />
           </div>
-          <div className="instructionsSection">
-            {instructions}
-            <button onClick={(e) => editInstructions(e)}>
-              <FontAwesomeIcon icon={faEdit} />{" "}
-            </button>
-          </div>
-          <br />
+
           <div className="projectDetailsParagraph">
             <div className="gamesDiv">
               <label>Game: </label>

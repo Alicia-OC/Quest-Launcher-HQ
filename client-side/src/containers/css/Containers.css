@@ -179,7 +179,6 @@ th {
   box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
 }
 
-
 .temporalButtonChildToParent {
   font-size: 10px;
   color: rgb(94, 121, 209);
@@ -189,3 +188,7 @@ th {
   line-height: 1.5rem;
 }
 
+.requestWarning {
+  font-size: 70%;
+  color: rgb(116, 118, 124);
+}

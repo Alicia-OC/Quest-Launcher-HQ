@@ -7,6 +7,7 @@ import TextAreaComponent from "../../features/templates/textArea";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
 import NewInput from "./elements/NewInput.js";
+import NewTextArea from "./elements/NewTextArea.js";
 
 /* DEFAULT VARIABLES */
 import { initialParagraph, randomGreetings } from "../../apis";
@@ -29,6 +30,7 @@ function NewRequest(props) {
   const [mqproject, setMqproject] = useState();
   const [wordcount, setWordcount] = useState();
   const [files, setFiles] = useState();
+  const [introText, setIntroText] = useState();
   const DB_games = GetGames();
 
   let GamesLoop = [];
@@ -121,12 +123,13 @@ function NewRequest(props) {
     let reqFormatted = requirements.map((req) => req.value);
 
     setGame(document.getElementById("gamesSelectOptions").value);
+    setGreetings(document.getElementById("greetingsSelectOptions").value)
 
     const object = {
       projectTitle: projectTitle,
       game: document.getElementById("gamesSelectOptions").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
-      introText: initialParagraph,
+      introText: introText,
       instructions: instructions,
       wordcount: wordcount,
       mqproject: mqproject,
@@ -185,7 +188,12 @@ function NewRequest(props) {
                   {GreetingsLoop}
                   <option value="Random greet">Random greet</option>
                 </select>
+                <NewTextArea
+                  getText={(text) => setIntroText(text)}
+                  defaultValue={greetings}
+                />
               </div>
+
               <p>{initialParagraph}</p>
             </div>{" "}
             <TextAreaComponent

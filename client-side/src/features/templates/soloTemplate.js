@@ -21,8 +21,8 @@ function SoloTemplate() {
     return "Loading...";
   }
   const {
-    templateTitle,
     _id,
+    templateTitle,
     game,
     introText,
     instructions,
