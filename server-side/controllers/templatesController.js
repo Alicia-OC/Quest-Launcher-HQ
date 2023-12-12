@@ -27,10 +27,10 @@ const createTemplate = asyncHandler(async (req, res) => {
     introText,
     attachments,
     requirements,
+    favorite,
   } = req.body;
 
-  console.log(
-    {
+  console.log({
     templateTitle: templateTitle,
     game: game,
     developer: developer,
@@ -39,8 +39,8 @@ const createTemplate = asyncHandler(async (req, res) => {
     languageTeam: languageTeam,
     attachments: attachments,
     requirements: requirements,
-  }
-  );
+    favorite: favorite,
+  });
   if (
     !templateTitle ||
     !introText ||
@@ -48,7 +48,8 @@ const createTemplate = asyncHandler(async (req, res) => {
     !game ||
     !languageTeam ||
     !attachments ||
-    !requirements
+    !requirements || 
+    !favorite
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -71,6 +72,7 @@ const createTemplate = asyncHandler(async (req, res) => {
     languageTeam: languageTeam,
     attachments: attachments,
     requirements: requirements,
+    favorite: favorite
   };
   const newTemplate = await Template.create(templateObject);
 
@@ -105,7 +107,8 @@ const deleteTemplate = asyncHandler(async (req, res) => {
 });
 
 const updateTemplate = asyncHandler(async (req, res) => {
-  const { id, templateTitle, introText, developer, game, instructions } = req.body;
+  const { id, templateTitle, introText, developer, game, instructions, favorite } =
+    req.body;
 
   const template = await Template.findById(id).exec();
 
@@ -121,8 +124,9 @@ const updateTemplate = asyncHandler(async (req, res) => {
   template.title = templateTitle;
   template.developer = developer;
   template.game = game;
-  introText.introText = introText
+  template.introText = introText;
   template.instructions = instructions;
+  template.favorite = favorite
 
   const updatedTemplate = await template.save();
 

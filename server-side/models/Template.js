@@ -5,6 +5,7 @@ const templateSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  favorite: {type: Boolean, required: true, default: false},
   templateTitle: { type: String, required: true },
   developer: { type: String, required: true },
   game: { type: String, required: true },
