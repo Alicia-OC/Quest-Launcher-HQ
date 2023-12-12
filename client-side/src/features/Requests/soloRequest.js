@@ -58,7 +58,7 @@ function SoloRequest() {
     } else {
       return (
         <>
-          <label>Instructions: </label>
+          <label>Specific Instructions: </label>
           <p1>{instructions}</p1>
         </>
       );

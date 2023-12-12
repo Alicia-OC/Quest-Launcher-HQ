@@ -7,6 +7,7 @@ import TextAreaComponent from "../../features/templates/textArea";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable";
 import PickServiceButtons from "./elements/PickServiceButtons";
 import NewInput from "./elements/NewInput";
+import StarButton from "./elements/StarButton";
 
 /* DEFAULT VARIABLES */
 import { initialParagraph, mongoDB_Template } from "../../apis";
@@ -33,7 +34,7 @@ function NewTemplate(props) {
     "Write a small instroduction to the project here."
   );
   const [languageTeam, setLanguageTeam] = useState();
-
+  const [templateStarred, setTemplateStarred] = useState(false);
   const DB_devs = GetDevelopers();
   const DB_games = GetGames();
 
@@ -130,6 +131,7 @@ function NewTemplate(props) {
       languageTeam: languageTeam,
       attachments: attachments,
       requirements: requirements,
+      favorite: templateStarred,
     };
     console.log(object);
     Axios.post(mongoDB_Template, {
@@ -139,7 +141,7 @@ function NewTemplate(props) {
       instructions: instructions,
       languageTeam: languageTeam,
       introText: introText,
-
+      favorite: templateStarred,
       attachments: attFormatted,
       requirements: reqFormatted,
     })
@@ -149,6 +151,7 @@ function NewTemplate(props) {
 
     console.log(object);
   }
+  console.log(templateStarred);
 
   return (
     <div className="createTemplate">
@@ -160,7 +163,8 @@ function NewTemplate(props) {
             <NewInput
               getInput={(title) => setTemplateTitle(title)}
               placeholder="Write your template's title here"
-            />
+            />{" "}
+            <StarButton getStar={(star) => setTemplateStarred(star)} />
           </div>
           <div className="gamesDiv">
             <div>

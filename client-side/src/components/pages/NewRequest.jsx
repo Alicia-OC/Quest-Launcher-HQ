@@ -11,6 +11,7 @@ import NewTextArea from "./elements/NewTextArea.js";
 
 /* DEFAULT VARIABLES */
 import { initialParagraph, randomGreetings } from "../../apis";
+import { mongoDB_Request } from "../../apis";
 
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines";

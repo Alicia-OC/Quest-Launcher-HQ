@@ -31,6 +31,7 @@ function SoloTemplate() {
     attachments,
     requirements,
   } = requestObject;
+  
   let teamTableLoop = () => {
     let array = [];
     const team = languageTeam;

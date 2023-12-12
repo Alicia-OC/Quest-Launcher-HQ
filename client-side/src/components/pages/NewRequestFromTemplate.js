@@ -15,6 +15,7 @@ import NewTextArea from "./elements/NewTextArea.js";
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines";
 import { randomGreetings } from "../../apis.js";
+import { mongoDB_Request } from "../../apis.js";
 
 import GetTemplate from "../../features/templates/GetTemplate";
 
@@ -46,13 +47,20 @@ function NewRequestFromTemplate() {
 
   const [instructionsIsEditable, setInstructionsIsEditable] = useState(false);
   const [instructionsContent, setInstructionsContent] = useState(instructions);
+  const [thisIntroText, setThisIntroText] = useState(instructions);
+  const [wordcount, setWordcount] = useState();
+  const [mqproject, setMqproject] = useState();
+  const [files, setFiles] = useState();
   const [thisService, setThisService] = useState();
+  const [teamTable, setTeamTable] = useState();
   const [thisAttachments, setThisAttachments] = useState();
   const [thisRequirements, setThisRequirements] = useState();
-  const [teamTable, setTeamTable] = useState();
-  const [thisIntroText, setThisIntroText] = useState(instructions);
+  const [transDL, setTransDL] = useState();
+  const [proofDL, setProofDL] = useState();
 
   const randomgreeting = Math.floor(Math.random() * randomGreetings.length);
+
+
 
   function handleChange() {
     let greetingValue = document.querySelector("#greetingsSelectDropdown");
@@ -125,11 +133,16 @@ function NewRequestFromTemplate() {
 
   function HandleSubmit(e) {
     e.preventDefault();
+    let attFormatted = thisAttachments.map((att) => att.value);
+    let reqFormatted = thisRequirements.map((req) => req.value);
 
-    let attFormatted = attachments.map((att) => att.value);
-    let reqFormatted = requirements.map((req) => req.value);
+    for (let i = 0; i < attachments.length; i++) {
+      attFormatted.push(attachments[i]);
+    }
 
-    setGame(document.getElementById("gamesSelectOptions").value);
+    for (let i = 0; i < requirements.length; i++) {
+      reqFormatted.push(requirements[i]);
+    }
 
     const object = {
       projectTitle: projectTitle,
@@ -148,19 +161,19 @@ function NewRequestFromTemplate() {
     };
     console.log(object);
 
-    /**Axios.post(mongoDB_Request, {
-      projectTitle: document.getElementById("projectTitleInput").value,
+    Axios.post(mongoDB_Request, {
+      projectTitle: projectTitle,
+      game: game,
       greeting: document.getElementById("greetingsSelectOptions").value,
-      introText: initialParagraph,
+      introText: introText,
       instructions: instructions,
-      game: document.getElementById("gamesSelectOptions").value,
-      mqproject: document.getElementById("mqProjectInput").value,
-      wordcount: document.getElementById("wordcountInput").value,
-      files: document.getElementById("filesInput").value,
+      wordcount: wordcount,
+      mqproject: mqproject,
       service: thisService,
+      files: files,
       languageTeam: teamTable,
-      attachments: attachments,
-      requirements: requirements,
+      attachments: attFormatted,
+      requirements: reqFormatted,
       deadlines: { translation: transDL, proofreading: proofDL },
     })
       .catch((err) => {
@@ -169,7 +182,7 @@ function NewRequestFromTemplate() {
         );
         console.log(err);
       })
-      .then(alert(`New request ${projectTitle} has been created!`)); */
+      .then(alert(`New request ${projectTitle} has been created!`));
   }
 
   /**      .then(location.reload());
