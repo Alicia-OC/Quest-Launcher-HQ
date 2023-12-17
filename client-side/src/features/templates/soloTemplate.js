@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 import GetTemplate from "./GetTemplate";
 import { useNavigate } from "react-router-dom";
 import NavigateToTemplate from "./navigateToTemplate";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 /**CSS */
 
 import "../../containers/css/SoloRequest.css";
@@ -31,29 +32,55 @@ function SoloTemplate() {
     attachments,
     requirements,
   } = requestObject;
-  
+
   let teamTableLoop = () => {
     let array = [];
-    const team = languageTeam;
 
-    if (team) {
-      for (let i = 0; i < team.length; i++) {
+    if (languageTeam[0] === null) {
+      console.log("test");
+    }
+
+    if (languageTeam[0] === null) {
+      return (
+        <p1>
+          <FontAwesomeIcon icon={faTriangleExclamation} />
+          <b>No team settled for this template</b>
+        </p1>
+      );
+    } else {
+      for (let i = 0; i < languageTeam.length; i++) {
         let object = (
           <tr>
-            <td className="languageColumnSoloRequest">{team[i].language}</td>
-            <td>{team[i].translator}</td>
-            <td>{team[i].proofreader}</td>
+            <td className="languageColumnSoloRequest">{languageTeam[i].language}</td>
+            <td>{languageTeam[i].translator}</td>
+            <td>{languageTeam[i].proofreader}</td>
           </tr>
         );
         array.push(object);
       }
-    } else array.push("Loading...");
-
-    return array;
+      return (
+        <>
+          <label>
+            {" "}
+            <u>Standard Team:</u>
+          </label>
+          <br />
+          <br />
+          <table>
+            <thead>
+              <th></th>
+              <th>Translation</th>
+              <th>Proofreading</th>
+            </thead>
+            <tbody>{array}</tbody>
+          </table>
+        </>
+      );
+    }
   };
 
   let instructionsBlock = () => {
-    if (instructions.length === 0) {
+    if (!instructions) {
       return "";
     } else {
       return (
@@ -97,22 +124,8 @@ function SoloTemplate() {
         {instructionsBlock()}
         <br />
       </div>
-      <div className="teamTableDisplayed">
-        <label>
-          {" "}
-          <u>Standard Team:</u>
-        </label>
-        <br />
-        <br />
-        <table>
-          <thead>
-            <th></th>
-            <th>Translation</th>
-            <th>Proofreading</th>
-          </thead>
-          <tbody>{teamTableLoop()}</tbody>
-        </table>
-      </div>
+      <br />
+      <div className="teamTableDisplayed">{teamTableLoop()}</div>
       <br />{" "}
       <div className="req-att-list">
         <label>Attachments list</label> <br></br>

@@ -23,7 +23,7 @@ function NewRequest(props) {
   const [instructions, setInstructions] = useState("");
   const [attachments, setAttachments] = useState();
   const [requirements, setRequirements] = useState();
-  const [thisService, setThisService] = useState();
+  const [thisService, setThisService] = useState('TEP');
   const [transDL, setTransDL] = useState();
   const [proofDL, setProofDL] = useState();
   const [teamTable, setTeamTable] = useState();
@@ -33,7 +33,7 @@ function NewRequest(props) {
   const [files, setFiles] = useState();
   const [introText, setIntroText] = useState();
   const DB_games = GetGames();
-
+  console.log(teamTable);
   let GamesLoop = [];
   if (DB_games) {
     for (let i = 0; i < DB_games.length; i++) {

@@ -27,17 +27,18 @@ function NewTemplate(props) {
   const [instructions, setInstructions] = useState();
   const [attachments, setAttachments] = useState();
   const [requirements, setRequirements] = useState();
-  const [thisService, setThisService] = useState();
+  const [thisService, setThisService] = useState("TEP");
+  const [teamTable, setTeamTable] = useState();
+
   const [templateTitle, setTemplateTitle] = useState();
   const [developer, setDeveloper] = useState("Frozen District");
   const [introText, setIntroText] = useState(
     "Write a small instroduction to the project here."
   );
-  const [languageTeam, setLanguageTeam] = useState();
   const [templateStarred, setTemplateStarred] = useState(false);
+  
   const DB_devs = GetDevelopers();
   const DB_games = GetGames();
-
   let GamesLoop = [];
   let DevLoop = [];
 
@@ -72,6 +73,7 @@ function NewTemplate(props) {
       let selectTRoptions;
       let selectPRFoptions;
       let result;
+
       if (language) {
         if (thisService === "TEP") {
           selectTRoptions = document.querySelector(
@@ -108,7 +110,7 @@ function NewTemplate(props) {
       tableToObjectArr.push(result);
     }
     const tableToObjectArrSliced = tableToObjectArr.slice(1);
-    setLanguageTeam(tableToObjectArrSliced);
+    setTeamTable(tableToObjectArrSliced);
   };
   /** tableChanged is only triggered if one of the select option changes, which means
    * adding languages won't trigger the finction hence won't take the table values.
@@ -120,7 +122,7 @@ function NewTemplate(props) {
 
     let attFormatted = attachments.map((att) => att.value);
     let reqFormatted = requirements.map((req) => req.value);
-    console.log(attFormatted);
+    console.log(teamTable);
 
     const object = {
       templateTitle: templateTitle,
@@ -128,18 +130,18 @@ function NewTemplate(props) {
       developer: developer,
       instructions: instructions,
       introText: introText,
-      languageTeam: languageTeam,
+      languageTeam: teamTable,
       attachments: attachments,
       requirements: requirements,
       favorite: templateStarred,
     };
-    console.log(object);
+
     Axios.post(mongoDB_Template, {
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,
       instructions: instructions,
-      languageTeam: languageTeam,
+      languageTeam: teamTable,
       introText: introText,
       favorite: templateStarred,
       attachments: attFormatted,
@@ -147,11 +149,9 @@ function NewTemplate(props) {
     })
       .then(alert(`New template ${templateTitle} has been created!`))
       .catch((err) => console.log(err));
-    //.then(location.reload());
 
-    console.log(object);
+    //.then(location.reload());
   }
-  console.log(templateStarred);
 
   return (
     <div className="createTemplate">
@@ -209,7 +209,7 @@ function NewTemplate(props) {
         />
         <MainTable
           getService={(serviceCall) => setThisService(serviceCall)}
-          getTeamTable={(thisTeamTable) => setLanguageTeam(thisTeamTable)}
+          getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
           service={thisService}
           onChange={(e) => {
             tableChanged(e);

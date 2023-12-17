@@ -29,7 +29,7 @@ function TemplateList() {
         <li id={template[i]._id} value={template[i].templateTitle}>
           <a href={"Template/" + template[i]._id}>
             {" "}
-            {template[i].templateTitle}
+            {template[i].templateTitle} 
           </a>
           <button
             className=""
