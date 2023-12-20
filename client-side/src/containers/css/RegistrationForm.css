@@ -90,17 +90,10 @@
 }
 
 .invalidInput {
-  border-color: #f91919;
   background: #f9f0f1;
 }
 
-.submitForm {
-}
-
-.passwordCheckbox {
-}
-
-.formError {
-  border-color: #f91919;
-  background: #f9f0f1;
+.errorForm{
+  color: red;
+  font-size: 11px;
 }

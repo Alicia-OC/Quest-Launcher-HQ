@@ -33,7 +33,6 @@ function NewRequest(props) {
   const [files, setFiles] = useState();
   const [introText, setIntroText] = useState();
   const DB_games = GetGames();
-  console.log(teamTable);
   let GamesLoop = [];
   if (DB_games) {
     for (let i = 0; i < DB_games.length; i++) {
@@ -143,7 +142,7 @@ function NewRequest(props) {
     };
     console.log(object);
 
-    /**Axios.post(mongoDB_Request, {
+Axios.post(mongoDB_Request, {
       projectTitle: document.getElementById("projectTitleInput").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: initialParagraph,
@@ -164,7 +163,7 @@ function NewRequest(props) {
         );
         console.log(err);
       })
-      .then(alert(`New request ${projectTitle} has been created!`)); */
+      .then(alert(`New request ${projectTitle} has been created!`));
   }
 
   /**      .then(location.reload());

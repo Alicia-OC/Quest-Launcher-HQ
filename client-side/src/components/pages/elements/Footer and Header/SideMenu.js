@@ -3,24 +3,27 @@ import GetTemplate from "../../../../features/templates/GetTemplate";
 
 function SideMenu() {
   const templates = GetTemplate();
-
-  let templateTitlesArrtest;
-
+  let starredTemplates = [];
   if (templates) {
-    templateTitlesArrtest = templates.map((element) => (
-      <li id={element._id}>
-        <a className="" href={"/Template/" + element._id}>
-          {element.templateTitle.slice(0, 12)}...
-        </a>
-      </li>
-    ));
+    for (let i = 0; i < templates.length; i++) {
+      if (templates[i].favorite) {
+        starredTemplates.push(templates[i]);
+      }
+    }
   }
 
   return (
     <div>
-      <p>This is a test</p>
-
-      <ul> {templateTitlesArrtest}</ul>
+      <p>Favorite templates</p>
+      <ul>
+        {starredTemplates.map((element) => (
+          <li id={element._id}>
+            <a className="" href={"/Template/" + element._id}>
+              {element.templateTitle.slice(0, 20)}...
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

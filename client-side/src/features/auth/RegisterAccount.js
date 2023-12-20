@@ -7,13 +7,16 @@ import { Link } from "react-router-dom";
 function NewUserCreation() {
   const [pwVisibility, setPwVisibility] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState();
-  const [inputClassName, setInputClassName] = useState("validInput");
+  const [userRegistrationInput, setUserRegistrationInput] = useState("validInput");
   const [userRole, setUserRole] = useState();
-  const [fullName, setFullName] = useState();
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [msgFullName, setMsgFullName] = useState();
+  const [msgUsername, setMsgUsername] = useState();
+  const [msgEmail, setMsgEmail] = useState();
+  const [msgPassword, setMsgPassword] = useState();
   const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
   function validateForm() {
@@ -26,19 +29,46 @@ function NewUserCreation() {
       return;
     } else {
       if (password.length < 8) {
-        setInputClassName("invalidInput");
+        setUserRegistrationInput("invalidInput");
         setInvalidPassword("The password should be at least 8 characters");
       } else {
-        setInputClassName("validInput");
+        setUserRegistrationInput("validInput");
       }
 
       if (!emailPattern.test(email)) {
+        setMsgEmail(
+          <p className="errorForm">
+            <i> Invalid e-mail</i>
+          </p>
+        );
       }
 
-      if (username.length < 4 || username.match(/[a-zA-Z0-9_]/g)) {
+      if (username.length < 6 || !username.match(/[a-zA-Z0-9_]/g)) {
+        setMsgUsername(
+          <p className="errorForm">
+            <i>
+              {" "}
+              Your username should be at least 6 characters long and contain
+              only letters and numbers
+            </i>
+          </p>
+        );
+      } else {
+        setMsgUsername("");
       }
 
-      if (fullName.length < 0 || !fullName.match(/[A-Za-z]/g)) {
+      if (!fullName.match(/[A-Za-z]/g) || fullName.length < 4) {
+        setMsgFullName(
+          <p className="errorForm">
+            <i>
+              {" "}
+              Your name should not contain any special character and should be
+              at least 4 characters long
+            </i>
+          </p>
+        );
+      } else {
+        setMsgFullName("");
       }
     }
   }
@@ -47,6 +77,7 @@ function NewUserCreation() {
     e.preventDefault();
 
     const formErrors = validateForm();
+
     const newUser = {
       fullName: fullName,
       username: username,
@@ -71,7 +102,9 @@ function NewUserCreation() {
         alert("User created succesfully!");
       }
     });
+    //.then(location.reload());
   };
+  const [content, setContent] = useState();
 
   return (
     <div className="creationForm-div">
@@ -87,7 +120,23 @@ function NewUserCreation() {
               onChange={(e) => {
                 setFullName(e.target.value);
               }}
+              onMouseOut={(e) => {
+                if (!fullName.match(/[A-Za-z]/g) || fullName.length < 4) {
+                  setMsgFullName(
+                    <p className="errorForm">
+                      <i>
+                        {" "}
+                        Your name should not contain any special character and
+                        should be at least 4 characters long
+                      </i>
+                    </p>
+                  );
+                } else {
+                  setMsgFullName("");
+                }
+              }}
             ></input>{" "}
+            {msgFullName}
           </div>
           <div className="form-group-div">
             <label>Username</label>
@@ -98,7 +147,23 @@ function NewUserCreation() {
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
+              onMouseOut={(e) => {
+                if (username.length < 6 || !username.match(/[a-zA-Z0-9_]/g)) {
+                  setMsgUsername(
+                    <p className="errorForm">
+                      <i>
+                        {" "}
+                        Your username should be at least 6 characters long and
+                        contain only letters and numbers
+                      </i>
+                    </p>
+                  );
+                } else {
+                  setMsgUsername("");
+                }
+              }}
             ></input>
+            {msgUsername}
           </div>
           <div className="form-group-div">
             <label>Email</label>
@@ -109,20 +174,46 @@ function NewUserCreation() {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
+              onMouseOut={(e) => {
+                if (!emailPattern.test(email)) {
+                  setMsgEmail(
+                    <p className="errorForm">
+                      <i> Invalid e-mail</i>
+                    </p>
+                  );
+                } else {
+                  setMsgEmail("");
+                }
+              }}
             ></input>
+            {msgEmail}
           </div>
           <div className="form-group-div">
             {" "}
             <label>Password</label>
             <input
               name="password"
-              className={inputClassName}
+              className={userRegistrationInput}
               type={pwVisibility ? "text" : "password"}
               id="userPwd"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              onMouseOut={(e) => {
+                if (password.length < 8) {
+                  setUserRegistrationInput("invalidInput");
+                  setMsgPassword(
+                    <p className="errorForm">
+                      <i> The password should be at least 8 characters</i>
+                    </p>
+                  );
+                } else {
+                  setuserRegistrationInput("validInput");
+                  setMsgPassword("");
+                }
+              }}
             ></input>{" "}
+            {msgPassword}
           </div>
           <div className="form-group-div-checkbox">
             <label>Show password</label>

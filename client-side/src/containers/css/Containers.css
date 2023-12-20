@@ -129,6 +129,12 @@ th {
   padding-right: 1.5rem;
 }
 
+.VendorsList {
+  line-height: 1rem;
+}
+.VendorsList tr:hover {
+  background-color: #e7e7e7;
+}
 .VendorsList td,
 th {
   padding-right: 1rem;
@@ -140,7 +146,6 @@ th {
 /* CSS button:   https://getcssscan.com/css-buttons-examples  by Paper CSS*/
 .VendorsList button {
   align-self: center;
-  background-color: #fff;
   background-image: none;
   background-position: 0 90%;
   background-repeat: repeat no-repeat;
@@ -154,10 +159,9 @@ th {
   cursor: pointer;
   display: inline-block;
   font-family: Neucha, sans-serif;
-  font-size: 1rem;
   line-height: 1.5px;
   outline: none;
-  padding: 0.75rem;
+  padding: 0.55rem;
   text-decoration: none;
   transition: all 235ms ease-in-out;
   border-bottom-left-radius: 15px 255px;
@@ -192,3 +196,6 @@ th {
   font-size: 70%;
   color: rgb(116, 118, 124);
 }
+
+
+/*CREATE USER*/
