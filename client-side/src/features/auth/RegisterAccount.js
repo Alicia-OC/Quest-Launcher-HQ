@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { mongoDB_Users } from "../../apis";
 import "../../containers/css/RegistrationForm.css";
@@ -6,8 +6,8 @@ import "../../containers/css/RegistrationForm.css";
 import { Link } from "react-router-dom";
 function NewUserCreation() {
   const [pwVisibility, setPwVisibility] = useState(false);
-  const [invalidPassword, setInvalidPassword] = useState();
-  const [userRegistrationInput, setUserRegistrationInput] = useState("validInput");
+  const [userRegistrationInput, setUserRegistrationInput] =
+    useState("validInput");
   const [userRole, setUserRole] = useState();
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
@@ -17,7 +17,15 @@ function NewUserCreation() {
   const [msgUsername, setMsgUsername] = useState();
   const [msgEmail, setMsgEmail] = useState();
   const [msgPassword, setMsgPassword] = useState();
+  const [user, setUser] = useState();
+
   const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+  useEffect(() => {
+    Axios.get(mongoDB_Users)
+      .then((res) => setUser(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   function validateForm() {
     /** */ let x =
@@ -26,58 +34,55 @@ function NewUserCreation() {
       ].value;
     if (x === "") {
       alert("All fields must be filled out");
-      return;
-    } else {
-      if (password.length < 8) {
-        setUserRegistrationInput("invalidInput");
-        setInvalidPassword("The password should be at least 8 characters");
-      } else {
-        setUserRegistrationInput("validInput");
-      }
-
-      if (!emailPattern.test(email)) {
-        setMsgEmail(
-          <p className="errorForm">
-            <i> Invalid e-mail</i>
-          </p>
-        );
-      }
-
-      if (username.length < 6 || !username.match(/[a-zA-Z0-9_]/g)) {
-        setMsgUsername(
-          <p className="errorForm">
-            <i>
-              {" "}
-              Your username should be at least 6 characters long and contain
-              only letters and numbers
-            </i>
-          </p>
-        );
-      } else {
-        setMsgUsername("");
-      }
-
-      if (!fullName.match(/[A-Za-z]/g) || fullName.length < 4) {
-        setMsgFullName(
-          <p className="errorForm">
-            <i>
-              {" "}
-              Your name should not contain any special character and should be
-              at least 4 characters long
-            </i>
-          </p>
-        );
-      } else {
-        setMsgFullName("");
-      }
     }
   }
 
+  const CheckDuplicate = () => {
+    let userNameDuplicated;
+    let emailDuplicated;
+
+    if (username.length < 6 || !username.match(/[a-zA-Z0-9_]/g)) {
+      setMsgUsername(
+        <p className="errorForm">
+          <i>
+            {" "}
+            Your username should be at least 6 characters long and contain only
+            letters and numbers
+          </i>
+        </p>
+      );
+    } else {
+      for (let i = 0; i < user.length; i++) {
+        if (user[i].username === username) {
+          userNameDuplicated = true;
+          return
+        }
+        if (user[i].email === email) {
+          emailDuplicated = true;
+        }
+      }
+
+      userNameDuplicated
+        ? setMsgUsername(
+            <p className="errorForm">
+              <i> This username is not available</i>
+            </p>
+          )
+        : setMsgUsername("");
+
+      emailDuplicated
+        ? setMsgEmail(
+            <p className="errorForm">
+              <i> There is a username registered with this email already</i>
+            </p>
+          )
+        : setMsgUsername("");
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const formErrors = validateForm();
-
     const newUser = {
       fullName: fullName,
       username: username,
@@ -148,19 +153,7 @@ function NewUserCreation() {
                 setUsername(e.target.value);
               }}
               onMouseOut={(e) => {
-                if (username.length < 6 || !username.match(/[a-zA-Z0-9_]/g)) {
-                  setMsgUsername(
-                    <p className="errorForm">
-                      <i>
-                        {" "}
-                        Your username should be at least 6 characters long and
-                        contain only letters and numbers
-                      </i>
-                    </p>
-                  );
-                } else {
-                  setMsgUsername("");
-                }
+                CheckDuplicate();
               }}
             ></input>
             {msgUsername}
@@ -175,15 +168,7 @@ function NewUserCreation() {
                 setEmail(e.target.value);
               }}
               onMouseOut={(e) => {
-                if (!emailPattern.test(email)) {
-                  setMsgEmail(
-                    <p className="errorForm">
-                      <i> Invalid e-mail</i>
-                    </p>
-                  );
-                } else {
-                  setMsgEmail("");
-                }
+                CheckDuplicate();
               }}
             ></input>
             {msgEmail}
@@ -208,7 +193,7 @@ function NewUserCreation() {
                     </p>
                   );
                 } else {
-                  setuserRegistrationInput("validInput");
+                  setUserRegistrationInput("validInput");
                   setMsgPassword("");
                 }
               }}
