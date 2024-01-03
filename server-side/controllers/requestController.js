@@ -9,6 +9,7 @@ const getAllRequest = asyncHandler(async (req, res) => {
       const formattedRequest = data.map(
         ({
           _id,
+          creationDate,
           projectTitle,
           greeting,
           introText,
@@ -25,6 +26,7 @@ const getAllRequest = asyncHandler(async (req, res) => {
         }) => {
           return {
             _id,
+            creationDate,
             projectTitle,
             greeting,
             introText,
@@ -52,6 +54,7 @@ const getAllRequest = asyncHandler(async (req, res) => {
 
 const createNewRequest = asyncHandler(async (req, res) => {
   const {
+    creationDate,
     projectTitle,
     greeting,
     introText,
@@ -66,7 +69,7 @@ const createNewRequest = asyncHandler(async (req, res) => {
     requirements,
     deadlines,
   } = req.body;
-  console.log(
+  console.log(creationDate,
     projectTitle,
     greeting,
     introText,
@@ -82,6 +85,7 @@ const createNewRequest = asyncHandler(async (req, res) => {
     deadlines
   );
   if (
+    !creationDate ||
     !projectTitle ||
     !greeting ||
     !introText ||
@@ -108,6 +112,7 @@ const createNewRequest = asyncHandler(async (req, res) => {
     });
   }
   const requestObject = {
+    creationDate: creationDate,
     projectTitle: projectTitle,
     greeting: greeting,
     introText: introText,

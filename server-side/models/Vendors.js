@@ -1,15 +1,7 @@
 const mongoose = require("mongoose");
 
-/*const vendorSchema = new mongoose.Schema({
-  language: String,
-  firstName: String,
-  nickname: String,
-  active: Boolean,
-  translation: Boolean,
-  proofreading: Boolean,
-});*/
-
 const vendorSchemaPlus = new mongoose.Schema({
+  creationDate: { type: String, required: true },
   language: { type: String, required: true },
   fullName: { type: String, required: true },
   nickname: { type: String, required: true },
@@ -46,5 +38,3 @@ const vendor2 = new Vendor({
 const defaultVendors = [vendor1, vendor2];
 
 module.exports = { Vendor };
-
-

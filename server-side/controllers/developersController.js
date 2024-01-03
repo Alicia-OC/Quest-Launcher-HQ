@@ -6,9 +6,11 @@ const Developer = DeveloperSchema.Developer;
 const getAllDevelopers = asyncHandler(async (req, res) => {
   try {
     Developer.find({}).then((data) => {
-      const formattedDeveloper = data.map(({ _id, name, games, timezone }) => {
-        return { _id, name, games, timezone };
-      });
+      const formattedDeveloper = data.map(
+        ({ _id, name, games, timezone, creationDate }) => {
+          return { _id, name, games, timezone, creationDate };
+        }
+      );
       if (!formattedDeveloper.length) {
         res.status(200).json("No Items found");
       } else {
@@ -22,19 +24,20 @@ const getAllDevelopers = asyncHandler(async (req, res) => {
 });
 
 const createnewDeveloper = asyncHandler(async (req, res) => {
-  const { name, games, timezone } = req.body;
-  if (!name || !games || !timezone) {
+  const { name, games, timezone, creationDate } = req.body;
+  if (!name || !games || !timezone || !creationDate) {
     return res.status(400).json({ message: "All fields are required" });
   }
   const developerDuplicate = await Developer.findOne({ name }).lean().exec();
 
   if (developerDuplicate) {
     res.status(409).json({ message: "Language already in database" });
-  } 
+  }
   const developerObject = {
     name: name,
     games: games,
-    timezone:timezone
+    timezone: timezone,
+    creationDate: creationDate,
   };
 
   const newDeveloper = await Developer.create(developerObject);

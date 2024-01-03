@@ -6,8 +6,8 @@ const Games = GamesSchema.Games;
 const getAllGames = asyncHandler(async (req, res) => {
   try {
     Games.find({}).then((data) => {
-      const formattedGames = data.map(({ _id, title, developer, languages }) => {
-        return { _id, title, developer, languages };
+      const formattedGames = data.map(({ _id, title, developer, languages, links, creationDate }) => {
+        return { _id, title, developer, languages, links, creationDate };
       });
       if (!formattedGames.length) {
         res.status(200).json("No Items found");
@@ -22,8 +22,8 @@ const getAllGames = asyncHandler(async (req, res) => {
 });
 
 const createnewGame = asyncHandler(async (req, res) => {
-  const { title, developer, languages } = req.body;
-  if (!title || !developer || !languages) {
+  const { title, developer, languages, links, creationDate } = req.body;
+  if (!title || !developer || !languages || !links || !creationDate) {
     return res.status(400).json({ message: "All fields are required" });
   }
   const GameDuplicate = await Games.findOne({ title }).lean().exec();
@@ -35,6 +35,8 @@ const createnewGame = asyncHandler(async (req, res) => {
     title: title,
     developer: developer,
     languages: languages,
+    links: links,
+    creationDate: creationDate
   };
 
   const newGame = await Games.create(gameObject);

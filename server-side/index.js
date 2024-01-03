@@ -15,6 +15,8 @@ app.use(cors());
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use("/", require("./routes/root"));
 app.use("/vendors", require("./routes/vendorRoutes"));
 app.use("/templates", require("./routes/templateRoutes"));
@@ -23,6 +25,8 @@ app.use("/request", require("./routes/requestRoutes"))
 app.use("/developers", require("./routes/developersRoutes"))
 app.use("/games", require("./routes/videogameRoutes"))
 app.use("/users", require("./routes/userRoutes"))
+app.use("/login", require("./routes/auth"))
+
 
 
 app.all("*", (req, res) => {

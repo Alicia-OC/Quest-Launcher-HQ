@@ -1,29 +1,47 @@
 const UserSchema = require("../models/Users");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 let User = UserSchema.User;
 
 const getUser = asyncHandler(async (req, res) => {
   try {
     User.find({}).then((data) => {
       const formattedUser = data.map(
-        ({ _id, fullName, username, email, role, active, requests }) => {
-          return { _id, fullName, username, email, role, active, requests };
+        ({
+          _id,
+          fullName,
+          username,
+          email,
+          role,
+          active,
+          requests,
+          creationDate,
+        }) => {
+          return {
+            _id,
+            fullName,
+            username,
+            email,
+            role,
+            active,
+            requests,
+            creationDate,
+          };
         }
       );
       res.status(200).json(formattedUser);
       return formattedUser;
-      console.log();
     });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
 const createNewUser = asyncHandler(async (req, res) => {
-  const { fullName, username, password, role, email } = req.body;
+  const { fullName, username, password, role, email, creationDate } = req.body;
 
-  if (!fullName || !username || !password || !role || !email) {
+  if (!fullName || !username || !password || !role || !email || !creationDate) {
     return res.status(400).json({ message: "All fields are required" });
   }
   //check for username duplicatedUsername
@@ -40,7 +58,9 @@ const createNewUser = asyncHandler(async (req, res) => {
     });
   }
   const hashedPwd = await bcrypt.hash(password, 10); //10 salt rounds
+
   const userObject = {
+    creationDate: creationDate,
     fullName: fullName,
     username: username,
     email: email,
@@ -76,9 +96,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
   const updatedUser = await user.save();
 
-  res.json({ message: `${updatedUser.username} requests updated` })
-
-  
+  res.json({ message: `${updatedUser.username} requests updated` });
 });
 
 // @desc Update a user
@@ -87,9 +105,37 @@ const updateUser = asyncHandler(async (req, res) => {
 
 const deleteUser = asyncHandler(async (req, res) => {});
 
+const logUser = asyncHandler(async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
+      return res.status(500).json({ message: "User doesn't exist" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (isPasswordValid) {
+      res.status(200).json({ message: "Authentication successful" });
+      res.send("ok");
+    } else {
+      res.status(401).json({ message: "Authentication failed" });
+      res.send("ok");
+    }
+
+    const token = jwt.sign({ userId: user._id, role: user.role });
+    
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = {
   getUser,
   createNewUser,
   updateUser,
   deleteUser,
+  logUser,
 };

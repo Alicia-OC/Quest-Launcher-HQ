@@ -14,11 +14,11 @@ const getAllTemplates = asyncHandler(async (req, res) => {
       res.send(data);
     }
   });
-  console.log(Template);
 });
 
 const createTemplate = asyncHandler(async (req, res) => {
   const {
+    creationDate,
     templateTitle,
     game,
     developer,
@@ -31,6 +31,7 @@ const createTemplate = asyncHandler(async (req, res) => {
   } = req.body;
 
   console.log({
+    creationDate: creationDate,
     templateTitle: templateTitle,
     game: game,
     developer: developer,
@@ -41,15 +42,16 @@ const createTemplate = asyncHandler(async (req, res) => {
     requirements: requirements,
     favorite: favorite,
   });
+
   if (
+    !creationDate ||
     !templateTitle ||
     !introText ||
     !developer ||
     !game ||
     !languageTeam ||
     !attachments ||
-    !requirements || 
-    !favorite
+    !requirements 
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -64,6 +66,7 @@ const createTemplate = asyncHandler(async (req, res) => {
     });
   }
   const templateObject = {
+    creationDate: creationDate,
     templateTitle: templateTitle,
     game: game,
     developer: developer,
@@ -107,7 +110,7 @@ const deleteTemplate = asyncHandler(async (req, res) => {
 });
 
 const updateTemplate = asyncHandler(async (req, res) => {
-  const { id, templateTitle, introText, developer, game, instructions, favorite } =
+  const { id, templateTitle, introText, developer, game, instructions, favorite, creationDate } =
     req.body;
 
   const template = await Template.findById(id).exec();
@@ -121,6 +124,7 @@ const updateTemplate = asyncHandler(async (req, res) => {
   if (duplicate && duplicate?._id.toString() !== id) {
     return res.status(409).json({ message: "Duplicate title" });
   }
+  template.creationDate = creationDate;
   template.title = templateTitle;
   template.developer = developer;
   template.game = game;

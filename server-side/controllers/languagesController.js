@@ -22,8 +22,8 @@ const getAllLanguages = asyncHandler(async (req, res) => {
 });
 
 const createNewLanguage = asyncHandler(async (req, res) => {
-  const { language, languageCode } = req.body;
-  if (!language || !languageCode) {
+  const { language, languageCode, creationDate } = req.body;
+  if (!language || !languageCode || !creationDate) {
     return res.status(400).json({ message: "All fields are required" });
   }
   const languageDuplicate = await Language.findOne({ language }).lean().exec();
@@ -36,6 +36,7 @@ const createNewLanguage = asyncHandler(async (req, res) => {
   }
 
   const languageObject = {
+    creationDate: creationDate,
     language: language,
     languageCode: languageCode,
   };
@@ -53,5 +54,5 @@ const createNewLanguage = asyncHandler(async (req, res) => {
 
 module.exports = {
   getAllLanguages,
-  createNewLanguage
+  createNewLanguage,
 };

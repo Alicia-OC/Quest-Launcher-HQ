@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const requestSchema = new mongoose.Schema({
+  creationDate: { type: String, required: true },
+  userId: {
+    type: String,
+    required: false,
+  },
   projectTitle: { type: String, required: true },
   greeting: { type: String, required: true },
   introText: { type: String, required: true },

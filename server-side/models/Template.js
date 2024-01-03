@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 
 const templateSchema = new mongoose.Schema({
+  creationDate: { type: String, required: true },
   userId: {
     type: String,
     required: false,
   },
-  favorite: {type: Boolean, required: true, default: false},
+  favorite: { type: Boolean, required: false, default: false },
   templateTitle: { type: String, required: true },
   developer: { type: String, required: true },
   game: { type: String, required: true },
@@ -17,26 +18,27 @@ const templateSchema = new mongoose.Schema({
 });
 
 const developerSchema = new mongoose.Schema({
+  creationDate: { type: String, required: true },
   name: { type: String, required: true },
   games: { type: Array, required: true },
   timezone: { type: String, required: false },
 });
 
 const gamesSchema = new mongoose.Schema({
+  creationDate: { type: String, required: true },
   title: { type: String, required: true },
   languages: { type: Array, required: true },
   developer: { type: String, required: true },
+  links: { type: Array, required: false },
 });
 
 const languageSchema = new mongoose.Schema({
+  creationDate: { type: String, required: true },
+
   language: { type: String, required: true },
   languageCode: { type: String, required: true },
 });
 
-const gameTeamSchema = new mongoose.Schema({
-  languages: { type: Array, required: true },
-  game: { type: String, required: true },
-});
 
 const Language = mongoose.model("Language", languageSchema);
 const Games = mongoose.model("Games", gamesSchema);
