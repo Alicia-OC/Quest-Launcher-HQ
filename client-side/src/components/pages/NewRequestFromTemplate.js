@@ -145,6 +145,7 @@ function NewRequestFromTemplate() {
     }
 
     const object = {
+      creationDate: new Date(),
       projectTitle: projectTitle,
       game: game,
       greeting: document.getElementById("greetingsSelectOptions").value,
@@ -162,6 +163,7 @@ function NewRequestFromTemplate() {
     console.log(object);
 
     Axios.post(mongoDB_Request, {
+      creationDate: new Date(),
       projectTitle: projectTitle,
       game: game,
       greeting: document.getElementById("greetingsSelectOptions").value,

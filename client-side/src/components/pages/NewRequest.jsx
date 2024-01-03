@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import axios from "../../axios.js";
 
 /* SMALL COMPONENTS */
 import RequestList from "../../features/templates/att-req-lists";
@@ -23,7 +24,7 @@ function NewRequest(props) {
   const [instructions, setInstructions] = useState("");
   const [attachments, setAttachments] = useState();
   const [requirements, setRequirements] = useState();
-  const [thisService, setThisService] = useState('TEP');
+  const [thisService, setThisService] = useState("TEP");
   const [transDL, setTransDL] = useState();
   const [proofDL, setProofDL] = useState();
   const [teamTable, setTeamTable] = useState();
@@ -123,9 +124,10 @@ function NewRequest(props) {
     let reqFormatted = requirements.map((req) => req.value);
 
     setGame(document.getElementById("gamesSelectOptions").value);
-    setGreetings(document.getElementById("greetingsSelectOptions").value)
+    setGreetings(document.getElementById("greetingsSelectOptions").value);
 
     const object = {
+      creationDate: new Date(),
       projectTitle: projectTitle,
       game: document.getElementById("gamesSelectOptions").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
@@ -142,7 +144,8 @@ function NewRequest(props) {
     };
     console.log(object);
 
-Axios.post(mongoDB_Request, {
+    Axios.post(mongoDB_Request, {
+      creationDate: new Date(),
       projectTitle: document.getElementById("projectTitleInput").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: initialParagraph,

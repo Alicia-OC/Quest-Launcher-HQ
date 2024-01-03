@@ -36,7 +36,7 @@ function NewTemplate(props) {
     "Write a small instroduction to the project here."
   );
   const [templateStarred, setTemplateStarred] = useState(false);
-  
+
   const DB_devs = GetDevelopers();
   const DB_games = GetGames();
   let GamesLoop = [];
@@ -125,6 +125,7 @@ function NewTemplate(props) {
     console.log(teamTable);
 
     const object = {
+      creationDate: new Date(),
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,
@@ -137,6 +138,7 @@ function NewTemplate(props) {
     };
 
     Axios.post(mongoDB_Template, {
+      creationDate: new Date(),
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,

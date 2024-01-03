@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import GetTemplate from "./GetTemplate";
 import { useNavigate } from "react-router-dom";
-import NavigateToTemplate from "./navigateToTemplate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 /**CSS */

@@ -33,9 +33,10 @@ function Navbar(userLogged) {
             <div class="dropdown-content">
               <Link to="/NewRequest">Request</Link>
               <Link to="/NewTemplate">Template</Link>
-              <Link to="/NewTeam">Team</Link>
               <Link to="/NewGame">Game</Link>
               <Link to="/NewVendor">Vendor</Link>
+              <Link to="/register">Account</Link>
+
             </div>
           </div>
         </nav>

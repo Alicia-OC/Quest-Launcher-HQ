@@ -30,13 +30,16 @@ import SoloTemplate from "./features/templates/soloTemplate.js";
 function App() {
   const [userLogged, setUser] = useState(true);
 
+  const { REACT_APP_mongoDB_Auth } = process.env;
+  console.log(REACT_APP_mongoDB_Auth);
+
   return (
     <>
       <Routes>
         <Route path="*" element={<NoMatch />} />{" "}
         <Route path="register" element={<RegisterAccount />} />
+        <Route path="login" element={<Login />} />
         <Route path="/" element={<DashLayout isUserLoged={userLogged} />}>
-          <Route path="login" element={<Login />} />
           <Route index element={<Home isUserLoged={userLogged} />} />
           <Route path="/NewRequest">
             <Route index element={<NewRequest />} />
@@ -68,7 +71,6 @@ function App() {
             element={<VendorPerLangList />}
           />
         </Route>
-
         <Route path="/LogOut" element={<NewGame />} />
       </Routes>
     </>

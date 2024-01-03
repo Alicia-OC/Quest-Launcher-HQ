@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { mongoDB_Users } from "../../apis";
 import "../../containers/css/RegistrationForm.css";
-
 import { Link } from "react-router-dom";
+
 function NewUserCreation() {
   const [pwVisibility, setPwVisibility] = useState(false);
   const [userRegistrationInput, setUserRegistrationInput] =
-    useState("validInput");
+    useState("UserAuthInput");
   const [userRole, setUserRole] = useState();
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
@@ -55,7 +55,7 @@ function NewUserCreation() {
       for (let i = 0; i < user.length; i++) {
         if (user[i].username === username) {
           userNameDuplicated = true;
-          return
+          return;
         }
         if (user[i].email === email) {
           emailDuplicated = true;
@@ -111,6 +111,14 @@ function NewUserCreation() {
   };
   const [content, setContent] = useState();
 
+  const goToLoginForm = (e) => {
+    e.preventDefault();
+    window.location.replace("/login");
+    /**Use "window.location.replace()" when you don’t want the user to be able to go back to the original page using the “back” button.
+    Use "window.location.assign()" or "window.location.href" when you want the user to be able to go back to the original page using the “back” button
+    */
+  };
+
   return (
     <div className="creationForm-div">
       <div className="creationForm-form">
@@ -119,6 +127,7 @@ function NewUserCreation() {
           <div className="form-group-div">
             <label>Name</label>
             <input
+              className="UserAuthInput"
               name="fullName"
               id="userFullName"
               type="text"
@@ -146,6 +155,7 @@ function NewUserCreation() {
           <div className="form-group-div">
             <label>Username</label>
             <input
+              className="UserAuthInput"
               name="username"
               id="userUsername"
               type="text"
@@ -161,6 +171,7 @@ function NewUserCreation() {
           <div className="form-group-div">
             <label>Email</label>
             <input
+              className="UserAuthInput"
               name="email"
               id="userEmail"
               type="text"
@@ -193,7 +204,7 @@ function NewUserCreation() {
                     </p>
                   );
                 } else {
-                  setUserRegistrationInput("validInput");
+                  setUserRegistrationInput("UserAuthInput");
                   setMsgPassword("");
                 }
               }}
@@ -201,11 +212,11 @@ function NewUserCreation() {
             {msgPassword}
           </div>
           <div className="form-group-div-checkbox">
-            <label>Show password</label>
+            <label for="showPassword">Show password</label>
             <input
               className="passwordCheckbox"
               type="checkbox"
-              id="passwordCheckbox"
+              id="showPassword"
               onChange={(e) => {
                 setPwVisibility(!pwVisibility);
               }}
@@ -229,8 +240,13 @@ function NewUserCreation() {
           <div className="form-group-div submit-btn">
             <input
               type="submit"
-              value="Submit"
+              value="Create account"
               onClick={(e) => handleSubmit(e)}
+            ></input>{" "}
+            <input
+              type="submit"
+              value="Login"
+              onClick={(e) => goToLoginForm(e)}
             ></input>{" "}
           </div>{" "}
         </form>

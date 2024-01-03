@@ -23,10 +23,10 @@ function NewGame() {
             ></input>
           </div>
           <div>
-            <label>Links of interest</label>
+            <label>Links of interest:</label>
             <input type="text" className="titleInput"></input>
           </div>
-          <input type="submit" value="Save" className="saveButton"></input>
+          <input type="submit" value="Submit" className="saveButton"></input>
         </form>
       </div>
     </div>

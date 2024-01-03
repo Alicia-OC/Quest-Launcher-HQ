@@ -7,7 +7,6 @@
 }
 
 .creationForm-form {
-  margin: 5rem;
   padding: 30px;
   background: #fff;
   max-width: 500px;
@@ -16,7 +15,7 @@
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
 }
 
-.register-side-div{
+.register-side-div {
   background: #d4d4d4;
   width: 100%;
 }
@@ -36,7 +35,9 @@
 .form-group-div-checkbox {
   font-size: 15px;
   margin-bottom: 1rem;
-  position: relative;
+}
+.form-group-div-checkbox-showPassword {
+  margin-top: 0.7rem;
 }
 
 .form-group-div {
@@ -45,17 +46,20 @@
 }
 
 .form-group-div label {
-  display: block;
   font-size: 15px;
   margin-bottom: 5px;
 }
+.passwordCheckbox {
+  width: 13px;
+  margin: 0;
+}
 
-.form-group-div input {
+.UserAuthInput {
   transition: 0.2s;
   width: 95%;
   height: 3rem;
-  
 }
+
 .form-group-div select {
   transition: 0.2s border-color;
   width: 95%;
@@ -67,13 +71,13 @@
 
 .submit-btn input {
   border: none;
-  font-size: 16px;
+  font-size: 1rem;
   padding: 13px 0;
   border-radius: 7px;
   cursor: pointer;
   text-align: center;
   transition: 0.2s ease;
-  width: 30%;
+  width: 40%;
 }
 
 .goBack-btn {
@@ -91,9 +95,12 @@
 
 .invalidInput {
   background: #f9f0f1;
+  transition: 0.2s;
+  width: 95%;
+  height: 3rem;
 }
 
-.errorForm{
+.errorForm {
   color: red;
   font-size: 11px;
 }
