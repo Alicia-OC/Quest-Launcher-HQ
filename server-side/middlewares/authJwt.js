@@ -70,11 +70,10 @@ isUser = (req, res, next) => {
   });
 };
 
-
 const authJwt = {
   verifyToken,
   isAdmin,
   isUser,
-  isModerator
+  isModerator,
 };
-module.exports = authJwt;
+module.exports = { verifyToken, isAdmin, isUser, isModerator };

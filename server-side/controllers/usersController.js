@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 let User = UserSchema.User;
+const config = require("../config/auth.config.js");
 
 const getUser = asyncHandler(async (req, res) => {
   try {
@@ -130,19 +131,48 @@ const logUser = asyncHandler(async (req, res) => {
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (isPasswordValid) {
-      res.status(200).json({ message: "Authentication successful" });
-      res.send("ok");
-    } else {
-      res.status(401).json({ message: "Authentication failed" });
-      res.send("ok");
+    if (!isPasswordValid) {
+      return res.status(401).send({
+        accessToken: null,
+        message: "Invalid Password!",
+      });
     }
 
-    const token = jwt.sign({ userId: user._id, role: user.role });
+    const token = jwt.sign({ id: user._id }, config.secret, {
+      algorithm: "HS256",
+      allowInsecureKeySizes: true,
+      expiresIn: 86400, // 24 hours
+    });
+
+    let authorities = "ROLE_" + user.role.toUpperCase();
+
+    res.status(200).send({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      roles: authorities,
+      accessToken: token,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
+const allAccess = (req, res) => {
+  res.status(200).send("Public Content.");
+};
+
+const userBoard = (req, res) => {
+  res.status(200).send("User Content.");
+};
+
+const adminBoard = (req, res) => {
+  res.status(200).send("Admin Content.");
+};
+
+const moderatorBoard = (req, res) => {
+  res.status(200).send("Moderator Content.");
+};
 
 module.exports = {
   getUser,
@@ -150,4 +180,8 @@ module.exports = {
   updateUser,
   deleteUser,
   logUser,
+  allAccess,
+  userBoard,
+  adminBoard,
+  moderatorBoard,
 };
