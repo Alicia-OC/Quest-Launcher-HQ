@@ -16,17 +16,21 @@ const getUser = asyncHandler(async (req, res) => {
           role,
           active,
           requests,
+          templates,
+          title,
           creationDate,
         }) => {
           return {
             _id,
+            creationDate,
+            active,
+            role,
+            title,
             fullName,
             username,
             email,
-            role,
-            active,
+            templates,
             requests,
-            creationDate,
           };
         }
       );
@@ -39,9 +43,16 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 const createNewUser = asyncHandler(async (req, res) => {
-  const { fullName, username, password, role, email, creationDate } = req.body;
+  const { fullName, username, password, email, creationDate, title } = req.body;
 
-  if (!fullName || !username || !password || !role || !email || !creationDate) {
+  if (
+    !fullName ||
+    !username ||
+    !password ||
+    !title ||
+    !email ||
+    !creationDate
+  ) {
     return res.status(400).json({ message: "All fields are required" });
   }
   //check for username duplicatedUsername
@@ -65,7 +76,7 @@ const createNewUser = asyncHandler(async (req, res) => {
     username: username,
     email: email,
     password: hashedPwd,
-    role: role,
+    title: title,
   };
 
   const newUser = await User.create(userObject);
@@ -73,7 +84,7 @@ const createNewUser = asyncHandler(async (req, res) => {
   if (newUser) {
     console.log(newUser);
     res.status(201).json({
-      message: `New user ${username} with role ${role} has been succesfully created!`,
+      message: `New user ${username} with title ${title} has been succesfully created!`,
     });
   } else {
     res.status(400).json({ message: "Invalid data" });
@@ -85,18 +96,22 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @access Private
 
 const updateUser = asyncHandler(async (req, res) => {
-  const { userId, reqId } = req.body;
+  const { userId, reqId, templateId } = req.body;
 
-  const user = await User.findById(userId).exec();
-  if (!user) {
-    return res.status(400).json({ message: "User not found" });
+  try {
+    User.findById(userId).then((user) => {
+      if (reqId) {
+        user.requests.push(reqId);
+      }
+      if (templateId) {
+        user.templates.push(templateId);
+      }
+      user.save();
+      res.json({ message: `${user.username} requests updated` });
+    });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
-
-  user.requests.push(reqId);
-
-  const updatedUser = await user.save();
-
-  res.json({ message: `${updatedUser.username} requests updated` });
 });
 
 // @desc Update a user
@@ -108,13 +123,11 @@ const deleteUser = asyncHandler(async (req, res) => {});
 const logUser = asyncHandler(async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email: email });
 
     if (!user) {
       return res.status(500).json({ message: "User doesn't exist" });
     }
-
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (isPasswordValid) {
@@ -126,7 +139,6 @@ const logUser = asyncHandler(async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id, role: user.role });
-    
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

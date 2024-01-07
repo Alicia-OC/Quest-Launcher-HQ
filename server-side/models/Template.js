@@ -34,7 +34,6 @@ const gamesSchema = new mongoose.Schema({
 
 const languageSchema = new mongoose.Schema({
   creationDate: { type: String, required: true },
-
   language: { type: String, required: true },
   languageCode: { type: String, required: true },
 });
