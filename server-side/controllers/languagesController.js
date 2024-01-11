@@ -22,8 +22,8 @@ const getAllLanguages = asyncHandler(async (req, res) => {
 });
 
 const createNewLanguage = asyncHandler(async (req, res) => {
-  const { language, languageCode, creationDate } = req.body;
-  if (!language || !languageCode || !creationDate) {
+  const { language, languageCode } = req.body;
+  if (!language || !languageCode ) {
     return res.status(400).json({ message: "All fields are required" });
   }
   const languageDuplicate = await Language.findOne({ language }).lean().exec();
@@ -36,7 +36,6 @@ const createNewLanguage = asyncHandler(async (req, res) => {
   }
 
   const languageObject = {
-    creationDate: creationDate,
     language: language,
     languageCode: languageCode,
   };

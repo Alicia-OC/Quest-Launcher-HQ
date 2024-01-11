@@ -21,8 +21,8 @@ const getRoles = asyncHandler(async (req, res) => {
 });
 
 const createNewRole = asyncHandler(async (req, res) => {
-  const { name, creationDate } = req.body;
-  if (!name || !creationDate) {
+  const { name } = req.body;
+  if (!name) {
     return res.status(400).json({ message: "All fields are required" });
   }
   const roleDuplicated = await Role.findOne({ name }).lean().exec();
@@ -33,7 +33,6 @@ const createNewRole = asyncHandler(async (req, res) => {
   } 
 
   const roleObject = {
-    creationDate: creationDate,
     name: name
   };
 

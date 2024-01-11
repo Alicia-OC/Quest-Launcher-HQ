@@ -7,8 +7,8 @@ const getAllDevelopers = asyncHandler(async (req, res) => {
   try {
     Developer.find({}).then((data) => {
       const formattedDeveloper = data.map(
-        ({ _id, name, games, timezone, creationDate }) => {
-          return { _id, name, games, timezone, creationDate };
+        ({ _id, name, games, timezone }) => {
+          return { _id, name, games, timezone };
         }
       );
       if (!formattedDeveloper.length) {
@@ -24,8 +24,8 @@ const getAllDevelopers = asyncHandler(async (req, res) => {
 });
 
 const createnewDeveloper = asyncHandler(async (req, res) => {
-  const { name, games, timezone, creationDate } = req.body;
-  if (!name || !games || !timezone || !creationDate) {
+  const { name, games, timezone } = req.body;
+  if (!name || !games || !timezone ) {
     return res.status(400).json({ message: "All fields are required" });
   }
   const developerDuplicate = await Developer.findOne({ name }).lean().exec();
@@ -37,7 +37,6 @@ const createnewDeveloper = asyncHandler(async (req, res) => {
     name: name,
     games: games,
     timezone: timezone,
-    creationDate: creationDate,
   };
 
   const newDeveloper = await Developer.create(developerObject);

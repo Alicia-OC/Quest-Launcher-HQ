@@ -1,17 +1,19 @@
 const mongoose = require("mongoose");
 
-const vendorSchemaPlus = new mongoose.Schema({
-  creationDate: { type: String, required: true },
-  language: { type: String, required: true },
-  fullName: { type: String, required: true },
-  nickname: { type: String, required: true },
-  service: {
-    translation: { type: Boolean, default: true },
-    proofreading: { type: Boolean, default: false },
+const vendorSchemaPlus = new mongoose.Schema(
+  {
+    language: { type: String, required: true },
+    fullName: { type: String, required: true },
+    nickname: { type: String, required: true },
+    service: {
+      translation: { type: Boolean, default: true },
+      proofreading: { type: Boolean, default: false },
+    },
+    email: { type: String, required: true },
+    active: { type: Boolean, default: true },
   },
-  email: { type: String, required: true },
-  active: { type: Boolean, default: true },
-});
+  { timestamps: true }
+);
 const Vendor = mongoose.model("Vendor", vendorSchemaPlus);
 
 const vendorListSchema = {

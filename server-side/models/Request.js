@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const requestSchema = new mongoose.Schema({
-  creationDate: { type: String, required: true },
   userId: {
     type: String,
     required: false,
@@ -22,7 +21,8 @@ const requestSchema = new mongoose.Schema({
     translation: { type: String, required: false },
     proofreading: { type: String, required: false },
   },
-});
+},
+{ timestamps: true });
 
 const Request = mongoose.model("request", requestSchema);
 module.exports = { Request };

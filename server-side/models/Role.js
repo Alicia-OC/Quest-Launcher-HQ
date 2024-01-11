@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const roleSchema = new mongoose.Schema({
-  creationDate: { type: String, required: true },
   name: { type: String, required: true },
-});
+},
+{ timestamps: true });
 
 const Role = mongoose.model("Role", roleSchema);
 

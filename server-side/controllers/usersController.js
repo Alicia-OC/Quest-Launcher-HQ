@@ -19,11 +19,9 @@ const getUser = asyncHandler(async (req, res) => {
           requests,
           templates,
           title,
-          creationDate,
         }) => {
           return {
             _id,
-            creationDate,
             active,
             role,
             title,
@@ -44,51 +42,35 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 const createNewUser = asyncHandler(async (req, res) => {
-  const { fullName, username, password, email, creationDate, title } = req.body;
+  try {
+    const { fullName, username, password, email, title } = req.body;
+    const hashedPwd = await bcrypt.hash(password, 10); //10 salt rounds
+    const duplicatedUsername = await User.findOne({ username }).lean().exec();
+    const duplicatedEmail = await User.findOne({ email }).lean().exec();
 
-  if (
-    !fullName ||
-    !username ||
-    !password ||
-    !title ||
-    !email ||
-    !creationDate
-  ) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-  //check for username duplicatedUsername
+    if (duplicatedUsername || duplicatedEmail) {
+      return res.status(409).json({
+        message: "duplicated username or email, please choose a different one",
+      });
+    }
 
-  const duplicatedUsername = await User.findOne({ username }).lean().exec();
-  const duplicatedEmail = await User.findOne({ email }).lean().exec();
+    const userObject = {
+      fullName: fullName,
+      username: username,
+      email: email,
+      password: hashedPwd,
+      title: title,
+    };
+    const newUser = await User.create(userObject);
 
-  //The lean option tells Mongoose to skip hydrating the result documents. This makes queries faster and less memory intensive, but the result documents are plain old JavaScript objects
-  //exec() function is used to execute the query. It can handle promises and executes the query easily.
-
-  if (duplicatedUsername || duplicatedEmail) {
-    return res.status(409).json({
-      message: "duplicated username or email, please choose a different one",
-    });
-  }
-  const hashedPwd = await bcrypt.hash(password, 10); //10 salt rounds
-
-  const userObject = {
-    creationDate: creationDate,
-    fullName: fullName,
-    username: username,
-    email: email,
-    password: hashedPwd,
-    title: title,
-  };
-
-  const newUser = await User.create(userObject);
-
-  if (newUser) {
-    console.log(newUser);
-    res.status(201).json({
-      message: `New user ${username} with title ${title} has been succesfully created!`,
-    });
-  } else {
-    res.status(400).json({ message: "Invalid data" });
+    if (newUser) {
+      console.log(newUser);
+      res.status(200).json({
+        message: `New user ${username} with title ${title} has been succesfully created!`,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -138,14 +120,13 @@ const logUser = asyncHandler(async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id }, config.secret, {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       algorithm: "HS256",
       allowInsecureKeySizes: true,
-      expiresIn: 86400, // 24 hours
+      expiresIn: 3600, // 1 hour
     });
 
     let authorities = "ROLE_" + user.role.toUpperCase();
-
     res.status(200).send({
       id: user._id,
       username: user.username,
@@ -159,18 +140,23 @@ const logUser = asyncHandler(async (req, res) => {
 });
 
 const allAccess = (req, res) => {
+  console.log("public");
   res.status(200).send("Public Content.");
 };
 
 const userBoard = (req, res) => {
+  console.log("user");
+
   res.status(200).send("User Content.");
 };
 
 const adminBoard = (req, res) => {
+  console.log("admin");
   res.status(200).send("Admin Content.");
 };
 
 const moderatorBoard = (req, res) => {
+  console.log("moderator");
   res.status(200).send("Moderator Content.");
 };
 

@@ -18,7 +18,6 @@ const getAllTemplates = asyncHandler(async (req, res) => {
 
 const createTemplate = asyncHandler(async (req, res) => {
   const {
-    creationDate,
     templateTitle,
     game,
     developer,
@@ -31,7 +30,6 @@ const createTemplate = asyncHandler(async (req, res) => {
   } = req.body;
 
   console.log({
-    creationDate: creationDate,
     templateTitle: templateTitle,
     game: game,
     developer: developer,
@@ -44,14 +42,13 @@ const createTemplate = asyncHandler(async (req, res) => {
   });
 
   if (
-    !creationDate ||
     !templateTitle ||
     !introText ||
     !developer ||
     !game ||
     !languageTeam ||
     !attachments ||
-    !requirements 
+    !requirements
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -66,7 +63,6 @@ const createTemplate = asyncHandler(async (req, res) => {
     });
   }
   const templateObject = {
-    creationDate: creationDate,
     templateTitle: templateTitle,
     game: game,
     developer: developer,
@@ -75,7 +71,7 @@ const createTemplate = asyncHandler(async (req, res) => {
     languageTeam: languageTeam,
     attachments: attachments,
     requirements: requirements,
-    favorite: favorite
+    favorite: favorite,
   };
   const newTemplate = await Template.create(templateObject);
 
@@ -110,8 +106,15 @@ const deleteTemplate = asyncHandler(async (req, res) => {
 });
 
 const updateTemplate = asyncHandler(async (req, res) => {
-  const { id, templateTitle, introText, developer, game, instructions, favorite, creationDate } =
-    req.body;
+  const {
+    id,
+    templateTitle,
+    introText,
+    developer,
+    game,
+    instructions,
+    favorite,
+  } = req.body;
 
   const template = await Template.findById(id).exec();
 
@@ -124,13 +127,12 @@ const updateTemplate = asyncHandler(async (req, res) => {
   if (duplicate && duplicate?._id.toString() !== id) {
     return res.status(409).json({ message: "Duplicate title" });
   }
-  template.creationDate = creationDate;
   template.title = templateTitle;
   template.developer = developer;
   template.game = game;
   template.introText = introText;
   template.instructions = instructions;
-  template.favorite = favorite
+  template.favorite = favorite;
 
   const updatedTemplate = await template.save();
 

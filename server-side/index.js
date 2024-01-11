@@ -25,7 +25,7 @@ app.use("/request", require("./routes/requestRoutes"))
 app.use("/developers", require("./routes/developersRoutes"))
 app.use("/games", require("./routes/videogameRoutes"))
 app.use("/users", require("./routes/userRoutes"))
-app.use("/login", require("./routes/auth"))
+app.use("/auth", require("./routes/authRoutes"))
 app.use("/roles", require("./routes/rolesRoutes"))
 
 

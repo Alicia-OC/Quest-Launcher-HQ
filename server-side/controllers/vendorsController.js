@@ -20,8 +20,8 @@ const getAllVendors = asyncHandler(async (req, res) => {
 });
 
 const createNewVendor = asyncHandler(async (req, res) => {
-  const { fullName, nickname, language, service, email, creationDate } = req.body;
-  if ((!fullName, !nickname || !language || !service || !email || !creationDate)) {
+  const { fullName, nickname, language, service, email} = req.body;
+  if ((!fullName, !nickname || !language || !service || !email )) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -33,7 +33,6 @@ const createNewVendor = asyncHandler(async (req, res) => {
     return res.status(409).json({ message: "Duplicate nickname" });
   }
   const vendorObject = {
-    creationDate: creationDate,
     language: language,
     fullName: fullName,
     nickname: nickname,
