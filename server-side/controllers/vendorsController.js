@@ -15,47 +15,41 @@ const getAllVendors = asyncHandler(async (req, res) => {
       return formattedVendor;
     });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
 const createNewVendor = asyncHandler(async (req, res) => {
-  const { fullName, nickname, language, service, email} = req.body;
-  if ((!fullName, !nickname || !language || !service || !email )) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  //check for nickname duplicate
-  const duplicate = await Vendor.findOne({ nickname }).lean().exec();
-  //The lean option tells Mongoose to skip hydrating the result documents. This makes queries faster and less memory intensive, but the result documents are plain old JavaScript objects
-  //exec() function is used to execute the query. It can handle promises and executes the query easily.
-  if (duplicate) {
-    return res.status(409).json({ message: "Duplicate nickname" });
-  }
-  const vendorObject = {
-    language: language,
-    fullName: fullName,
-    nickname: nickname,
-    service: service,
-    email: email,
-  };
-  const newVendor = await Vendor.create(vendorObject);
-
-  if (newVendor) {
-    let serviceProvided;
-    if (service.translation && service.proofreading == true) {
-      serviceProvided = "TEP";
-    } else {
-      serviceProvided = "TRA";
+  try {
+    const { fullName, nickname, language, service, email } = req.body;
+    const duplicate = await Vendor.findOne({ nickname }).lean().exec();
+    if (duplicate) {
+      return res.status(409).json({ message: "Duplicate nickname" });
     }
-    
-    console.log(newVendor);
+    const vendorObject = {
+      language: language,
+      fullName: fullName,
+      nickname: nickname,
+      service: service,
+      email: email,
+    };
+    const newVendor = await Vendor.create(vendorObject);
 
-    res.status(201).json({
-      message: `New vendor ${nickname} created. The targate language is ${language}, and the service provided is ${serviceProvided}`,
-    });
-  } else {
-    res.status(400).json({ message: "Invalid data" });
+    if (newVendor) {
+      let serviceProvided;
+      if (service.translation && service.proofreading == true) {
+        serviceProvided = "TEP";
+      } else {
+        serviceProvided = "TRA";
+      }
+      console.log(newVendor);
+
+      res.status(201).json({
+        message: `New vendor ${nickname} created. The targate language is ${language}, and the service provided is ${serviceProvided}`,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 

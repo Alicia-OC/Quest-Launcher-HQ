@@ -21,34 +21,30 @@ const getRoles = asyncHandler(async (req, res) => {
 });
 
 const createNewRole = asyncHandler(async (req, res) => {
-  const { name } = req.body;
-  if (!name) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-  const roleDuplicated = await Role.findOne({ name }).lean().exec();
+  try {
+    const { name } = req.body;
+    const roleDuplicated = await Role.findOne({ name }).lean().exec();
 
-  if (roleDuplicated) {
-    res.status(409).json({ message: "role already in database" });
-    return;
-  } 
-
-  const roleObject = {
-    name: name
-  };
-
-  const newRole = await Role.create(roleObject);
-
-  if (newRole) {
-    res.status(201).json({
-      message: `New role '${name}'  has been created`,
+    if (roleDuplicated) {
+      res.status(409).json({ message: "role already in database" });
+      return;
+    }
+    const newRole = new Role({
+      name: name,
     });
-  } else {
-    res.status(400).json({ message: "Invalid data" });
+    const savedRole = await newRole.save();
+
+    if (savedRole) {
+      res.status(201).json({
+        message: `New role '${name}'  has been created`,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
-
 module.exports = {
-    getRoles,
-    createNewRole,
-  };
+  getRoles,
+  createNewRole,
+};

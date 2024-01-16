@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");
 const authJwt = require("../middlewares/authJwt");
+const authControllers = require("../controllers/auth");
 
-router.route("/").post(usersController.logUser);
+
+router.route("/").post(authControllers.login);
 
 router.route("/api/test/all").get(usersController.allAccess);
 router

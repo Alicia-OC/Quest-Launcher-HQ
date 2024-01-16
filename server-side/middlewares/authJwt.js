@@ -6,20 +6,22 @@ const RoleSchema = require("../models/Role");
 let User = UserSchema.User;
 let Role = RoleSchema.Role;
 
-verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
-
-  if (!token) {
-    return res.status(403).send({ message: "No token provided!" });
-  }
-
-  jwt.verify(token, config.secret, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({ message: "Unauthorized" });
+const verifyToken = (req, res, next) => {
+  try {
+    let token = req.headers["Authorization"];
+    if (!token) {
+      return res.status(403).send({ message: "Access Denied" });
     }
-    req.userId = decoded.id;
+    if (token.startsWith("Bearer")) {
+      // we want the token to start with 'Bearer ' which will be set in the frontend
+      token = token.slice(7, token.lench).trimLeft();
+    }
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = verified;
     next();
-  });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 isAdmin = (req, res, next) => {

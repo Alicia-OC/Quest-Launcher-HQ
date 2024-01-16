@@ -4,9 +4,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 let User = UserSchema.User;
 const config = require("../config/auth.config.js");
+const { Template } = require("../models/Template.js");
+const { Request } = require("../models/Request.js");
 
 const getUser = asyncHandler(async (req, res) => {
   try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    res.status(200).json(user);
     User.find({}).then((data) => {
       const formattedUser = data.map(
         ({
@@ -40,6 +45,120 @@ const getUser = asyncHandler(async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+const getUserTemplate = async (req, res) => {
+  try {
+    const { userId, templateId } = req.params;
+    const user = await User.findById(userId);
+    const template = await Template.findById(templateId);
+
+    if (user.templates.includes(templateId)) {
+      res.status(200).json(template);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const getUserRequest = async (req, res) => {
+  try {
+    const { userId, requestId } = req.params;
+    const user = await User.findById(userId);
+    const request = await Request.findById(requestId);
+
+    if (user.requests.includes(requestId)) {
+      res.status(200).json(request);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const getAllUserTemplates = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    const templates = await Promise.all(
+      user.templates.map((id) => Template.findById(id))
+    );
+
+    const formattedTemplates = templates.map(
+      ({
+        _id,
+        templateTitle,
+        game,
+        developer,
+        instructions,
+        introText,
+        attachments,
+        requirements,
+        favorite,
+      }) => {
+        return {
+          _id,
+          templateTitle,
+          game,
+          developer,
+          instructions,
+          introText,
+          attachments,
+          requirements,
+          favorite,
+        };
+      }
+    );
+    res.status(200).json(formattedTemplates);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const getAllUserRequests = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    const requests = await Promise.all(
+      user.requests.map((id) => Request.findById(id))
+    );
+    const formattedRequests = requests.map(
+      ({
+        _id,
+        projectTitle,
+        greeting,
+        introText,
+        instructions,
+        game,
+        mqproject,
+        wordcount,
+        files,
+        service,
+        languageTeam,
+        attachments,
+        requirements,
+        deadlines,
+      }) => {
+        return {
+          _id,
+          projectTitle,
+          greeting,
+          introText,
+          instructions,
+          game,
+          mqproject,
+          wordcount,
+          files,
+          service,
+          languageTeam,
+          attachments,
+          requirements,
+          deadlines,
+        };
+      }
+    );
+    res.status(200).json(formattedRequests);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 const createNewUser = asyncHandler(async (req, res) => {
   try {
@@ -74,70 +193,36 @@ const createNewUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Update a user
-// @route PATCH /users
-// @access Private
-
 const updateUser = asyncHandler(async (req, res) => {
-  const { userId, reqId, templateId } = req.body;
-
   try {
-    User.findById(userId).then((user) => {
-      if (reqId) {
+    const { userId, reqId, templateId } = req.body;
+    const user = await User.findById(userId);
+    console.log(user);
+
+    if (reqId) {
+      if (user.requests.includes(reqId)) {
+        user.requests = user.requests.filter((id) => id !== reqId);
+      } else {
         user.requests.push(reqId);
       }
-      if (templateId) {
-        user.templates.push(templateId);
+    }
+
+    if (templateId) {
+      if (user.templates.includes(templateId)) {
+        user.templates = user.templates.filter((id) => id !== templateId);
+      } else {
+        user.templates.push(reqId);
       }
-      user.save();
-      res.json({ message: `${user.username} requests updated` });
-    });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-// @desc Update a user
-// @route PATCH /users
-// @access Private
-
-const deleteUser = asyncHandler(async (req, res) => {});
-
-const logUser = asyncHandler(async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
-
-    if (!user) {
-      return res.status(500).json({ message: "User doesn't exist" });
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    await user.save();
 
-    if (!isPasswordValid) {
-      return res.status(401).send({
-        accessToken: null,
-        message: "Invalid Password!",
-      });
-    }
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      algorithm: "HS256",
-      allowInsecureKeySizes: true,
-      expiresIn: 3600, // 1 hour
-    });
-
-    let authorities = "ROLE_" + user.role.toUpperCase();
-    res.status(200).send({
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      roles: authorities,
-      accessToken: token,
-    });
+    res.json({ message: `${user.username} requests updated` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
+const deleteUser = asyncHandler(async (req, res) => {});
 
 const allAccess = (req, res) => {
   console.log("public");
@@ -165,9 +250,12 @@ module.exports = {
   createNewUser,
   updateUser,
   deleteUser,
-  logUser,
   allAccess,
   userBoard,
   adminBoard,
   moderatorBoard,
+  getUserTemplate,
+  getUserRequest,
+  getAllUserTemplates,
+  getAllUserRequests,
 };

@@ -2,3 +2,4 @@ node_modules/
 logs
 .env
 auth.config.js
+shortcuts.js

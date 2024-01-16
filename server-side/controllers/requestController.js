@@ -9,7 +9,6 @@ const getAllRequest = asyncHandler(async (req, res) => {
       const formattedRequest = data.map(
         ({
           _id,
-
           projectTitle,
           greeting,
           introText,
