@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 
 /* SMALL COMPONENTS */
-import RequestList from "../../features/templates/att-req-lists";
+import RequestList from "./elements/att-req-lists";
 import TextAreaComponent from "../../features/templates/textArea";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable";
 import PickServiceButtons from "./elements/PickServiceButtons";
@@ -125,7 +125,6 @@ function NewTemplate(props) {
     console.log(teamTable);
 
     const object = {
-      creationDate: new Date(),
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,
@@ -138,7 +137,6 @@ function NewTemplate(props) {
     };
 
     Axios.post(mongoDB_Template, {
-      creationDate: new Date(),
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,

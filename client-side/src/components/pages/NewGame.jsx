@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./NewTemplate.css";
 import CreateItems from "./elements/itemsList";
-import axios from "../../axios";
+import Axios from "axios";
+import { mongoDB_Games } from "../../apis";
 
 function NewGame() {
   const [developer, setDeveloper] = useState();
@@ -16,16 +17,14 @@ function NewGame() {
       title: title,
       links: {},
       languages: [],
-      creationDate: new Date(),
     };
     console.log(object);
 
-    axios.post('/games', {
+    Axios.post(mongoDB_Games, {
       developer: developer,
       title: title,
       links: links,
       languages: languages,
-      creationDate: new Date(),
     }).then();
   };
 

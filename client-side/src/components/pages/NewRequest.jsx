@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import axios from "../../axios.js";
 
 /* SMALL COMPONENTS */
-import RequestList from "../../features/templates/att-req-lists";
+import RequestList from "./elements/att-req-lists.jsx";
 import TextAreaComponent from "../../features/templates/textArea";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
@@ -127,7 +126,6 @@ function NewRequest(props) {
     setGreetings(document.getElementById("greetingsSelectOptions").value);
 
     const object = {
-      creationDate: new Date(),
       projectTitle: projectTitle,
       game: document.getElementById("gamesSelectOptions").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
@@ -145,7 +143,6 @@ function NewRequest(props) {
     console.log(object);
 
     Axios.post(mongoDB_Request, {
-      creationDate: new Date(),
       projectTitle: document.getElementById("projectTitleInput").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: initialParagraph,

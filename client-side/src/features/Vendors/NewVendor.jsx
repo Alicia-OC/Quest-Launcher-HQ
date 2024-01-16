@@ -32,7 +32,6 @@ const NewVendor = () => {
     console.log(language);
     const formErrors = validateForm();
     const newVendor = {
-      creationDate: new Date(),
       language: language,
       fullName: fullName,
       nickname: nickname,
@@ -42,7 +41,6 @@ const NewVendor = () => {
     console.log(newVendor);
 
     Axios.post(mongoDB_Vendors, {
-      creationDate: new Date(),
       language: newVendor.language,
       fullName: newVendor.fullName,
       nickname: newVendor.nickname,

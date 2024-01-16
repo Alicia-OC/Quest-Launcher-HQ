@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 /* SMALL COMPONENTS */
-import RequestList from "../../features/templates/att-req-lists";
+import RequestLists from "./elements/att-req-lists.jsx";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
 import NewInput from "./elements/NewInput.js";
@@ -267,7 +267,7 @@ function NewRequestFromTemplate() {
             }}
           />
 
-          <RequestList
+          <RequestLists
             sendTemplateAttachments={attachments}
             sendTemplateRequirements={requirements}
             getAttachments={(theseAttachments) =>

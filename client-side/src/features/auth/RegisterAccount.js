@@ -8,7 +8,7 @@ function NewUserCreation() {
   const [pwVisibility, setPwVisibility] = useState(false);
   const [userRegistrationInput, setUserRegistrationInput] =
     useState("UserAuthInput");
-  const [userRole, setUserRole] = useState();
+  const [userTitle, setUserTitle] = useState();
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -18,6 +18,7 @@ function NewUserCreation() {
   const [msgEmail, setMsgEmail] = useState();
   const [msgPassword, setMsgPassword] = useState();
   const [user, setUser] = useState();
+  const [newUser, setNewUser] = useState({});
 
   const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
@@ -88,29 +89,31 @@ function NewUserCreation() {
       username: username,
       email: email,
       password: password,
-      role: userRole,
+      title: userTitle,
     };
-
     Axios.post(mongoDB_Users, {
       fullName: fullName,
       username: username,
       email: email,
       password: password,
-      role: userRole,
-    }).catch((err) => {
-      console.log(err);
-      if (err) {
-        alert(
-          "Please check your username and email again, there seems to be a duplicate"
-        );
-      } else {
-        alert("User created succesfully!");
-      }
-    });
-    //.then(location.reload());
-  };
-  const [content, setContent] = useState();
+      title: userTitle,
+    })
+      .then(function (response) {
+        if (response.status == 200) {
+          alert("success");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err) {
+          alert(
+            "Please check your username and email again, there seems to be a duplicate"
+          );
+        }
+      });
 
+    //
+  };
   const goToLoginForm = (e) => {
     e.preventDefault();
     window.location.replace("/login");
@@ -223,11 +226,11 @@ function NewUserCreation() {
             ></input>
           </div>
           <div className="form-group-div">
-            <label>Role</label>
+            <label>Title</label>
             <select
-              id="userRole"
+              id="userTitle"
               onChange={(e) => {
-                setUserRole(e.target.value);
+                setUserTitle(e.target.value);
               }}
             >
               <option>Project Manager</option>
@@ -235,6 +238,7 @@ function NewUserCreation() {
               <option>Student</option>
               <option>Tester</option>
               <option>Recruiter</option>
+              <option>Linguist</option>
             </select>
           </div>
           <div className="form-group-div submit-btn">
