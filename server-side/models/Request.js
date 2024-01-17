@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const requestSchema = new mongoose.Schema({
   userId: {
     type: String,
-    required: false,
+    required: true,
   },
   projectTitle: { type: String, required: true },
   greeting: { type: String, required: true },

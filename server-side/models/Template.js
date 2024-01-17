@@ -4,7 +4,7 @@ const templateSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
-      required: false,
+      required: true,
     },
     favorite: { type: Boolean, required: false, default: false },
     templateTitle: { type: String, required: true },

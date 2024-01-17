@@ -22,32 +22,35 @@ const getAllLanguages = asyncHandler(async (req, res) => {
 });
 
 const createNewLanguage = asyncHandler(async (req, res) => {
-  const { language, languageCode } = req.body;
-  if (!language || !languageCode ) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-  const languageDuplicate = await Language.findOne({ language }).lean().exec();
-  const codeDuplicate = await Language.findOne({ languageCode }).lean().exec();
+  try {
+    const { language, languageCode } = req.body;
+    const languageDuplicate = await Language.findOne({ language })
+      .lean()
+      .exec();
+    const codeDuplicate = await Language.findOne({ languageCode })
+      .lean()
+      .exec();
 
-  if (languageDuplicate) {
-    res.status(409).json({ message: "Language already in database" });
-  } else if (codeDuplicate) {
-    res.status(409).json({ message: "Code language already in database" });
-  }
+    if (languageDuplicate) {
+      res.status(409).json({ message: "Language already in database" });
+    } else if (codeDuplicate) {
+      res.status(409).json({ message: "Code language already in database" });
+    }
 
-  const languageObject = {
-    language: language,
-    languageCode: languageCode,
-  };
+    const languageObject = {
+      language: language,
+      languageCode: languageCode,
+    };
 
-  const newLanguage = await Language.create(languageObject);
+    const newLanguage = await Language.create(languageObject);
 
-  if (newLanguage) {
-    res.status(201).json({
-      message: `New language: ${language} with code ${languageCode} has been created`,
-    });
-  } else {
-    res.status(400).json({ message: "Invalid data" });
+    if (newLanguage) {
+      res.status(201).json({
+        message: `New language: ${language} with code ${languageCode} has been created`,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 

@@ -54,37 +54,38 @@ const createNewVendor = asyncHandler(async (req, res) => {
 });
 
 const updateVendor = asyncHandler(async (req, res) => {
-  const { id, fullName, nickname, language, service, active } = req.body;
+  try {
+    const { id, fullName, nickname, language, service, active } = req.body;
 
-  if (!id || !fullName || !nickname || !language || !service) {
-    return res.status(400).json({ message: "All fields are required" });
+    //check for duplicate
+    const duplicate = await Vendor.findOne({ nickname }).lean().exec();
+
+    const updateDocument = {
+      $set: {
+        nickname: nickname,
+        service: { translation: translation, proofreading: proofreading },
+        active: active,
+      },
+    };
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-  //check for duplicate
-  const duplicate = await Vendor.findOne({ nickname }).lean().exec();
-
-  const updateDocument = {
-    $set: {
-      nickname: nickname,
-      service: { translation: translation, proofreading: proofreading },
-      active: active,
-    },
-  };
 });
 
 const deleteVendor = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  try {
+    const { id } = req.body;
+    const vendor = await Vendor.findById(id).exec();
 
-  if (!id) {
-    return res.status(400).json({ message: "User ID Required" });
+    if (!vendor) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    const result = await vendor.deleteOne();
+    const reply = `Vendor ${result.nickname} with ID ${result._id} deleted`;
+    res.status(200).json(reply);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-  const vendor = await Vendor.findById(id).exec();
-
-  if (!vendor) {
-    return res.status(400).json({ message: "User not found" });
-  }
-  const result = await vendor.deleteOne();
-  const reply = `Vendor ${result.nickname} with ID ${result._id} deleted`;
-  res.json(reply);
 });
 
 module.exports = {

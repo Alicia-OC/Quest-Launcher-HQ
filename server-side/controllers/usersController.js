@@ -215,7 +215,6 @@ const updateUser = asyncHandler(async (req, res) => {
       }
     }
     await user.save();
-
     res.json({ message: `${user.username} requests updated` });
   } catch (err) {
     res.status(500).json({ message: err.message });
