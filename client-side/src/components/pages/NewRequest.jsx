@@ -143,14 +143,16 @@ function NewRequest(props) {
     console.log(object);
 
     Axios.post(mongoDB_Request, {
-      projectTitle: document.getElementById("projectTitleInput").value,
+      userId: "placeholder",
+
+      projectTitle: projectTitle,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: initialParagraph,
       instructions: instructions,
       game: document.getElementById("gamesSelectOptions").value,
-      mqproject: document.getElementById("mqProjectInput").value,
-      wordcount: document.getElementById("wordcountInput").value,
-      files: document.getElementById("filesInput").value,
+      wordcount: wordcount,
+      mqproject: mqproject,
+      files: files,
       service: thisService,
       languageTeam: teamTable,
       attachments: attachments,

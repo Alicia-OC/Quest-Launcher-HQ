@@ -137,6 +137,7 @@ function NewTemplate(props) {
     };
 
     Axios.post(mongoDB_Template, {
+      userId: 'placeholder',
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,

@@ -65,8 +65,8 @@ function SoloRequest() {
     }
   };
 
-  let attachmentsLoop = attachments.map((item) => <li>{item}</li>);
-  let reqsLoop = requirements.map((item) => <li>{item}</li>);
+  let attachmentsLoop = attachments.map((item) => <li>{item.value}</li>);
+  let reqsLoop = requirements.map((item) => <li>{item.value}</li>);
 
   return (
     <div className="SoloRequest">
