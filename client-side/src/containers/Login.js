@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { mongoDB_Auth } from "../../apis";
-import "../../containers/css/RegistrationForm.css";
+import { mongoDB_Auth } from "../apis";
+import ".//css/RegistrationForm.css";
 import { Link } from "react-router-dom";
 
 const Login = () => {

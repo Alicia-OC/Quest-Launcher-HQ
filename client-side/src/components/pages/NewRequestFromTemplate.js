@@ -13,11 +13,11 @@ import NewInput from "./elements/NewInput.js";
 import NewTextArea from "./elements/NewTextArea.js";
 
 /* DATABASE DEPENDENCIES*/
-import CreateDeadlines from "../../features/templates/createDeadlines";
+import CreateDeadlines from "../../features/templates/createDeadlines.js";
 import { randomGreetings } from "../../apis.js";
 import { mongoDB_Request } from "../../apis.js";
 
-import GetTemplate from "../../features/templates/GetTemplate";
+import GetTemplate from "../../features/templates/GetTemplate.js";
 
 function NewRequestFromTemplate() {
   const template = GetTemplate();

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Home from "./containers/Home.jsx";
+import Home from "./containers/Home.js";
 import NoMatch from "./containers/NoMatch";
-import Login from "./features/auth/Login.js";
-import RegisterAccount from "./features/auth/RegisterAccount.js";
+import Login from "./containers/Login.js";
+import RegisterAccount from "./containers/RegisterAccount.js";
 import DashLayout from "./containers/DashLayout.js";
 import Library from "./components/pages/ProfileLibrary.js";
 import UserProfile from "./components/pages/Profile.js";
