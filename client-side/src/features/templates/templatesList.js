@@ -6,7 +6,6 @@ import StarButton from "../../components/pages/elements/StarButton.js";
 function TemplateList() {
   const navigate = useNavigate();
   const template = GetTemplate();
-  const [templateStarred, setTemplateStarred] = useState();
 
   const handleClick = (e, id) => {
     console.log(id);
@@ -15,21 +14,15 @@ function TemplateList() {
   };
 
   let templateArr = [];
+
   if (template) {
-    let isStarred;
-
     for (let i = 0; i < template.length; i++) {
-      if (template[i].favorite) {
-        isStarred = true;
-      } else {
-        isStarred = false;
-      }
-
+      console.log(template[i].favorite);
       templateArr.push(
         <li id={template[i]._id} value={template[i].templateTitle}>
           <a href={"Template/" + template[i]._id}>
             {" "}
-            {template[i].templateTitle} 
+            {template[i].templateTitle}
           </a>
           <button
             className=""
@@ -40,8 +33,8 @@ function TemplateList() {
             New
           </button>
           <StarButton
-            getStar={(star) => setTemplateStarred(star)}
-            isStarred={isStarred}
+            isStarred={template[i].favorite}
+            getId={template[i]._id}
           />
         </li>
       );

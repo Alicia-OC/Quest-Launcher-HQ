@@ -31,7 +31,6 @@ function App() {
   const [userLogged, setUser] = useState(true);
 
   const { REACT_APP_mongoDB_Auth } = process.env;
-  console.log(REACT_APP_mongoDB_Auth);
 
   return (
     <>

@@ -4,7 +4,7 @@ const deleteVendorById = async (e, props) => {
   let vendorID = JSON.stringify({ id: props });
   console.log(vendorID);
 
-  if (confirm("Are you sure?")) {
+  if (window.confirm("Are you sure?")) {
     fetch(mongoDB_Vendors, {
       method: "DELETE",
       crossDomain: true,
@@ -17,7 +17,7 @@ const deleteVendorById = async (e, props) => {
       .then((response) => {
         console.log(response);
         alert("vendor deleted");
-        location.reload();
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error.response);

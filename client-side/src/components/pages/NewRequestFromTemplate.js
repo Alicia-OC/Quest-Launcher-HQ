@@ -60,6 +60,9 @@ function NewRequestFromTemplate() {
 
   const randomgreeting = Math.floor(Math.random() * randomGreetings.length);
 
+  const listChanged = (e) => {
+    console.log(e.target.value);
+  };
 
 
   function handleChange() {
