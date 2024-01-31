@@ -9,4 +9,6 @@ router
   .patch(templateController.updateTemplate)
   .delete(templateController.deleteTemplate);
 
+router.patch("/:id", templateController.starTemplate);
+
 module.exports = router;

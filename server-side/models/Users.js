@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema(
       required: false,
       default: "65984704c535636095cf7791",
     },
+    organization: { type: String, required: false },
 
     templates: { type: Array, required: false, default: [""] },
     requests: { type: Array, required: false, default: [""] },

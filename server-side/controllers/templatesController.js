@@ -37,7 +37,7 @@ const createTemplate = asyncHandler(async (req, res) => {
       favorite,
     } = req.body;
     const user = await User.findById(userId);
-    
+
     const duplicate = await Template.findOne({ templateTitle }).lean().exec();
 
     if (duplicate) {
@@ -84,15 +84,8 @@ const deleteTemplate = asyncHandler(async (req, res) => {
 
 const updateTemplate = asyncHandler(async (req, res) => {
   try {
-    const {
-      id,
-      templateTitle,
-      introText,
-      developer,
-      game,
-      instructions,
-      favorite,
-    } = req.body;
+    const { id, templateTitle, introText, game, instructions, favorite } =
+      req.body;
 
     const template = await Template.findById(id).exec();
 
@@ -105,16 +98,43 @@ const updateTemplate = asyncHandler(async (req, res) => {
     if (duplicate && duplicate?._id.toString() !== id) {
       return res.status(409).json({ message: "Duplicate title" });
     }
-    template.title = templateTitle;
-    template.developer = developer;
-    template.game = game;
-    template.introText = introText;
-    template.instructions = instructions;
+
+    if (templateTitle) {
+      template.templateTitle = templateTitle;
+    }
+
+    if (game) {
+      template.game = game;
+    }
+    if (introText) {
+      template.introText = introText;
+    }
+    if (instructions) {
+      template.instructions = instructions;
+    }
+    if (favorite) {
+      template.favorite = favorite;
+    }
+
+    const updatedTemplate = await template.save();
+
+    res.json({ message: `${updatedTemplate.templateTitle} updated` });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+const starTemplate = asyncHandler(async (req, res) => {
+  try {
+    const { id, favorite } = req.body;
+    console.log(id);
+    const template = await Template.findById(id).exec();
     template.favorite = favorite;
 
     const updatedTemplate = await template.save();
 
-    res.json({ message: `${updatedTemplate.title} updated` });
+    res.json({ message: `${updatedTemplate.templateTitle} updated` });
+    console.log(template);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -125,4 +145,5 @@ module.exports = {
   createTemplate,
   deleteTemplate,
   updateTemplate,
+  starTemplate
 };
