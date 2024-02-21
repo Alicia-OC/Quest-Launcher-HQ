@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
-const GamesSchema = require("../models/Template");
+const GamesSchema = require("../models/Games");
 const Games = GamesSchema.Games;
 
 const getAllGames = asyncHandler(async (req, res) => {

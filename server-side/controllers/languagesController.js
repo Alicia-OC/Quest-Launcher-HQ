@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
-const LanguagesSchema = require("../models/Template");
+const LanguagesSchema = require("../models/Languages");
 const Language = LanguagesSchema.Language;
 
 const getAllLanguages = asyncHandler(async (req, res) => {

@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
-const DeveloperSchema = require("../models/Template");
+const DeveloperSchema = require("../models/Developers");
 const Developer = DeveloperSchema.Developer;
 
 const getAllDevelopers = asyncHandler(async (req, res) => {
