@@ -206,14 +206,16 @@ function NewRequestFromTemplate() {
             getInput={(title) => setprojectTitle(title)}
             placeholder="Write your request's title here"
           />
+          
           <div className="dropDownGreetings" data-type="select">
             <select
               id="greetingsSelectOptions"
               className="greetingsSelectOptions"
             >
               {GreetingsLoop}
-              <option value="Random greet">Random greet</option>
+              <option  value="Random greet">Random greet</option>
             </select>
+
           </div>
           <div className="introText" data-type="select">
             <NewTextArea

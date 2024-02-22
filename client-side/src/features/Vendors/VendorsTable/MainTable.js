@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { GetProofreaders, GetTranslators } from "../_GetVendorsData";
 import { baseLanguages2 } from "../../../apis";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import RemoveIcon from "@mui/icons-material/Remove";
 import SelectLanguage from "../../../components/pages/elements/SelectLanguage";
 import { GetFIGS } from "../../languagesList/fetchLanguages";
 
@@ -139,7 +138,7 @@ const MainTable = (props) => {
           HandleDelete(e);
         }}
       >
-        -
+        <RemoveIcon />
       </button>
     </tr>
   ));
@@ -159,7 +158,7 @@ const MainTable = (props) => {
           HandleDelete(e);
         }}
       >
-        -
+        <RemoveIcon />
       </button>
     </tr>
   ));
@@ -184,7 +183,7 @@ const MainTable = (props) => {
           HandleDelete(e);
         }}
       >
-        -
+        <RemoveIcon />
       </button>
     </tr>
   ));
@@ -247,16 +246,14 @@ const MainTable = (props) => {
   if (!requestService) {
     return (
       <div className="MainTable">
-        <table>{RowContent('TEP')}</table>
+        <table>{RowContent("TEP")}</table>
         <div className="AddLanguageButton">
           <SelectLanguage value={additionalLanguage} onChange={handleChange} />
           <button onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
         </div>
       </div>
     );
-
   } else {
-    
     return (
       <div className="MainTable">
         <table>{RowContent(requestService)}</table>

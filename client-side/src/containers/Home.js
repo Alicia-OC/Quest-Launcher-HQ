@@ -1,30 +1,44 @@
-import { Route, Routes, Link } from "react-router-dom";
 import Public from "./Public";
+import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 
 const Public2 = () => {
   const content = (
     <div>
       {" "}
       <Public />
-      <img
-        alt="babybel"
-        id="babybel"
-        className="templateScreenshot"
-        src="https://m.media-amazon.com/images/I/81YDkr7Ti6L._AC_SL1500_.jpg"
-      />
+      <img alt="babybel" id="babybel" className="templateScreenshot" />
     </div>
   );
 
   return content;
 };
 
-const userLoggedBody = () => {
+const UserLoggedBody = () => {
+  const isNonMobile = useMediaQuery("(min-width:600px)");
+
   const content = (
-    <div className="">
-      {" "}
-      <h1>You're logged</h1>
-      
-    </div>
+    <Box>
+      <Box
+        display="grid"
+        gap="30px"
+        gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+        sx={{
+          "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+        }}
+      >
+        <h3>fsd</h3>{" "}
+      </Box>{" "}
+      <Box
+        display="grid"
+        gap="30px"
+        gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+        sx={{
+          "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+        }}
+      >
+        <h3>fsd</h3>{" "}
+      </Box>{" "}
+    </Box>
   );
   return content;
 };
@@ -32,8 +46,8 @@ const userLoggedBody = () => {
 function Home(props) {
   let userLogged = props.isUserLoged;
 
-  if (userLogged) {
-    return userLoggedBody();
+  if (!userLogged) {
+    return UserLoggedBody();
   } else {
     return Public2();
   }

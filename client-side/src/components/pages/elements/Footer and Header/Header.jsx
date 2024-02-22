@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 
 function Navbar(userLogged) {
-  let userName = "Alicia";
+  //const user = useSelector((state) => state.user);
+  const user2 = useSelector((state) => state.token);
+  console.log(user2);
+  const user = { fullName: "Alicia" };
+  console.log(user);
 
   if (userLogged) {
     return (
@@ -14,7 +19,7 @@ function Navbar(userLogged) {
             <Link to="/">Home</Link>
           </div>
           <div className="NavbarItem-right" id="NavbarUser">
-            <button className="NavbarButton">{userName}</button>
+            <button className="NavbarButton">{user.fullName}</button>
             <div class="dropdown-content">
               <Link to="/Profile">Profile</Link>
               <Link to="/Library">Library</Link>
@@ -36,7 +41,6 @@ function Navbar(userLogged) {
               <Link to="/NewGame">Game</Link>
               <Link to="/NewVendor">Vendor</Link>
               <Link to="/register">Account</Link>
-
             </div>
           </div>
         </nav>
@@ -55,7 +59,6 @@ function Navbar(userLogged) {
             {" "}
             <Link to="/login">Log in </Link>
             <Link to="/register">New User</Link>
-
           </div>
         </nav>
       </>

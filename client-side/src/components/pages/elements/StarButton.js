@@ -1,10 +1,11 @@
 import { React, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import Axios from "axios";
 import { mongoDB_Template } from "../../../apis";
 import { useEffect } from "react";
+
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+
 
 function StarButton(props) {
   const isStarred = props.isStarred;
@@ -28,7 +29,7 @@ function StarButton(props) {
 
   return (
     <button onClick={(e) => handleChange(e)}>
-      <FontAwesomeIcon icon={starred ? faStarSolid : faStarRegular} />
+      {starred ? <StarIcon /> : < StarBorderOutlinedIcon/>}
     </button>
   );
 }

@@ -16,9 +16,9 @@ import { initialParagraph, mongoDB_Template } from "../../apis";
 import { GetDevelopers } from "../../features/developersList/fetchDevelopers";
 import { GetGames } from "../../features/Games/fetchGames";
 
-/* FONTAWESOME */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+/* MUI */
+
+import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
 
 /* CSS */
 import "./NewTemplate.css";
@@ -178,7 +178,7 @@ function NewTemplate(props) {
                 {GamesLoop}{" "}
               </select>
               <button>
-                <FontAwesomeIcon icon={faPenToSquare} />
+                <BorderColorRoundedIcon/>
               </button>
             </div>
             <div className="clientDiv">
