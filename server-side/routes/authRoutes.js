@@ -5,7 +5,9 @@ const authJwt = require("../middlewares/authJwt");
 const authControllers = require("../controllers/auth");
 
 
-router.route("/").post(authControllers.login);
+router.route("/login").post(authControllers.login);
+router.route("/signup").post(authControllers.register);
+
 
 router.route("/api/test/all").get(usersController.allAccess);
 router

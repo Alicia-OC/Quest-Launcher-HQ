@@ -17,7 +17,6 @@ const getUser = asyncHandler(async (req, res) => {
         ({
           _id,
           fullName,
-          username,
           email,
           role,
           active,
@@ -31,7 +30,6 @@ const getUser = asyncHandler(async (req, res) => {
             role,
             title,
             fullName,
-            username,
             email,
             templates,
             requests,
@@ -160,39 +158,6 @@ const getAllUserRequests = async (req, res) => {
   }
 };
 
-const createNewUser = asyncHandler(async (req, res) => {
-  try {
-    const { fullName, username, password, email, title } = req.body;
-    const hashedPwd = await bcrypt.hash(password, 10); //10 salt rounds
-    const duplicatedUsername = await User.findOne({ username }).lean().exec();
-    const duplicatedEmail = await User.findOne({ email }).lean().exec();
-
-    if (duplicatedUsername || duplicatedEmail) {
-      return res.status(409).json({
-        message: "duplicated username or email, please choose a different one",
-      });
-    }
-
-    const userObject = {
-      fullName: fullName,
-      username: username,
-      email: email,
-      password: hashedPwd,
-      title: title,
-    };
-    const newUser = await User.create(userObject);
-
-    if (newUser) {
-      console.log(newUser);
-      res.status(200).json({
-        message: `New user ${username} with title ${title} has been succesfully created!`,
-      });
-    }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
 const updateUser = asyncHandler(async (req, res) => {
   try {
     const { userId, reqId, templateId } = req.body;
@@ -215,7 +180,7 @@ const updateUser = asyncHandler(async (req, res) => {
       }
     }
     await user.save();
-    res.json({ message: `${user.username} requests updated` });
+    res.json({ message: `${user.email} requests updated` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -246,7 +211,6 @@ const moderatorBoard = (req, res) => {
 
 module.exports = {
   getUser,
-  createNewUser,
   updateUser,
   deleteUser,
   allAccess,

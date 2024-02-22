@@ -7,31 +7,32 @@ const config = require("../config/auth.config.js");
 
 const register = asyncHandler(async (req, res) => {
   try {
-    const { fullName, username, password, email, title } = req.body;
+    const { fullName, password, username, email, title } = req.body;
+
     const hashedPwd = await bcrypt.hash(password, 10); //10 salt rounds
-    const duplicatedUsername = await User.findOne({ username }).lean().exec();
     const duplicatedEmail = await User.findOne({ email }).lean().exec();
 
-    if (duplicatedUsername || duplicatedEmail) {
+    if (duplicatedEmail) {
       return res.status(409).json({
-        message: "duplicated username or email, please choose a different one",
+        message: "duplicated email, please choose a different one",
       });
     }
 
     const userObject = {
       fullName: fullName,
-      username: username,
       email: email,
+      username: username,
       password: hashedPwd,
       title: title,
     };
     const newUser = await User.create(userObject);
 
     if (newUser) {
-      console.log(newUser);
       res.status(200).json({
-        message: `New user ${username} with title ${title} has been succesfully created!`,
+        message: `New user with title ${title} has been succesfully created!`,
       });
+    } else {
+      console.log("error");
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -60,7 +61,6 @@ const login = asyncHandler(async (req, res) => {
       allowInsecureKeySizes: true,
       expiresIn: 3600, // 1 hour
     });
-
     delete user.password; //make sure the pw isn't sent to the frontend for security
 
     let authorities = "ROLE_" + user.role.toUpperCase();
@@ -68,7 +68,6 @@ const login = asyncHandler(async (req, res) => {
       user,
       token,
     });
-    
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

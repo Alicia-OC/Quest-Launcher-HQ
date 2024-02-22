@@ -127,14 +127,12 @@ const updateTemplate = asyncHandler(async (req, res) => {
 const starTemplate = asyncHandler(async (req, res) => {
   try {
     const { id, favorite } = req.body;
-    console.log(id);
     const template = await Template.findById(id).exec();
     template.favorite = favorite;
 
     const updatedTemplate = await template.save();
 
     res.json({ message: `${updatedTemplate.templateTitle} updated` });
-    console.log(template);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
