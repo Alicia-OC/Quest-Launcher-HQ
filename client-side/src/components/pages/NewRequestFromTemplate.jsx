@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-
 /* SMALL COMPONENTS */
 import RequestLists from "./elements/att-req-lists.jsx";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
@@ -64,6 +61,7 @@ function NewRequestFromTemplate() {
     console.log(e.target.value);
   };
 
+ console.log(languageTeam);
 
   function handleChange() {
     let greetingValue = document.querySelector("#greetingsSelectDropdown");
@@ -266,6 +264,7 @@ function NewRequestFromTemplate() {
           <MainTable
             getService={(serviceCall) => setThisService(serviceCall)}
             getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+            languageTeam={languageTeam}
             service={thisService}
             onChange={(e) => {
               tableChanged(e);

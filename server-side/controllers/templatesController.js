@@ -59,9 +59,8 @@ const createTemplate = asyncHandler(async (req, res) => {
       };
       const newTemplate = await Template.create(templateObject);
       console.log("Template created!");
-      res.status(201).json({
-        message: `New template titled ${templateTitle} has been created.`,
-      });
+      console.log(newTemplate._id);
+      res.status(201).send(newTemplate._id);
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -143,5 +142,5 @@ module.exports = {
   createTemplate,
   deleteTemplate,
   updateTemplate,
-  starTemplate
+  starTemplate,
 };

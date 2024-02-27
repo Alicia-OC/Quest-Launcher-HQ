@@ -3,12 +3,24 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 
+import { setLogout } from "../../../../state";
+import { useDispatch } from "react-redux";
+import {
+  Box,
+  IconButton,
+  InputBase,
+  Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
+
 function Navbar(userLogged) {
-  //const user = useSelector((state) => state.user);
-  const user2 = useSelector((state) => state.token);
-  console.log(user2);
-  const user = { fullName: "Alicia" };
-  console.log(user);
+  const dispatch = useDispatch();
+
+  const userName = useSelector((state) => state.user.fullName);
 
   if (userLogged) {
     return (
@@ -19,12 +31,13 @@ function Navbar(userLogged) {
             <Link to="/">Home</Link>
           </div>
           <div className="NavbarItem-right" id="NavbarUser">
-            <button className="NavbarButton">{user.fullName}</button>
+            <button className="NavbarButton">{userName}</button>
             <div class="dropdown-content">
               <Link to="/Profile">Profile</Link>
               <Link to="/Library">Library</Link>
 
               <Link to="/"> Log out</Link>
+              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </div>
           </div>
           <div className="NavbarItem-right" id="NavbarFav">

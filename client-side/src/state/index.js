@@ -18,10 +18,12 @@ export const authSlice = createSlice({
     setLogin: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+      state.id = action.payload.id;
     },
     setLogout: (state) => {
       state.user = null;
       state.token = null;
+      state.id = null;
     },
     setTemplates: (state, action) => {
       if (state.user) {

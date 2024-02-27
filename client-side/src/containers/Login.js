@@ -22,6 +22,7 @@ const Login = (props) => {
 
   /** */
   const handleSubmit = (e) => {
+    console.log('dasd');
     e.preventDefault();
 
     Axios.post(mongoDB_Auth + "/login", {
@@ -32,11 +33,11 @@ const Login = (props) => {
         if (response.status == 200) {
           dispatch(
             setLogin({
-              user: response.data.user.email,
+              user: response.data.user,
               token: response.data.token,
             })
           );
-          //window.location.replace("/");
+          window.location.replace("/");
         } 
       })
       .catch((err) => console.log(err));

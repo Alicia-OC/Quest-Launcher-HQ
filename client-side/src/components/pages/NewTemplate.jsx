@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 /* SMALL COMPONENTS */
 import RequestList from "./elements/att-req-lists";
@@ -18,7 +19,7 @@ import { GetGames } from "../../features/Games/fetchGames";
 
 /* MUI */
 
-import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
+import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 
 /* CSS */
 import "./NewTemplate.css";
@@ -36,6 +37,12 @@ function NewTemplate(props) {
     "Write a small instroduction to the project here."
   );
   const [templateStarred, setTemplateStarred] = useState(false);
+  const [thisListOfLanguages, setThisListOfLanguages] = useState();
+
+  const user = useSelector((state) => state.user); //
+  const userId = useSelector((state) => state.id);
+  console.log(userId);
+  console.log(user);
 
   const DB_devs = GetDevelopers();
   const DB_games = GetGames();
@@ -118,6 +125,7 @@ function NewTemplate(props) {
    */
 
   function HandleSubmit(e) {
+    console.log();
     e.preventDefault();
 
     let attFormatted = attachments.map((att) => att.value);
@@ -130,25 +138,29 @@ function NewTemplate(props) {
       developer: developer,
       instructions: instructions,
       introText: introText,
-      languageTeam: teamTable,
+      languageTeam: thisListOfLanguages,
       attachments: attachments,
       requirements: requirements,
       favorite: templateStarred,
     };
 
     Axios.post(mongoDB_Template, {
-      userId: 'placeholder',
+      userId: { user },
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,
       instructions: instructions,
-      languageTeam: teamTable,
+      languageTeam: thisListOfLanguages,
       introText: introText,
       favorite: templateStarred,
       attachments: attFormatted,
       requirements: reqFormatted,
     })
       .then(alert(`New template ${templateTitle} has been created!`))
+      .then(function (response) {
+        const id = response.data;
+        window.location.replace(`/Template/${response.data}`);
+      })
       .catch((err) => console.log(err));
 
     //.then(location.reload());
@@ -165,7 +177,10 @@ function NewTemplate(props) {
               getInput={(title) => setTemplateTitle(title)}
               placeholder="Write your template's title here"
             />{" "}
-            <StarButton getStar={(star) => setTemplateStarred(star)} />
+            <StarButton
+              getStar={(star) => setTemplateStarred(star)}
+              isToUpdateBackend={false}
+            />
           </div>
           <div className="gamesDiv">
             <div>
@@ -178,7 +193,7 @@ function NewTemplate(props) {
                 {GamesLoop}{" "}
               </select>
               <button>
-                <BorderColorRoundedIcon/>
+                <BorderColorRoundedIcon />
               </button>
             </div>
             <div className="clientDiv">
@@ -211,6 +226,9 @@ function NewTemplate(props) {
         <MainTable
           getService={(serviceCall) => setThisService(serviceCall)}
           getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+          getLanguages={(thisListOfLanguages) =>
+            setThisListOfLanguages(thisListOfLanguages)
+          }
           service={thisService}
           onChange={(e) => {
             tableChanged(e);

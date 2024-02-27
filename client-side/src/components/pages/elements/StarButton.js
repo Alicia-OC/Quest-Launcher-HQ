@@ -1,20 +1,19 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Axios from "axios";
 import { mongoDB_Template } from "../../../apis";
-import { useEffect } from "react";
 
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 
 function StarButton(props) {
   const isStarred = props.isStarred;
   const id = props.getId;
+  const isToUpdateBackend = props.isToUpdateBackend;
   const [starred, setStarred] = useState(isStarred);
   const [isUpdated, setIsUpdated] = useState(false);
 
   useEffect(() => {
-    if (isUpdated) {
+    if (isUpdated && isToUpdateBackend) {
       Axios.patch(mongoDB_Template + `/${id}`, { id: id, favorite: starred })
         .then((response) => console.log(response.data))
         .catch((error) => console.error(error));
@@ -29,7 +28,7 @@ function StarButton(props) {
 
   return (
     <button onClick={(e) => handleChange(e)}>
-      {starred ? <StarIcon /> : < StarBorderOutlinedIcon/>}
+      {starred ? <StarIcon /> : <StarBorderOutlinedIcon />}
     </button>
   );
 }

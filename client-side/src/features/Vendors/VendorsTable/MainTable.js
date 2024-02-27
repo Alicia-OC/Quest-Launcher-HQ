@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GetProofreaders, GetTranslators } from "../_GetVendorsData";
 import { baseLanguages2 } from "../../../apis";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -8,11 +8,8 @@ import { GetFIGS } from "../../languagesList/fetchLanguages";
 const MainTable = (props) => {
   let requestService = props.service;
 
-  /** useState const */
   const [additionalLanguage, setAdditionalLanguage] = useState();
-  const [updateTable, setUpdateTable] =
-    useState(); /**no idea why this is working and why this
-  usestate updates the table when there are changes */
+  const [updateTable, setUpdateTable] = useState();
 
   /**backend data */
   const translators = GetTranslators();
@@ -23,6 +20,7 @@ const MainTable = (props) => {
       figs
     ); /**no idea why this isnt working, the .push in NewLanguagesButtonClicked
   doesn't push any item to this array */
+
   let this_handoff_added_lang = baseLanguages2;
 
   /** 1. Stores in a const the language that triggered the delete function
@@ -61,12 +59,13 @@ const MainTable = (props) => {
     e.preventDefault();
 
     if (!this_handoff_added_lang.includes(additionalLanguage)) {
+      
       this_handoff_added_lang.push(additionalLanguage);
+
       setUpdateTable(RowContent(requestService));
-      return;
-    } else {
-      console.log("fail");
-    }
+
+      props.getLanguages(this_handoff_added_lang) //send language list to main component NewTemplate.jsx
+    } 
   };
 
   /**1. Function takes a language in scope as parameter, loops through the translators const,

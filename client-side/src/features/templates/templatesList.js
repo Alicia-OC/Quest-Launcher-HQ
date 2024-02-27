@@ -17,7 +17,6 @@ function TemplateList() {
 
   if (template) {
     for (let i = 0; i < template.length; i++) {
-      console.log(template[i].favorite);
       templateArr.push(
         <li id={template[i]._id} value={template[i].templateTitle}>
           <a href={"Template/" + template[i]._id}>
@@ -35,6 +34,7 @@ function TemplateList() {
           <StarButton
             isStarred={template[i].favorite}
             getId={template[i]._id}
+            isToUpdateBackend={true}
           />
         </li>
       );

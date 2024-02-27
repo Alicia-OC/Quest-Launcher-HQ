@@ -43,7 +43,6 @@ const login = asyncHandler(async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
-    console.log(user);
     if (!user) {
       return res.status(400).json({ msg: "User doesn't exist" });
     }
@@ -64,7 +63,8 @@ const login = asyncHandler(async (req, res) => {
     delete user.password; //make sure the pw isn't sent to the frontend for security
 
     let authorities = "ROLE_" + user.role.toUpperCase();
-    res.status(200).send({
+
+    res.status(200).json({
       user,
       token,
     });

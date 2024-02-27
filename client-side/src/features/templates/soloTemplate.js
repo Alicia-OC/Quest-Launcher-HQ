@@ -32,52 +32,6 @@ function SoloTemplate() {
     requirements,
   } = requestObject;
 
-  let teamTableLoop = () => {
-    let array = [];
-
-    if (languageTeam[0] === null) {
-      console.log("test");
-    }
-
-    if (languageTeam[0] === null) {
-      return (
-        <p1>
-          <FontAwesomeIcon icon={faTriangleExclamation} />
-          <b>No team settled for this template</b>
-        </p1>
-      );
-    } else {
-      for (let i = 0; i < languageTeam.length; i++) {
-        let object = (
-          <tr>
-            <td className="languageColumnSoloRequest">{languageTeam[i].language}</td>
-            <td>{languageTeam[i].translator}</td>
-            <td>{languageTeam[i].proofreader}</td>
-          </tr>
-        );
-        array.push(object);
-      }
-      return (
-        <>
-          <label>
-            {" "}
-            <u>Standard Team:</u>
-          </label>
-          <br />
-          <br />
-          <table>
-            <thead>
-              <th></th>
-              <th>Translation</th>
-              <th>Proofreading</th>
-            </thead>
-            <tbody>{array}</tbody>
-          </table>
-        </>
-      );
-    }
-  };
-
   let instructionsBlock = () => {
     if (!instructions) {
       return "";
@@ -92,10 +46,10 @@ function SoloTemplate() {
 
   let attachmentsLoop = attachments.map((item) => <li>{item}</li>);
   let reqsLoop = requirements.map((item) => <li>{item}</li>);
+  let langsLoop = languageTeam.map((item)=> `${item}, `)
 
   const handleClick = (e) => {
     e.preventDefault();
-    console.log(0);
     navigate("/NewRequestFromTemplate/" + _id);
   };
 
@@ -119,12 +73,12 @@ function SoloTemplate() {
         <br /> <br />
         <p1>{introText}</p1>
         <br /> <br />
-        <label>Specific instructions: </label>
+        <label><b>Specific instructions: </b></label>
         {instructionsBlock()}
         <br />
       </div>
       <br />
-      <div className="teamTableDisplayed">{teamTableLoop()}</div>
+      <div className="teamTableDisplayed"><label><b>Languages included:</b></label><p1>{langsLoop}</p1></div>
       <br />{" "}
       <div className="req-att-list">
         <label>Attachments list</label> <br></br>
