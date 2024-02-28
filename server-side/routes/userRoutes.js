@@ -11,11 +11,11 @@ router
 
 router.get("/:id", authJwt.verifyToken, usersController.getUser);
 
-router.get("/:id/:id/template", authJwt.verifyToken, usersController.getUserTemplate);
-router.get("/:id/:id/request", authJwt.verifyToken, usersController.getUserRequest);
+router.get("/:userId/:templateId/template", authJwt.verifyToken, usersController.getUserTemplate);
+router.get("/:userId/:requestId/request", authJwt.verifyToken, usersController.getUserRequest);
 
-router.get("/:id/alltemplates", authJwt.verifyToken, usersController.getAllUserTemplates);
-router.get("/:id/allrequests", authJwt.verifyToken, usersController.getAllUserRequests);
+router.get("/:userId/alltemplates", authJwt.verifyToken, usersController.getAllUserTemplates);
+router.get("/:userId/allrequests", authJwt.verifyToken, usersController.getAllUserRequests);
 
 
 /**

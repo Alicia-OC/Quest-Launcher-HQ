@@ -7,19 +7,27 @@ let User = UserSchema.User;
 let Role = RoleSchema.Role;
 
 const verifyToken = (req, res, next) => {
+
   try {
-    let token = req.headers["Authorization"];
+    let token = req.headers.authorization;
     if (!token) {
-      return res.status(403).send({ message: "Access Denied" });
+
+      return res.status(403).send({ message: "dasd" });
     }
+
     if (token.startsWith("Bearer")) {
       // we want the token to start with 'Bearer ' which will be set in the frontend
       token = token.slice(7, token.lench).trimLeft();
     }
+
     const verified = jwt.verify(token, process.env.JWT_SECRET);
+
     req.user = verified;
+
     next();
   } catch (err) {
+    console.log("error");
+
     res.status(500).json({ message: err.message });
   }
 };

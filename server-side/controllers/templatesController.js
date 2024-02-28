@@ -5,6 +5,16 @@ const asyncHandler = require("express-async-handler");
 const Template = TemplateSchemas.Template;
 const User = UserSchema.User;
 
+const getUserTemplates = asyncHandler(async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const template = await Template.find({ userId });
+    res.status(200).json(template);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+});
+
 const getAllTemplates = asyncHandler(async (req, res) => {
   try {
     Template.find({}).then((data) => {
@@ -60,7 +70,7 @@ const createTemplate = asyncHandler(async (req, res) => {
       const newTemplate = await Template.create(templateObject);
       console.log("Template created!");
       console.log(newTemplate._id);
-      res.status(201).send(newTemplate._id);
+      res.status(200).send(newTemplate._id);
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -143,4 +153,5 @@ module.exports = {
   deleteTemplate,
   updateTemplate,
   starTemplate,
+  getUserTemplates
 };

@@ -72,9 +72,12 @@ const getUserRequest = async (req, res) => {
 };
 
 const getAllUserTemplates = async (req, res) => {
+  console.log('dsads');
   try {
-    const { id } = req.params;
-    const user = await User.findById(id);
+    const { userId  } = req.params;
+
+    const user = await User.findById(userId );
+
     const templates = await Promise.all(
       user.templates.map((id) => Template.findById(id))
     );
@@ -176,7 +179,7 @@ const updateUser = asyncHandler(async (req, res) => {
       if (user.templates.includes(templateId)) {
         user.templates = user.templates.filter((id) => id !== templateId);
       } else {
-        user.templates.push(reqId);
+        user.templates.push(reqId)
       }
     }
     await user.save();

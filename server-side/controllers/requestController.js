@@ -95,9 +95,7 @@ const createNewRequest = asyncHandler(async (req, res) => {
       const newRequest = await Request.create(requestObject);
       console.log(newRequest);
 
-      res.status(201).json({
-        message: `New Request titled ${projectTitle} has been created. You will receive a mail with the Request to be sent!`,
-      });
+      res.status(200).send(newRequest._id);
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
