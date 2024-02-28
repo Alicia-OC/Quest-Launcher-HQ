@@ -30,6 +30,13 @@ export const authSlice = createSlice({
         state.user.templates = action.payload.templates;
       } else console.log("You haven't created any template yet");
     },
+
+    setFavTemplates: (state, action) => {
+      if (state.user) {
+        state.user.favTemplates = action.payload.favTemplates;
+      } else console.log("no fav templates yet");
+    },
+
     setRequests: (state, action) => {
       if (state.user) {
         state.user.requests = action.payload.requests;
@@ -69,6 +76,7 @@ export const {
   setRequest,
   setTemplate,
   setOrganization,
+  setFavTemplates
 } = authSlice.actions;
 
-export default authSlice.reducer
+export default authSlice.reducer;

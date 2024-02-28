@@ -2,7 +2,7 @@ import "./css/Containers.css";
 import { Outlet } from "react-router-dom";
 import Header from "../components/pages/elements/Footer and Header/Header.jsx";
 import Footer from "../components/pages/elements/Footer and Header/Footer.jsx";
-import SideMenu from "../components/pages/widgets/SideMenu.jsx";
+import SideMenu from "./SideMenu.js";
 
 const DashLayout = (props) => {
   let userLogged = props.isUserLoged;

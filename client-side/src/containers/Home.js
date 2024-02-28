@@ -16,14 +16,13 @@ const Public2 = () => {
 };
 
 const UserLoggedBody = () => {
-  const userName = useSelector((state) => state.user.fullName);
+  const user = useSelector((state) => state.user);
 
-  const userId = useSelector((state) => state.id);
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const content = (
     <Box>
-      <p>Welcome, {userName} &#9825;</p>
+      <p>Welcome, {user.fullName} &#9825;</p>
       <Box
         display="grid"
         gap="30px"

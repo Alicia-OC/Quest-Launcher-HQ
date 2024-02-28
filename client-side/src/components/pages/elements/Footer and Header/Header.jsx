@@ -20,7 +20,7 @@ import {
 function Navbar(userLogged) {
   const dispatch = useDispatch();
 
-  const userName = useSelector((state) => state.user.fullName);
+  
 
   if (userLogged) {
     return (
@@ -31,7 +31,7 @@ function Navbar(userLogged) {
             <Link to="/">Home</Link>
           </div>
           <div className="NavbarItem-right" id="NavbarUser">
-            <button className="NavbarButton">{userName}</button>
+            <button className="NavbarButton">PLACEHOLDER</button>
             <div class="dropdown-content">
               <Link to="/Profile">Profile</Link>
               <Link to="/Library">Library</Link>

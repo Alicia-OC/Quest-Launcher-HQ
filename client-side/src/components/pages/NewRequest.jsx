@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import { useSelector } from "react-redux";
 
 /* SMALL COMPONENTS */
 import RequestList from "./elements/att-req-lists.jsx";
@@ -12,12 +13,15 @@ import NewTextArea from "./elements/NewTextArea.js";
 /* DEFAULT VARIABLES */
 import { initialParagraph, randomGreetings } from "../../apis";
 import { mongoDB_Request } from "../../apis";
+import { mongoDB_Users } from "../../apis";
 
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines";
 import { GetGames } from "../../features/Games/fetchGames";
 
 function NewRequest(props) {
+  const user = useSelector((state) => state.user);
+
   const [projectTitle, setprojectTitle] = useState();
   const [greetings, setGreetings] = useState("hi");
   const [instructions, setInstructions] = useState("");
@@ -32,6 +36,8 @@ function NewRequest(props) {
   const [wordcount, setWordcount] = useState();
   const [files, setFiles] = useState();
   const [introText, setIntroText] = useState();
+  const [thisListOfLanguages, setThisListOfLanguages] = useState();
+
   const DB_games = GetGames();
   let GamesLoop = [];
   if (DB_games) {
@@ -117,6 +123,8 @@ function NewRequest(props) {
   };
 
   function HandleSubmit(e) {
+    const isSucess = false;
+    const newRequestId = "";
     e.preventDefault();
 
     let attFormatted = attachments.map((att) => att.value);
@@ -126,6 +134,7 @@ function NewRequest(props) {
     setGreetings(document.getElementById("greetingsSelectOptions").value);
 
     const object = {
+      userId: user._id,
       projectTitle: projectTitle,
       game: document.getElementById("gamesSelectOptions").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
@@ -143,8 +152,7 @@ function NewRequest(props) {
     console.log(object);
 
     Axios.post(mongoDB_Request, {
-      userId: "placeholder",
-
+      userId: user._id,
       projectTitle: projectTitle,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: initialParagraph,
@@ -159,13 +167,22 @@ function NewRequest(props) {
       requirements: requirements,
       deadlines: { translation: transDL, proofreading: proofDL },
     })
+      .then(function (response) {
+        if (response.status == 200) {
+          Axios.patch(mongoDB_Users, {
+            userId: user._id,
+            reqId: response.data,
+          });
+
+          window.location.replace(`/Request/${response.data}`);
+        }
+      })
       .catch((err) => {
         alert(
           "The request wasnt createDispatchHook, please make sure all required fields are filled"
         );
         console.log(err);
-      })
-      .then(alert(`New request ${projectTitle} has been created!`));
+      });
   }
 
   /**      .then(location.reload());
@@ -243,6 +260,9 @@ function NewRequest(props) {
             <MainTable
               getService={(serviceCall) => setThisService(serviceCall)}
               getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+              getLanguages={(thisListOfLanguages) =>
+                setThisListOfLanguages(thisListOfLanguages)
+              }
               service={thisService}
               onChange={(e) => {
                 tableChanged(e);

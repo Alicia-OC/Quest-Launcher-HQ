@@ -1,11 +1,18 @@
-import { useState } from "react";
-import GetTemplate from "./GetTemplate.js";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import StarButton from "../../components/pages/elements/StarButton.js";
+import { mongoDB_Template } from "../../apis.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setTemplates } from "../../state/index.js";
+import Axios from "axios";
 
 function TemplateList() {
   const navigate = useNavigate();
-  const template = GetTemplate();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user); //
+  const token = useSelector((state) => state.token);
+  const templates = user.templates;
 
   const handleClick = (e, id) => {
     console.log(id);
@@ -13,32 +20,54 @@ function TemplateList() {
     navigate("/NewRequestFromTemplate/" + id);
   };
 
-  let templateArr = [];
+  const templateArr = [];
 
-  if (template) {
-    for (let i = 0; i < template.length; i++) {
+  const getTemplates = async () => {
+    Axios.get(mongoDB_Template + `/${user._id}/allTemplates`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        dispatch(setTemplates({ templates: res.data }));
+      })
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    getTemplates();
+  }, []);
+
+  if (templates !== null) {
+    for (let i = 0; i < templates.length; i++) {
       templateArr.push(
-        <li id={template[i]._id} value={template[i].templateTitle}>
-          <a href={"Template/" + template[i]._id}>
+        <li
+          key={templates[i]._id}
+          id={templates[i]._id}
+          value={templates[i].templateTitle}
+        >
+          <a href={"Template/" + templates[i]._id}>
             {" "}
-            {template[i].templateTitle}
+            {templates[i].templateTitle}
           </a>
           <button
             className=""
             onClick={(e) => {
-              handleClick(e, template[i]._id);
+              handleClick(e, templates[i]._id);
             }}
           >
             New
           </button>
           <StarButton
-            isStarred={template[i].favorite}
-            getId={template[i]._id}
+            isStarred={templates[i].favorite}
+            getId={templates[i]._id}
             isToUpdateBackend={true}
           />
         </li>
       );
     }
+  } else {
+    window.location.replace("/login");
   }
 
   return (

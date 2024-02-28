@@ -5,7 +5,6 @@ import ".//css/RegistrationForm.css";
 import { Link } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import * as yup from "yup";
-import { setLogin } from "../state";
 import { useDispatch } from "react-redux";
 
 const registerSchema = yup.object().shape({
@@ -15,7 +14,6 @@ const registerSchema = yup.object().shape({
 });
 
 function NewUserCreation() {
-  const dispatch = useDispatch();
 
   const [pwVisibility, setPwVisibility] = useState(false);
   const [userRegistrationInput, setUserRegistrationInput] =
@@ -42,38 +40,6 @@ function NewUserCreation() {
       alert("All fields must be filled out");
     }
   }
-
-  /**const CheckDuplicate = () => {
-    let emailDuplicated;
-
-    if (!username.match(/[a-zA-Z0-9_]/g)) {
-      setMsgUsername(
-        <p className="errorForm">
-          <i>
-            {" "}
-            Your username should be at least 6 characters long and contain only
-            letters and numbers
-          </i>
-        </p>
-      );
-    } else {
-
-      for (let i = 0; i < user.length; i++) {
-        if (user[i].email === email) {
-          emailDuplicated = true;
-        }
-      }
-
-      emailDuplicated
-        ? setMsgEmail(
-            <p className="errorForm">
-              <i> There is a username registered with this email already</i>
-            </p>
-          )
-        : setMsgUsername("");
-    }
-  };
- */
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -102,7 +68,6 @@ function NewUserCreation() {
       console.log("valid");
     }
 
-    //const formErrors = validateForm();
     Axios.post(mongoDB_Auth + "/signup", {
       fullName: fullName,
       email: email,

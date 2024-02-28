@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 /* SMALL COMPONENTS */
 import RequestList from "./elements/att-req-lists";
@@ -11,7 +11,7 @@ import NewInput from "./elements/NewInput";
 import StarButton from "./elements/StarButton";
 
 /* DEFAULT VARIABLES */
-import { initialParagraph, mongoDB_Template } from "../../apis";
+import { mongoDB_Template, mongoDB_Users } from "../../apis";
 
 /* DATABASE DEPENDENCIES*/
 import { GetDevelopers } from "../../features/developersList/fetchDevelopers";
@@ -40,14 +40,10 @@ function NewTemplate(props) {
   const [thisListOfLanguages, setThisListOfLanguages] = useState();
 
   const user = useSelector((state) => state.user); //
-  const userId = useSelector((state) => state.id);
-  console.log(userId);
-  console.log(user);
 
   const DB_devs = GetDevelopers();
   const DB_games = GetGames();
   let GamesLoop = [];
-  let DevLoop = [];
 
   if (DB_games) {
     for (let i = 0; i < DB_games.length; i++) {
@@ -158,8 +154,14 @@ function NewTemplate(props) {
     })
       .then(alert(`New template ${templateTitle} has been created!`))
       .then(function (response) {
-        const id = response.data;
-        window.location.replace(`/Template/${response.data}`);
+        if (response.status == 200) {
+          Axios.patch(mongoDB_Users, {
+            userId: user._id,
+            templateId: response.data,
+          });
+          
+          window.location.replace(`/Template/${response.data}`);
+        }
       })
       .catch((err) => console.log(err));
 
