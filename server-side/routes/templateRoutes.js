@@ -13,7 +13,7 @@ router
 
 router.patch("/:id", templateController.starTemplate);
 
-router.get("/:userId/alltemplates", authJwt.verifyToken, templateController.getUserTemplates);
-//router.get("/:userId/allrequests", authJwt.verifyToken, templateController.getAllUserRequests);
+router.get("/:userId/allTemplates", authJwt.verifyToken, templateController.getUserTemplates);
+router.get("/:userId/favTemplates", authJwt.verifyToken, templateController.getUserFavTemplates);
 
 module.exports = router;

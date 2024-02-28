@@ -15,6 +15,23 @@ const getUserTemplates = asyncHandler(async (req, res) => {
   }
 });
 
+const getUserFavTemplates = asyncHandler(async (req, res) => {
+  console.log(4);
+  try {
+    const { userId } = req.params;
+    const template = await Template.find({ userId });
+
+    const favtemplates = template.filter((item) => {
+      return item.favorite;
+    });
+    console.log(favtemplates);
+
+    res.status(200).json(favtemplates);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+});
+
 const getAllTemplates = asyncHandler(async (req, res) => {
   try {
     Template.find({}).then((data) => {
@@ -153,5 +170,6 @@ module.exports = {
   deleteTemplate,
   updateTemplate,
   starTemplate,
-  getUserTemplates
+  getUserTemplates,
+  getUserFavTemplates
 };

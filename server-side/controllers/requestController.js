@@ -50,6 +50,16 @@ const getAllRequest = asyncHandler(async (req, res) => {
   }
 });
 
+const getUserRequests = asyncHandler(async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const requests = await Request.find({ userId });
+    res.status(200).json(requests);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+});
+
 const createNewRequest = asyncHandler(async (req, res) => {
   try {
     const {
@@ -100,11 +110,10 @@ const createNewRequest = asyncHandler(async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-
-  
 });
 
 module.exports = {
   getAllRequest,
   createNewRequest,
+  getUserRequests,
 };
