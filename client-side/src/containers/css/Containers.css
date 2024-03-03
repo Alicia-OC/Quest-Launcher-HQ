@@ -1,5 +1,4 @@
-.App {
-}
+.App {}
 
 .App-header {
   display: flex;
@@ -11,7 +10,7 @@
   display: flex;
   background-color: #a6a6a6;
   text-align: center;
-  height: 10vh;
+  height: 1%;
   flex-direction: column;
 }
 
@@ -21,7 +20,7 @@
   align-items: center;
   height: 85vh;
   gap: 2rem;
-  background-color: rgb(228, 228, 228);
+  background-color: rgb(191, 204, 181);
 }
 
 .public {
@@ -47,6 +46,7 @@
   text-align: center;
   align-items: center;
 }
+
 .mainContainer {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.2rem;
@@ -88,9 +88,10 @@
   height: 500px;
   max-width: 150px;
   padding: 1rem;
-  background-color: #a6a6a6;
+  background-color: rgb(183, 183, 183);
   border-radius: 25px;
   align-self: left;
+  text-decoration: none;
 }
 
 .templateScreenshot {
@@ -132,13 +133,16 @@ th {
 .VendorsList {
   line-height: 1rem;
 }
+
 .VendorsList tr:hover {
   background-color: #e7e7e7;
 }
+
 .VendorsList td,
 th {
   padding-right: 1rem;
 }
+
 .VendorsList a {
   padding: 0;
 }
@@ -194,7 +198,7 @@ th {
 
 .requestWarning {
   font-size: 70%;
-  color: rgb(116, 118, 124);
+  color: rgb(238, 231, 218);
 }
 
 

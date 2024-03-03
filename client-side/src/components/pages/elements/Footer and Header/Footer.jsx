@@ -35,6 +35,7 @@ function Footer() {
 
   const currentHour = `${time.getHours()}:${time.getMinutes()} `;
   const [currentTime, setCurrentTime] = useState(null);
+
   const timeOfTheDay = () => {
     if (testnumber >= 12) {
       return " PM";
@@ -43,20 +44,13 @@ function Footer() {
     }
   };
 
-  const checkTime = () => {
-    setCurrentTime(currentHour);
-  };
-
-
-
   useEffect(() => {
-    setInterval(() => checkTime, 1000);
+    setInterval(() => setCurrentTime(currentHour), 1000);
   }, []);
 
   return (
     <div className="App-footer">
-      {date + currentTime + timeOfTheDay()}
-      <h2>this is just a test for the Footer</h2>
+      <h4>{date + currentTime + timeOfTheDay()}</h4>
     </div>
   );
 }
