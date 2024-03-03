@@ -5,24 +5,19 @@ import ".//css/RegistrationForm.css";
 import { Link } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import { setLogin } from "../state";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = (props) => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState();
-  const [username, setUsername] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pwVisibility, setPwVisibility] = useState(false);
-  const [afterRegistrationMsg, setAfterRegistrationMsg] = useState(
-    <h2>Log in</h2>
-  );
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   /** */
-  const handleSubmit = (e) => {
-    console.log('dasd');
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     Axios.post(mongoDB_Auth + "/login", {
@@ -38,7 +33,7 @@ const Login = (props) => {
             })
           );
           window.location.replace("/");
-        } 
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -48,14 +43,6 @@ const Login = (props) => {
     window.location.replace("/register");
     /**use replace  so users cannot click the “back” button and return to the previous, pre-redirect page*/
   };
-
-  useEffect(() => {
-    if (props.isSuccess === true) {
-      setAfterRegistrationMsg(
-        <h2 className="RegistrationSucceeded">Account created!</h2>
-      );
-    }
-  }, []);
 
   return (
     <Box
@@ -68,8 +55,6 @@ const Login = (props) => {
       <div className="creationForm-div">
         <div className="creationForm-form">
           <form method="post" name="newUserForm">
-            {" "}
-            {afterRegistrationMsg}
             <div className="form-group-div">
               <label>Email</label>
               <input

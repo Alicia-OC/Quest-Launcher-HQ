@@ -6,6 +6,7 @@ const initialState = {
   token: null,
   templates: [],
   requests: [],
+  favTemplates: [],
 };
 
 export const authSlice = createSlice({
@@ -76,7 +77,7 @@ export const {
   setRequest,
   setTemplate,
   setOrganization,
-  setFavTemplates
+  setFavTemplates,
 } = authSlice.actions;
 
 export default authSlice.reducer;

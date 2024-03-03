@@ -12,6 +12,8 @@ function StarButton(props) {
   const [starred, setStarred] = useState(isStarred);
   const [isUpdated, setIsUpdated] = useState(false);
 
+  
+
   useEffect(() => {
     if (isUpdated && isToUpdateBackend) {
       Axios.patch(mongoDB_Template + `/${id}`, { id: id, favorite: starred })
