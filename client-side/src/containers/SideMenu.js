@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
+import Axios from "axios";
 import { Box, Divider } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import Axios from "axios";
+import { setLogout } from "../state";
 import { setFavTemplates } from "../state";
 import { mongoDB_Template } from "../apis";
 
@@ -22,7 +23,13 @@ function UserSideMenu() {
       .then((res) => {
         dispatch(setFavTemplates({ favTemplates: res.data }));
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        const error = err.response.data.message;
+        if (error == "jwt expired") {
+          console.log(error);
+          dispatch(setLogout())
+        }
+      });
   };
 
   useEffect(() => {

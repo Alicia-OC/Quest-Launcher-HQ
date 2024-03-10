@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { HomeCard } from "../components/pages/widgets/HomeCards.";
 
 const Public2 = () => {
+
+  
   const content = (
     <div>
       {" "}

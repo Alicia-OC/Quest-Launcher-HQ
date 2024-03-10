@@ -2,17 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useNavigate } from "react-router-dom";
 
 import { setLogout } from "../../../../state";
 import { useDispatch } from "react-redux";
-import {
-  InputBase,
-  Select,
-  FormControl,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
-
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -22,10 +15,8 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = ["Products", "Pricing", "Blog"];
 const userPages = ["Profile", "Library", "Logout"];
@@ -34,8 +25,15 @@ const goToFavPages = ["Request", "Template"];
 
 function Navbar(userLogged) {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user); //
+  const navigate = useNavigate();
 
+  const user = useSelector((state) => state.user); //
+  async function logOut() {
+    try {
+      const logout = await dispatch(setLogout())
+      
+    } catch (error) {} finally {window.location.replace("/");}
+  }
   const oldCOntent = (
     <nav className="Navbar">
       <div className="NavbarItem-left" id="NavbarHome">
@@ -89,7 +87,7 @@ function Navbar(userLogged) {
     const handleCloseUserMenu = () => {
       setAnchorElUser(null);
     };
-
+  
     return (
       <AppBar position="static" style={{ background: "#7C96AB" }}>
         <Container maxWidth="xl">
@@ -240,7 +238,7 @@ function Navbar(userLogged) {
                   {" "}
                   <Link to="/Library">Library</Link>
                 </MenuItem>
-                <MenuItem onClick={() => dispatch(setLogout())}>
+                <MenuItem onClick={(e) => logOut()}>
                   Log Out
                 </MenuItem>
               </Menu>
@@ -299,20 +297,6 @@ function Navbar(userLogged) {
     return UserContent();
   } else {
     return PublicContent();
-    <>
-      <nav className="Navbar">
-        <div className="NavbarItem-left" id="NavbarHome">
-          {" "}
-          <Link to="/">Home</Link>
-        </div>
-
-        <div className="NavbarItem-right" id="loginNavbar">
-          {" "}
-          <Link to="/login">Log in </Link>
-          <Link to="/register">New User</Link>
-        </div>
-      </nav>
-    </>;
   }
 }
 

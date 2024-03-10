@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import Home from "./containers/Home.js";
 import NoMatch from "./containers/NoMatch";
@@ -9,6 +9,7 @@ import DashLayout from "./containers/DashLayout.js";
 import Library from "./components/pages/ProfileLibrary.jsx";
 import UserProfile from "./components/pages/Profile.jsx";
 import RegistrationSucceeded from "./containers/RegistrationSucceeded.js";
+import UnauthorizedAccess from "./containers/UnauthorizedAccess.js";
 /* DATABASE POST */
 import NewTemplate from "./components/pages/NewTemplate.jsx";
 import NewGame from "./components/pages/NewGame.jsx";
@@ -18,7 +19,6 @@ import NewRequestFromTemplate from "./components/pages/NewRequestFromTemplate.js
 
 /* DATABASE GET */
 import VendorList from "./features/Vendors/VendorList.jsx";
-import VendorPerLangList from "./features/Vendors/VendorPerLangList.jsx";
 import GamesList from "./features/Games/gamesList.js";
 import DevelopersList from "./features/developersList/developersList.js";
 import RequestList from "./features/Requests/RequestList.js";
@@ -29,9 +29,8 @@ import SoloTemplate from "./features/templates/soloTemplate.js";
 import { useSelector } from "react-redux";
 
 function App() {
-  const [userLogged, setUser] = useState(true);
-
   const isAuth = Boolean(useSelector((state) => state.token));
+  const navigate = useNavigate();
 
   return (
     <>
@@ -43,39 +42,71 @@ function App() {
           path="/RegistrationSucceeded"
           element={<RegistrationSucceeded />}
         />
-        <Route path="/" element={<DashLayout isUserLoged={userLogged} />}>
+        <Route path="/" element={<DashLayout isUserLoged={isAuth} />}>
           <Route index element={<Home isUserLoged={isAuth} />} />
           <Route path="/NewRequest">
-            <Route index element={<NewRequest />} />
+            <Route
+              index
+              element={isAuth ? <NewRequest /> : <UnauthorizedAccess />}
+            />
           </Route>
-          <Route path="/NewTemplate" element={<NewTemplate />} />
-          <Route path="/NewGame" element={<NewGame />} />
-          <Route path="/NewVendor" element={<NewVendor />} />
+          <Route
+            path="/NewTemplate"
+            element={isAuth ? <NewTemplate /> : <UnauthorizedAccess />}
+          />
+          <Route
+            path="/NewGame"
+            element={isAuth ? <NewGame /> : <UnauthorizedAccess />}
+          />
+          <Route
+            path="/NewVendor"
+            element={isAuth ? <NewVendor /> : <UnauthorizedAccess />}
+          />
 
-          <Route path="/Library" element={<Library />} />
+          <Route
+            path="/Library"
+            element={isAuth ? <Library /> : <UnauthorizedAccess />}
+          />
           <Route path="/Profile" element={<UserProfile />} />
 
-          <Route path="/Vendors" element={<VendorList />} />
+          <Route
+            path="/Vendors"
+            element={isAuth ? <VendorList /> : <UnauthorizedAccess />}
+          />
           <Route path="/Games" element={<GamesList />} />
-          <Route path="/Developers" element={<DevelopersList />} />
+          <Route
+            path="/Developers"
+            element={isAuth ? <DevelopersList /> : <UnauthorizedAccess />}
+          />
 
-          <Route path="/RequestList" element={<RequestList />} />
-          <Route path="/TemplateList" element={<TemplateList />} />
+          <Route
+            path="/RequestList"
+            element={isAuth ? <RequestList /> : <UnauthorizedAccess />}
+          />
+          <Route
+            path="/TemplateList"
+            element={isAuth ? <TemplateList /> : <UnauthorizedAccess />}
+          />
 
-          <Route path="/Request/:requestId" element={<SoloRequest />} />
-          <Route path="/Template/:templateId" element={<SoloTemplate />} />
+          <Route
+            path="/Request/:requestId"
+            element={isAuth ? <SoloRequest /> : <UnauthorizedAccess />}
+          />
+          <Route
+            path="/Template/:templateId"
+            element={isAuth ? <SoloTemplate /> : <UnauthorizedAccess />}
+          />
           <Route
             path="/NewRequestFromTemplate/:templateReqId"
-            element={<NewRequestFromTemplate />}
-          />
-
-          <Route
-            path="/Vendors-/:language"
-            thisLanguage="FR"
-            element={<VendorPerLangList />}
+            element={
+              isAuth ? <NewRequestFromTemplate /> : <UnauthorizedAccess />
+            }
           />
         </Route>
-        <Route path="/LogOut" element={<NewGame />} />
+        <Route
+          path="/LogOut"
+          element={isAuth ? <NewGame /> : <UnauthorizedAccess />}
+        />
       </Routes>
     </>
   );

@@ -110,6 +110,11 @@ function NewUserCreation() {
         <div className="creationForm-form">
           <form method="post" name="newUserForm">
             <h2>Registration</h2>
+            <p>
+              Please use a google generated password, this website uses
+              encryption and a bunch of salt rounds, but mind that I'm just a
+              lovely junior to work with, doing her first ever app :D
+            </p>
             <div className="form-group-div">
               <label>Name</label>
               <input
@@ -161,6 +166,7 @@ function NewUserCreation() {
                 className={userRegistrationInput}
                 type={pwVisibility ? "text" : "password"}
                 id="userPwd"
+                autoComplete="new-password"
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}

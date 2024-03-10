@@ -6,8 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import authReducer from "./state";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import { useSelector, useDispatch } from 'react-redux'
-import { CssBaseline, ThemeProvider } from "@mui/material";
+
 
 import {
   persistStore,

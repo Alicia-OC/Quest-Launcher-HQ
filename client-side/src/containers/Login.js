@@ -55,6 +55,8 @@ const Login = (props) => {
       <div className="creationForm-div">
         <div className="creationForm-form">
           <form method="post" name="newUserForm">
+            <h2>Sign In</h2>
+            
             <div className="form-group-div">
               <label>Email</label>
               <input
