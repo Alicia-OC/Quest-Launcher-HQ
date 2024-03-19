@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Box, Divider } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,12 @@ function UserSideMenu() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user); //
   const token = useSelector((state) => state.token);
-  const favTemplates = user.favTemplates;
+  let favTemplates;
+  const [hasError, setHasError] = useState(false);
+
+  if (user !== null){
+    favTemplates = user.favTemplates;
+  }
 
   let favTemplatesArr = [];
 
@@ -25,9 +30,10 @@ function UserSideMenu() {
       })
       .catch((err) => {
         const error = err.response.data.message;
-        if (error == "jwt expired") {
+        if (error === "jwt expired") {
           console.log(error);
-          dispatch(setLogout())
+          setHasError(true);
+          // dispatch(setLogout())
         }
       });
   };
@@ -35,6 +41,10 @@ function UserSideMenu() {
   useEffect(() => {
     getFavTemplates();
   }, []);
+
+  if (hasError) {
+    dispatch(setLogout());
+  }
 
   const loop = () => {
     if (favTemplates) {

@@ -18,11 +18,6 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-const pages = ["Products", "Pricing", "Blog"];
-const userPages = ["Profile", "Library", "Logout"];
-const goToNewPages = ["Request", "Template", "Vendor", "Game", "Account"];
-const goToFavPages = ["Request", "Template"];
-
 function Navbar(userLogged) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,9 +25,11 @@ function Navbar(userLogged) {
   const user = useSelector((state) => state.user); //
   async function logOut() {
     try {
-      const logout = await dispatch(setLogout())
-      
-    } catch (error) {} finally {window.location.replace("/");}
+      const logout = await dispatch(setLogout());
+    } catch (error) {
+    } finally {
+      window.location.replace("/");
+    }
   }
   const oldCOntent = (
     <nav className="Navbar">
@@ -87,7 +84,7 @@ function Navbar(userLogged) {
     const handleCloseUserMenu = () => {
       setAnchorElUser(null);
     };
-  
+
     return (
       <AppBar position="static" style={{ background: "#7C96AB" }}>
         <Container maxWidth="xl">
@@ -238,9 +235,7 @@ function Navbar(userLogged) {
                   {" "}
                   <Link to="/Library">Library</Link>
                 </MenuItem>
-                <MenuItem onClick={(e) => logOut()}>
-                  Log Out
-                </MenuItem>
+                <MenuItem onClick={(e) => logOut()}>Log Out</MenuItem>
               </Menu>
             </Box>
           </Toolbar>

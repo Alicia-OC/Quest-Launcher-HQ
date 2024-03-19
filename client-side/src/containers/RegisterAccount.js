@@ -5,7 +5,6 @@ import ".//css/RegistrationForm.css";
 import { Link } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import * as yup from "yup";
-import { useDispatch } from "react-redux";
 
 const registerSchema = yup.object().shape({
   fullName: yup.string().required("required"),
@@ -25,21 +24,12 @@ function NewUserCreation() {
   const [msgFullName, setMsgFullName] = useState();
   const [msgEmail, setMsgEmail] = useState();
   const [msgPassword, setMsgPassword] = useState();
-  const [newUser, setNewUser] = useState({});
 
-  const emailPattern = new RegExp(
+  /*const emailPattern = new RegExp(
     /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/,
     "gm"
   );
-  const isValidEmail = emailPattern.test(email);
-
-  function validateForm() {
-    /** */ let x =
-      document.forms["newUserForm"][("fullName", "email", "password")].value;
-    if (x === "") {
-      alert("All fields must be filled out");
-    }
-  }
+*/
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -76,7 +66,7 @@ function NewUserCreation() {
       title: userTitle,
     })
       .then(function (response) {
-        if (response.status == 200) {
+        if (response.status === 200) {
           window.location.replace("/RegistrationSucceeded");
         } else console.log("error");
       })

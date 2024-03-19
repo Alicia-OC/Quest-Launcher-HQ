@@ -3,12 +3,14 @@ import "./NewTemplate.css";
 import CreateItems from "./elements/itemsList";
 import Axios from "axios";
 import { mongoDB_Games } from "../../apis";
+import { useSelector } from "react-redux";
 
 function NewGame() {
   const [developer, setDeveloper] = useState();
   const [title, setTitle] = useState();
   const [links, setLinks] = useState([]);
   const [languages, setlanguages] = useState();
+  const user = useSelector((state) => state.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,11 +23,18 @@ function NewGame() {
     console.log(object);
 
     Axios.post(mongoDB_Games, {
+      createdByUserId: user._id,
       developer: developer,
       title: title,
       links: links,
       languages: languages,
-    }).then();
+    })
+      .then(window.location.replace(`/Games`))
+      .catch((err) => {
+        alert(
+          "This game has already been added, please try another name or check your database."
+        );
+      });
   };
 
   function addLink(newLink) {

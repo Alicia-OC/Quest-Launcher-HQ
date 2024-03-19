@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 
 import Home from "./containers/Home.js";
 import NoMatch from "./containers/NoMatch";
@@ -29,8 +29,8 @@ import SoloTemplate from "./features/templates/soloTemplate.js";
 import { useSelector } from "react-redux";
 
 function App() {
+
   const isAuth = Boolean(useSelector((state) => state.token));
-  const navigate = useNavigate();
 
   return (
     <>

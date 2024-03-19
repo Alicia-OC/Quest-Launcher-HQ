@@ -61,8 +61,6 @@ function NewRequestFromTemplate() {
     console.log(e.target.value);
   };
 
- console.log(languageTeam);
-
   function handleChange() {
     let greetingValue = document.querySelector("#greetingsSelectDropdown");
     setGreetings(greetingValue.value);

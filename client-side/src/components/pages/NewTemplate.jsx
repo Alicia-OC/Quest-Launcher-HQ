@@ -43,8 +43,8 @@ function NewTemplate(props) {
 
   const DB_devs = GetDevelopers();
   const DB_games = GetGames();
-  let GamesLoop = [];
 
+  let GamesLoop = [];
   if (DB_games) {
     for (let i = 0; i < DB_games.length; i++) {
       GamesLoop.push(
@@ -126,6 +126,8 @@ function NewTemplate(props) {
 
     let attFormatted = attachments.map((att) => att.value);
     let reqFormatted = requirements.map((req) => req.value);
+    let domain = user.domain
+    let userID = user._id
     console.log(teamTable);
 
     const object = {
@@ -141,7 +143,8 @@ function NewTemplate(props) {
     };
 
     Axios.post(mongoDB_Template, {
-      userId: { user },
+      userId: userID,
+      domain: domain,
       templateTitle: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,
@@ -159,7 +162,7 @@ function NewTemplate(props) {
             userId: user._id,
             templateId: response.data,
           });
-          
+
           window.location.replace(`/Template/${response.data}`);
         }
       })
@@ -167,6 +170,7 @@ function NewTemplate(props) {
 
     //.then(location.reload());
   }
+
 
   return (
     <div className="createTemplate">
@@ -194,9 +198,6 @@ function NewTemplate(props) {
               >
                 {GamesLoop}{" "}
               </select>
-              <button>
-                <BorderColorRoundedIcon />
-              </button>
             </div>
             <div className="clientDiv">
               {" "}

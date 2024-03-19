@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Axios from "axios";
 import { mongoDB_Auth } from "../apis";
 import ".//css/RegistrationForm.css";
 import { Link } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import { setLogin } from "../state";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Login = (props) => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Login = (props) => {
       password: password,
     })
       .then(function (response) {
-        if (response.status == 200) {
+        if (response.status === 200) {
           dispatch(
             setLogin({
               user: response.data.user,

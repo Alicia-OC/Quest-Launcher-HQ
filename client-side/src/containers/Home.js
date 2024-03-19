@@ -1,5 +1,5 @@
 import Public from "./Public";
-import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import { HomeCard } from "../components/pages/widgets/HomeCards.";
 
@@ -33,7 +33,7 @@ const UserLoggedBody = () => {
           "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
         }}
       >
-        <h3>item 1</h3> <h3></h3>{" "}
+        <h3>item 1</h3> <h3>item 2</h3>{" "}
       </Box>{" "}
       <Box
         display="grid"
