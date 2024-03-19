@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 import Home from "./containers/Home.js";
 import NoMatch from "./containers/NoMatch";
@@ -29,6 +30,8 @@ import SoloTemplate from "./features/templates/soloTemplate.js";
 import { useSelector } from "react-redux";
 
 function App() {
+
+
 
   const isAuth = Boolean(useSelector((state) => state.token));
 

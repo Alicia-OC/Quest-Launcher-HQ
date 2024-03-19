@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import StarButton from "../../components/pages/elements/StarButton.js";
 import { mongoDB_Template } from "../../apis.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setTemplates } from "../../state/index.js";
+import { useEffect } from "react";
 import Axios from "axios";
 
 function TemplateList() {
@@ -34,9 +34,16 @@ function TemplateList() {
       .catch((err) => console.error(err));
   };
 
+
   useEffect(() => {
+    if (user !== null) {
+      getTemplates();
+    }
+  });
+  
+/**if (user !== null) {
     getTemplates();
-  }, []);
+  } */  
 
   if (templates !== null) {
     for (let i = 0; i < templates.length; i++) {
@@ -66,9 +73,7 @@ function TemplateList() {
         </li>
       );
     }
-  } else {
-    window.location.replace("/login");
-  }
+  } 
 
   return (
     <div className="TemplateListed">

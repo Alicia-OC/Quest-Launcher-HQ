@@ -23,10 +23,15 @@ function Navbar(userLogged) {
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.user); //
-  async function logOut() {
+
+  function logOut(e) {
+    e.preventDefault();
+    console.log("dasd");
     try {
-      const logout = await dispatch(setLogout());
+      dispatch(setLogout());
+      console.log(435);
     } catch (error) {
+      console.log(error);
     } finally {
       window.location.replace("/");
     }
@@ -235,7 +240,13 @@ function Navbar(userLogged) {
                   {" "}
                   <Link to="/Library">Library</Link>
                 </MenuItem>
-                <MenuItem onClick={(e) => logOut()}>Log Out</MenuItem>
+                <MenuItem
+                  onClick={(e) => {
+                    dispatch(setLogout());
+                  }}
+                >
+                  Log Out
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>
