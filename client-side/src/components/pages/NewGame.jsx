@@ -10,6 +10,7 @@ function NewGame() {
   const [title, setTitle] = useState();
   const [links, setLinks] = useState([]);
   const [languages, setlanguages] = useState();
+  
   const user = useSelector((state) => state.user);
 
   const handleSubmit = (e) => {
@@ -23,13 +24,13 @@ function NewGame() {
     console.log(object);
 
     Axios.post(mongoDB_Games, {
-      createdByUserId: user._id,
+      userId: user._id,
       developer: developer,
       title: title,
       links: links,
       languages: languages,
     })
-      .then(window.location.replace(`/Games`))
+      //.then(window.location.replace(`/Games`))
       .catch((err) => {
         alert(
           "This game has already been added, please try another name or check your database."

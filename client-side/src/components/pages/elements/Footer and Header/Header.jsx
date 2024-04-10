@@ -18,7 +18,7 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-function Navbar(userLogged) {
+function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

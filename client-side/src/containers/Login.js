@@ -26,13 +26,14 @@ const Login = (props) => {
     })
       .then(function (response) {
         if (response.status === 200) {
+          console.log('ok');
           dispatch(
             setLogin({
               user: response.data.user,
               token: response.data.token,
             })
           );
-          window.location.replace("/");
+         // window.location.replace("/");
         }
       })
       .catch((err) => console.log(err));

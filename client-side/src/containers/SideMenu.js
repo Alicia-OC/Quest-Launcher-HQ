@@ -5,15 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "../state";
 import { setFavTemplates } from "../state";
 import { mongoDB_Template } from "../apis";
+import { jwtDecode } from "jwt-decode";
 
 function UserSideMenu() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user); //
   const token = useSelector((state) => state.token);
+  const tokenExpiresAt = jwtDecode(token);
+  const currentTime = Math.floor(Date.now() / 1000);
+
   let favTemplates;
   const [hasError, setHasError] = useState(false);
 
-  if (user !== null){
+  if (user !== null) {
     favTemplates = user.favTemplates;
   }
 
@@ -32,7 +36,6 @@ function UserSideMenu() {
         const error = err.response.data.message;
         if (error === "jwt expired") {
           console.log(error);
-          setHasError(true);
           // dispatch(setLogout())
         }
       });
@@ -40,11 +43,8 @@ function UserSideMenu() {
 
   useEffect(() => {
     getFavTemplates();
+   
   }, []);
-
-  if (hasError) {
-    dispatch(setLogout());
-  }
 
   const loop = () => {
     if (favTemplates) {

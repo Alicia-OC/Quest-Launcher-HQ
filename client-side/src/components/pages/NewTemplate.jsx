@@ -166,7 +166,8 @@ function NewTemplate(props) {
           window.location.replace(`/Template/${response.data}`);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)
+      );
 
     //.then(location.reload());
   }

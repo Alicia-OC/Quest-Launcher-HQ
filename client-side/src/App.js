@@ -28,12 +28,30 @@ import TemplateList from "./features/templates/templatesList.js";
 import SoloRequest from "./features/Requests/soloRequest.js";
 import SoloTemplate from "./features/templates/soloTemplate.js";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setLogout } from "./state/index.js";
+import { useEffect } from "react";
 
 function App() {
-
-
-
   const isAuth = Boolean(useSelector((state) => state.token));
+  const token = useSelector((state) => state.token);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isAuth) {
+      const tokenExpiresAt = jwtDecode(token);
+      const currentTime = Math.floor(Date.now() / 1000);
+      console.log(jwtDecode(token));
+      console.log(tokenExpiresAt.exp, currentTime);
+
+      if (currentTime > tokenExpiresAt.exp) {
+        console.log("bye token");
+        dispatch(setLogout());
+       // window.location.reload();
+      }
+      //
+    }
+  }, []);
 
   return (
     <>

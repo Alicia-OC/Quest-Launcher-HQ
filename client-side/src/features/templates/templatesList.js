@@ -4,7 +4,9 @@ import { mongoDB_Template } from "../../apis.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setTemplates } from "../../state/index.js";
 import { useEffect } from "react";
+
 import Axios from "axios";
+
 
 function TemplateList() {
   const navigate = useNavigate();
@@ -13,17 +15,10 @@ function TemplateList() {
   const user = useSelector((state) => state.user); //
   const token = useSelector((state) => state.token);
   const templates = user.templates;
-
-  const handleClick = (e, id) => {
-    console.log(id);
-    e.preventDefault();
-    navigate("/NewRequestFromTemplate/" + id);
-  };
-
   const templateArr = [];
 
   const getTemplates = async () => {
-    Axios.get(mongoDB_Template + `/${user._id}/allTemplates`, {
+    Axios.get(mongoDB_Template + `/${user._id}/alltemplates`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -34,18 +29,23 @@ function TemplateList() {
       .catch((err) => console.error(err));
   };
 
-
   useEffect(() => {
-    if (user !== null) {
-      getTemplates();
-    }
-  });
+    getTemplates();
+    console.log(templates);
+  }, []);
+
+  const handleClick = (e, id) => {
+    console.log(id);
+    e.preventDefault();
+    navigate("/NewRequestFromTemplate/" + id);
+  };
+
   
 /**if (user !== null) {
     getTemplates();
   } */  
 
-  if (templates !== null) {
+  if (templates) {
     for (let i = 0; i < templates.length; i++) {
       templateArr.push(
         <li

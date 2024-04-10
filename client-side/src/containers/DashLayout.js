@@ -10,9 +10,7 @@ const DashLayout = (props) => {
 
   let userLogged = props.isUserLoged;
   let visibility;
-  if (userLogged) {
-    visibility = "visible";
-  } else visibility = "hidden";
+  
 
   const isUSerLogged = () => {
     if (user !== null) {
@@ -21,6 +19,8 @@ const DashLayout = (props) => {
           <SideMenu />
         </div>
       );
+    } else {
+      return;
     }
   };
 

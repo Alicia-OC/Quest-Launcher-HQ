@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import { mongoDB_Vendors } from "../../apis";
 import Axios from "axios";
 import LanguagesDropDown from "../../components/pages/elements/languagesDropdown";
+import { useSelector } from "react-redux";
 
 const NewVendor = () => {
+
   const [language, setLanguage] = useState();
   const [fullName, setFullName] = useState();
   const [nickname, setNickname] = useState();
   const [translation, setTranslation] = useState(true);
   const [proofreading, setProofreading] = useState(true);
   const [email, setEmail] = useState();
+
+  const user = useSelector((state) => state.user); //
 
   function validateForm() {
     let x =
@@ -29,7 +33,6 @@ const NewVendor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(language);
     const formErrors = validateForm();
     const newVendor = {
       language: language,
@@ -38,9 +41,9 @@ const NewVendor = () => {
       service: { translation: translation, proofreading: proofreading },
       email: email,
     };
-    console.log(newVendor);
 
     Axios.post(mongoDB_Vendors, {
+      userId: user._id,
       language: newVendor.language,
       fullName: newVendor.fullName,
       nickname: newVendor.nickname,
