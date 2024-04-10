@@ -25,13 +25,14 @@ const getAllGames = asyncHandler(async (req, res) => {
 
 const createnewGame = asyncHandler(async (req, res) => {
   try {
-    const { title, developer, languages, links } = req.body;
+    const { userId, title, developer, languages, links } = req.body;
     const GameDuplicate = await Games.findOne({ title }).lean().exec();
 
     if (GameDuplicate) {
       res.status(409).json({ message: "Game already in database" });
     }
     const gameObject = {
+      createdBy: userId,
       title: title,
       developer: developer,
       languages: languages,

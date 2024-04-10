@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const vendorSchemaPlus = new mongoose.Schema(
   {
+    createdBy: {
+      type: String,
+      required: true,
+    },
     language: { type: String, required: true },
     fullName: { type: String, required: true },
     nickname: { type: String, required: true },

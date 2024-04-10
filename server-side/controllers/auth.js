@@ -3,7 +3,6 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 let User = UserSchema.User;
-const config = require("../config/auth.config.js");
 
 const register = asyncHandler(async (req, res) => {
   try {
@@ -58,11 +57,12 @@ const login = asyncHandler(async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       algorithm: "HS256",
       allowInsecureKeySizes: true,
-      expiresIn: 3600, // 1 hour
+      expiresIn: 36000, // 1 hour
     });
     delete user.password; //make sure the pw isn't sent to the frontend for security
-
     let authorities = "ROLE_" + user.role.toUpperCase();
+
+    console.log('ok');
 
     res.status(200).json({
       user,

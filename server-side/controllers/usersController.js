@@ -1,9 +1,6 @@
 const UserSchema = require("../models/Users");
 const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 let User = UserSchema.User;
-const config = require("../config/auth.config.js");
 const { Template } = require("../models/Template.js");
 const { Request } = require("../models/Request.js");
 

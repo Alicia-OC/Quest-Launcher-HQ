@@ -4,7 +4,11 @@ const templateSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
-      required: false,
+      required: true,
+    },
+    domain: {
+      type: String,
+      required: true,
     },
     favorite: { type: Boolean, required: false, default: false },
     templateTitle: { type: String, required: true },
@@ -21,4 +25,4 @@ const templateSchema = new mongoose.Schema(
 
 const Template = mongoose.model("Template", templateSchema);
 
-module.exports = {Template};
+module.exports = { Template };

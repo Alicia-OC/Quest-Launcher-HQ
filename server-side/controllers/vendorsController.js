@@ -21,12 +21,13 @@ const getAllVendors = asyncHandler(async (req, res) => {
 
 const createNewVendor = asyncHandler(async (req, res) => {
   try {
-    const { fullName, nickname, language, service, email } = req.body;
-    const duplicate = await Vendor.findOne({ nickname }).lean().exec();
+    const { fullName, nickname, language, service, email, userId } = req.body;
+    const duplicate = await Vendor.findOne({ fullName }).lean().exec();
     if (duplicate) {
-      return res.status(409).json({ message: "Duplicate nickname" });
+      return res.status(409).json({ message: "A vendor with this name has already been added in the database" });
     }
     const vendorObject = {
+      createdBy: userId,
       language: language,
       fullName: fullName,
       nickname: nickname,
