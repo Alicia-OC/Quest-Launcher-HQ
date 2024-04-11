@@ -5,7 +5,9 @@ import ".//css/RegistrationForm.css";
 import { Link } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import { setLogin } from "../state";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setTemplates, setFavTemplates } from "../state";
+import { mongoDB_Template } from "../apis";
 
 const Login = (props) => {
   const dispatch = useDispatch();
@@ -16,27 +18,65 @@ const Login = (props) => {
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
+  const user = useSelector((state) => state.user); //
+  const token = useSelector((state) => state.token);
+
   /** */
+
+  const getTemplates = async () => {
+    const templates = user.templates;
+    const templateArr = [];
+    console.log(templates);
+    Axios.get(mongoDB_Template + `/${user._id}/alltemplates`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        return dispatch(setTemplates({ templates: res.data }));
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const getFavTemplates = async () => {
+    Axios.get(mongoDB_Template + `/${user._id}/favTemplates`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        dispatch(setFavTemplates({ favTemplates: res.data }));
+      })
+      .catch((err) => {
+        const error = err.response.data.message;
+        if (error === "jwt expired") {
+          console.log(error);
+          // dispatch(setLogout())
+        }
+      });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    Axios.post(mongoDB_Auth + "/login", {
-      email: email,
-      password: password,
-    })
-      .then(function (response) {
-        if (response.status === 200) {
-          console.log('ok');
-          dispatch(
-            setLogin({
-              user: response.data.user,
-              token: response.data.token,
-            })
-          );
-         // window.location.replace("/");
-        }
+    try {
+      Axios.post(mongoDB_Auth + "/login", {
+        email: email,
+        password: password,
       })
-      .catch((err) => console.log(err));
+        .then(function (response) {
+          if (response.status === 200) {
+            dispatch(
+              setLogin({
+                user: response.data.user,
+                token: response.data.token,
+              })
+            );
+            window.location.replace("/");
+          }
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {console.log(error);}
   };
 
   const goToRegistrationForm = (e) => {
@@ -57,7 +97,6 @@ const Login = (props) => {
         <div className="creationForm-form">
           <form method="post" name="newUserForm">
             <h2>Sign In</h2>
-            
             <div className="form-group-div">
               <label>Email</label>
               <input

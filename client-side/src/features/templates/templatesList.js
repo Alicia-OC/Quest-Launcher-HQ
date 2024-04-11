@@ -1,11 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import StarButton from "../../components/pages/elements/StarButton.js";
-import { mongoDB_Template } from "../../apis.js";
 import { useDispatch, useSelector } from "react-redux";
-import { setTemplates } from "../../state/index.js";
-import { useEffect } from "react";
 
-import Axios from "axios";
 
 
 function TemplateList() {
@@ -16,23 +12,6 @@ function TemplateList() {
   const token = useSelector((state) => state.token);
   const templates = user.templates;
   const templateArr = [];
-
-  const getTemplates = async () => {
-    Axios.get(mongoDB_Template + `/${user._id}/alltemplates`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        dispatch(setTemplates({ templates: res.data }));
-      })
-      .catch((err) => console.error(err));
-  };
-
-  useEffect(() => {
-    getTemplates();
-    console.log(templates);
-  }, []);
 
   const handleClick = (e, id) => {
     console.log(id);
