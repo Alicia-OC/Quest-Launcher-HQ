@@ -146,41 +146,59 @@ th {
   padding: 0;
 }
 
+.addNewVendorButton button {
+  padding: 0.45rem;
+}
+
 /* CSS button:   https://getcssscan.com/css-buttons-examples  by Paper CSS*/
-.VendorsList button {
+
+.VendorsListDiv {
+  border: 1px solid #dededf;
+  height: 100%;
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border-spacing: 1px;
+  text-align: left;
+}
+
+.VendorsListDiv th {
+  border: 1px solid #dededf;
+  background-color: #eceff1;
+  color: #000000;
+  padding: 5px;
+}
+
+.VendorsListDiv td {
+  border: 1px solid #dededf;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 5px;
+
+}
+
+.VendorsListDiv button {
   align-self: center;
   background-image: none;
-  background-position: 0 90%;
   background-repeat: repeat no-repeat;
-  background-size: 4px 3px;
-  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
-  border-style: solid;
-  border-width: 2px;
-  box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
   box-sizing: border-box;
-  color: #41403e;
   cursor: pointer;
   display: inline-block;
-  font-family: Neucha, sans-serif;
-  line-height: 1.5px;
   outline: none;
-  padding: 0.55rem;
   text-decoration: none;
-  transition: all 235ms ease-in-out;
-  border-bottom-left-radius: 15px 255px;
-  border-bottom-right-radius: 225px 15px;
-  border-top-left-radius: 255px 15px;
-  border-top-right-radius: 15px 225px;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+  border: none;
+  background-color: #ffffff;
+
+
+}
+
+
+.VendorsListDiv button:hover {
+  border-radius: 5px;
+  border: 1px solid black;
 }
 
 /* NEWVENDOR*/
-.AddVendorButton:hover {
-  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
-  transform: translate3d(0, 2px, 0);
-}
 
 .AddVendorButton:focus {
   box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;

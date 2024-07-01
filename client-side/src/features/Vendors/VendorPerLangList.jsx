@@ -1,6 +1,4 @@
 import { Link, useParams } from "react-router-dom";
-
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import deleteVendorById from "./deleteVendor";
@@ -30,7 +28,7 @@ const VendorPerLangList = (props) => {
       <td>{vendor.language}</td>
       <td>{vendor.email}</td>
       <td>
-        <button id={vendor._id} onClick={(e) => editButton(e)}>
+        <button className="VendorsListEditButton" id={vendor._id} onClick={(e) => editButton(e)}>
           <FontAwesomeIcon icon={faEdit} />{" "}
         </button>
       </td>{" "}
@@ -59,7 +57,7 @@ const VendorPerLangList = (props) => {
   } else {
     return (
       <div>
-        <div>
+        <div className="addNewVendorButton">
           <Link to="/NewVendor">Add a new vendor</Link>
         </div>
         <table>

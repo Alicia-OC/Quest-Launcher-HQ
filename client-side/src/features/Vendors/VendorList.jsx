@@ -44,14 +44,14 @@ const VendorList = ({}) => {
     );
   } else {
     return (
-      <div className="VendorsList">
-        <div>
+      <div >
+        <div className="AddVendorButton">
           <button className="AddVendorButton">
             {" "}
             <Link to="/NewVendor">Add a new vendor</Link>
           </button>
         </div>
-        <table>
+        <table className="VendorsListDiv">
           <thead>
             <tr>
               <th scope="col">Full name</th>
