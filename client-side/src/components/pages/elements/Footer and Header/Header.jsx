@@ -24,18 +24,6 @@ function Navbar() {
 
   const user = useSelector((state) => state.user); //
 
-  function logOut(e) {
-    e.preventDefault();
-    console.log("dasd");
-    try {
-      dispatch(setLogout());
-      console.log(435);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      window.location.replace("/");
-    }
-  }
   const oldCOntent = (
     <nav className="Navbar">
       <div className="NavbarItem-left" id="NavbarHome">
@@ -89,6 +77,11 @@ function Navbar() {
     const handleCloseUserMenu = () => {
       setAnchorElUser(null);
     };
+
+    function logOut(e) {
+      e.preventDefault();
+      dispatch(setLogout());
+    }
 
     return (
       <AppBar position="static" style={{ background: "#7C96AB" }}>
@@ -242,7 +235,8 @@ function Navbar() {
                 </MenuItem>
                 <MenuItem
                   onClick={(e) => {
-                    dispatch(setLogout());
+                    logOut(e);
+                    navigate('/login')
                   }}
                 >
                   Log Out
@@ -274,7 +268,7 @@ function Navbar() {
                 textDecoration: "none",
               }}
             >
-              Email request generator
+              Translation requests generator
             </Typography>
             <Typography
               variant="h6"

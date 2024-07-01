@@ -47,7 +47,7 @@ function App() {
       if (currentTime > tokenExpiresAt.exp) {
         console.log("bye token");
         dispatch(setLogout());
-       // window.location.reload();
+        // window.location.reload();
       }
       //
     }
@@ -88,7 +88,10 @@ function App() {
             path="/Library"
             element={isAuth ? <Library /> : <UnauthorizedAccess />}
           />
-          <Route path="/Profile" element={<UserProfile />} />
+          <Route
+            path="/Profile"
+            element={isAuth ? <UserProfile /> : <UnauthorizedAccess />}
+          />
 
           <Route
             path="/Vendors"
