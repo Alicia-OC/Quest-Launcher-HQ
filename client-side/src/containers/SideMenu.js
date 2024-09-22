@@ -24,7 +24,7 @@ function UserSideMenu() {
       for (let i = 0; i < favTemplates.length; i++) {
         favTemplatesArr.push(
           <li key={favTemplates[i]._id} id={favTemplates[i]._id}>
-            <a className="" href={"/Template/" + favTemplates[i]._id}>
+            <a className="SideMenuLinks" href={"/Template/" + favTemplates[i]._id}>
               {favTemplates[i].templateTitle.slice(0, 20)}...
             </a>
             <Divider />

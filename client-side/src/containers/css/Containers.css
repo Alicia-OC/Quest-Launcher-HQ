@@ -218,5 +218,31 @@ th {
   color: rgb(238, 231, 218);
 }
 
+.itemTemplateList{
+  padding-bottom: 3px;
+}
+.templateList {
+  padding-right: 8px;
+}
+
+.btnTemplateList {
+  padding-right: 4px;
+  padding-left: 4px;
+  margin-right: 4px;
+}
+
+.btnStarTemplateList {
+  padding: 1px;
+  margin-right: 4px;
+  width: 30px;
+}
 
 /*CREATE USER*/
+
+
+/*SIDE MENU*/
+
+.SideMenuLinks a:visited {
+  color: blue;
+  
+}

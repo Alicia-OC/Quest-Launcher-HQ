@@ -31,26 +31,22 @@ function Footer() {
     months[time.getMonth()]
   } ${time.getDate()} - `;
 
-  let testnumber = 12
-
   const currentHour = `${time.getHours()}:${time.getMinutes()} `;
   const [currentTime, setCurrentTime] = useState(null);
 
-  const timeOfTheDay = () => {
-    if (testnumber >= 12) {
-      return " PM";
-    } else if (time.getHours() < 12) {
-      return " AM";
-    }
-  };
-
   useEffect(() => {
-    setInterval(() => setCurrentTime(currentHour), 1000);
+    setCurrentTime(currentHour);
+
+    const intervalId = setInterval(() => {
+      setCurrentTime(currentHour);
+    }, 60000);
+  
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
     <div className="App-footer">
-      <h4>{date + currentTime + timeOfTheDay()}</h4>
+      <h4>{date + currentTime + 'CEST'}</h4>
     </div>
   );
 }

@@ -27,17 +27,17 @@ function TemplateList() {
   if (templates) {
     for (let i = 0; i < templates.length; i++) {
       templateArr.push(
-        <li
+        <li className="itemTemplateList"
           key={templates[i]._id}
           id={templates[i]._id}
           value={templates[i].templateTitle}
         >
-          <a href={"Template/" + templates[i]._id}>
+          <a href={"Template/" + templates[i]._id} className="templateList">
             {" "}
             {templates[i].templateTitle}
           </a>
           <button
-            className=""
+            className="btnTemplateList"
             onClick={(e) => {
               handleClick(e, templates[i]._id);
             }}

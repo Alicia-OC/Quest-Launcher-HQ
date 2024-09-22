@@ -4,8 +4,9 @@ import Public from "./Public";
 import { Box, useMediaQuery } from "@mui/material";
 import { HomeCard } from "../components/pages/widgets/HomeCards.";
 import { mongoDB_Template } from "../apis";
-import { setTemplates, setFavTemplates } from "../state";
+import { setTemplates, setFavTemplates, setRequest } from "../state";
 import { useDispatch, useSelector } from "react-redux";
+import GetFavTemplates2 from "../features/templates/GetFavTemplates";
 
 const Public2 = () => {
   const content = (
@@ -25,11 +26,11 @@ const UserLoggedBody = () => {
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const templates = user.templates;
-  const templateArr = [];
+  const requests = user.requests;
+
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const getTemplates = async () => {
-    console.log(templates);
     Axios.get(mongoDB_Template + `/${user._id}/alltemplates`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -37,12 +38,12 @@ const UserLoggedBody = () => {
     })
       .then((res) => {
        dispatch(setTemplates({ templates: res.data }));
-        console.log(templates);
+      
       })
       .catch((err) => console.error(err));
-  };
+  };  
 
-  const getFavTemplates = async () => {
+  const GetFavTemplates = async () => {
     Axios.get(mongoDB_Template + `/${user._id}/favTemplates`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -62,13 +63,15 @@ const UserLoggedBody = () => {
 
   useEffect(() => {
     getTemplates();
-    getFavTemplates();
-   
+    GetFavTemplates();
+       console.log(user.favTemplates)
+
   }, []);
 
   const content = (
     <Box>
       <p>Welcome, {user.fullName} &#9825;</p>
+      <p>You have crated {templates.length} templates and {requests.length} requests so far! </p>
       <Box
         display="grid"
         gap="30px"
