@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Axios from "axios";
 import { mongoDB_Template } from "../../../apis";
-import GetFavTemplates2 from "../../../features/templates/GetFavTemplates";
 import { setFavTemplates } from "../../../state";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,51 +20,58 @@ function StarButton(props) {
 
 
   useEffect(() => {
-    if (isUpdated && isToUpdateBackend) {
-      updateDB();
-      UpdateFavs();
-      setIsUpdated(false); 
-    }
-  }, [starred, isUpdated, isToUpdateBackend]);
+    const updateTemplates = async () => {
+      if (isUpdated) {
+        const dbUpdated = await updateDB(); // Await the updateDB
+        if (dbUpdated) {
+          await UpdateFavs(); // Call UpdateFavs only if the DB update was successful
+        }
+        setIsUpdated(false);
+      }
+    };
+
+    updateTemplates();
+  }, [starred, isUpdated]);
 
   const UpdateFavs = async () => {
-
     console.log(user.favTemplates);
-
-    Axios.get(mongoDB_Template + `/${user._id}/favTemplates`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        dispatch(setFavTemplates({ favTemplates: res.data }));
-      })
-      .catch((err) => {
-        const error = err.response.data.message;
+    {
+      try {
+        const response = await Axios.get(mongoDB_Template + `/${user._id}/favTemplates`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(setFavTemplates({ favTemplates: response.data }));
+      } catch (err) {
+        const error = err.response ? err.response.data.message : err.message;
         if (error === "jwt expired") {
           console.log(error);
-          // dispatch(setLogout())
+          // Optionally dispatch logout action here
+        } else {
+          console.error("Error fetching favorite templates:", error);
         }
-      });
+      }
+    };
+  
   };
 
   const updateDB = async () => {
     console.log({ id: id, favorite: starred });
-
-    if (isToUpdateBackend) {
-      Axios.patch(
+    try {
+      await Axios.patch(
         mongoDB_Template + `/${id}`,
         { id: id, favorite: starred },
-
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
-      )
-        .then((response) => console.log(response.data))
-        .catch((error) => console.error(error));
-      return true;
+      );
+      return true; 
+    } catch (error) {
+      console.error(error);
+      return false;
     }
   };
 

@@ -5,12 +5,12 @@ import { mongoDB_Template } from "../../apis";
 import { useDispatch, useSelector } from "react-redux";
 
 
-const GetFavTemplates2 =  () =>{
+const GetFavTemplates2 = async () =>{
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
-    console.log(user.favTemplates)
+    console.log(user.fav)
 
 
     Axios.get(mongoDB_Template + `/${user._id}/favTemplates`, {
