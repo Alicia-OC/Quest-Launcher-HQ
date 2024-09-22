@@ -11,7 +11,7 @@ const verifyToken = (req, res, next) => {
     let token = req.headers.authorization;
     if (!token) {
 
-      return res.status(403).send({ message: "dasd" });
+      return res.status(403).send({ message: "Invalid token" });
     }
 
     if (token.startsWith("Bearer")) {

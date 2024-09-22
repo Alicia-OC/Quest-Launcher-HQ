@@ -159,7 +159,7 @@ const starTemplate = asyncHandler(async (req, res) => {
 
     const updatedTemplate = await template.save();
 
-    res.json({ message: `${updatedTemplate.templateTitle} updated` });
+    res.json({ message: `${updatedTemplate.templateTitle} with id: ${updatedTemplate._id} updated` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
