@@ -21,7 +21,7 @@ function CreateItems(props) {
 
   return (
     <>
-      <input onChange={handleChange} placeholder="Write something here" />
+      <input className="Input_50" onChange={handleChange} placeholder="Write something here" />
       <button onClick={submitReq}>Add</button>
     </>
   );

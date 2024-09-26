@@ -240,6 +240,14 @@ th {
 /*CREATE USER*/
 
 
+.Input_50{
+  width: 70%
+}
+
+.languagesInputsList{
+  margin: 0;
+}
+
 /*SIDE MENU*/
 
 .SideMenuLinks a:visited {

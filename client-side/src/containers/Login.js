@@ -133,14 +133,7 @@ const Login = (props) => {
                 ></input>
               </div>
             </div>
-            <div>
-              <input
-                type="checkbox"
-                value="lsRememberMe"
-                id="rememberMe"
-              ></input>{" "}
-              <label for="rememberMe">Remember me</label>
-            </div>
+
             <div className="form-group-div submit-btn">
               <input
                 type="submit"

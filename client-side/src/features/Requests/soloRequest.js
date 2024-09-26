@@ -34,7 +34,7 @@ function SoloRequest() {
 
   let teamTableLoop = () => {
     let array = [];
-    const team = languageTeam
+    const team = languageTeam;
 
     if (team) {
       for (let i = 0; i < team.length; i++) {
@@ -54,7 +54,7 @@ function SoloRequest() {
 
   let instructionsBlock = () => {
     if (instructions.length === 0) {
-      return '';
+      return "";
     } else {
       return (
         <>
@@ -127,17 +127,24 @@ function SoloRequest() {
         <label>Requirements list </label>
         <br></br>
         <ul> {reqsLoop}</ul>
+        <a href="https://www.w3schools.com/html/html_links.asp">LINK</a>
       </div>
       <div className="Deadlines">
         <label>Deadlines:</label>
         <br></br>
+
         <ul>
-          <strong>TRA: </strong>
-          {deadlines.translation}
-        </ul>
-        <ul>
-          <strong>PRF: </strong>
-          {deadlines.proofreading}
+          <li>
+            {" "}
+            <strong>TRA: </strong>
+            {deadlines.translation}
+          </li>
+
+          <li>
+            {" "}
+            <strong>PRF: </strong>
+            {deadlines.proofreading}
+          </li>
         </ul>
       </div>
     </div>
