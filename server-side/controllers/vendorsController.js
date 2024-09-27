@@ -5,7 +5,7 @@ let Vendor = VendorSchemas.Vendor;
 
 const getAllVendors = asyncHandler(async (req, res) => {
   try {
-    Vendor.find({}).then((data) => {
+    Vendor.find({}).sort({ nickname: 1 }).then((data) => {
       const formattedVendor = data.map(
         ({ _id, fullName, nickname, language, service, email }) => {
           return { _id, fullName, nickname, language, service, email };

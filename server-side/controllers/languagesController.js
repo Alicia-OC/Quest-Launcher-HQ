@@ -5,7 +5,7 @@ const Language = LanguagesSchema.Language;
 
 const getAllLanguages = asyncHandler(async (req, res) => {
   try {
-    Language.find({}).then((data) => {
+    Language.find({}).sort({ language: 1 }).then((data) => {
       const formattedLanguage = data.map(({ _id, language, languageCode }) => {
         return { _id, language, languageCode };
       });
@@ -23,7 +23,7 @@ const getAllLanguages = asyncHandler(async (req, res) => {
 
 const createNewLanguage = asyncHandler(async (req, res) => {
   try {
-    const { language, languageCode } = req.body;
+    const { _id, language, languageCode } = req.body;
     const languageDuplicate = await Language.findOne({ language })
       .lean()
       .exec();
@@ -38,6 +38,7 @@ const createNewLanguage = asyncHandler(async (req, res) => {
     }
 
     const languageObject = {
+      _id: _id,
       language: language,
       languageCode: languageCode,
     };
