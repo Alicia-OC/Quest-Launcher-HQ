@@ -186,115 +186,120 @@ function NewRequestFromTemplate() {
       .then(alert(`New request ${projectTitle} has been created!`));
   }
 
-  /**      .then(location.reload());
-   */
-
-  return (
-    <div>
+  if (templateObject) {
+    return (
       <div>
-        <form>
-          <p className="requestWarning">
-            {" "}
-            **You are using the template <i>{templateTitle}</i> for this request
-          </p>
-          <label className="">Project title:</label>
-          <NewInput
-            getInput={(title) => setprojectTitle(title)}
-            placeholder="Write your request's title here"
-          />
-          
-          <div className="dropDownGreetings" data-type="select">
-            <select
-              id="greetingsSelectOptions"
-              className="greetingsSelectOptions"
-            >
-              {GreetingsLoop}
-              <option  value="Random greet">Random greet</option>
-            </select>
-
-          </div>
-          <div className="introText" data-type="select">
-            <NewTextArea
-              getText={(text) => setThisIntroText(text)}
-              defaultValue={introText}
+        <div>
+          <form>
+            <p className="requestWarning">
+              {" "}
+              **You are using the template <i>{templateTitle}</i> for this
+              request
+            </p>
+            <label className="">Project title:</label>
+            <NewInput
+              getInput={(title) => setprojectTitle(title)}
+              placeholder="Write your request's title here"
             />
-            <p>Specific instructions:</p>
-            <NewTextArea
-              getText={(text) => setThisIntroText(text)}
-              defaultValue={instructions}
-            />
-          </div>
 
-          <div className="projectDetailsParagraph">
-            <div className="gamesDiv">
-              <label>Game: </label>
-              <p1>
-                <b>{game}</b>, by <b>{developer}</b>
-              </p1>
+            <div className="dropDownGreetings" data-type="select">
+              <select
+                id="greetingsSelectOptions"
+                className="greetingsSelectOptions"
+              >
+                {GreetingsLoop}
+                <option value="Random greet">Random greet</option>
+              </select>
             </div>
-            <ul>
-              <li>
-                <label>MQ project</label>
-                <NewInput
-                  getInput={(project) => setMqproject(project)}
-                  placeholder=""
-                />
-              </li>
-              <li>
-                <label>WC</label>
-                <NewInput
-                  getInput={(number) => setWordcount(number)}
-                  placeholder=""
-                />
-              </li>
-              <li>
-                {" "}
-                <label>Files</label>
-                <NewInput getInput={(name) => setFiles(name)} placeholder="" />
-              </li>
-            </ul>
-          </div>
-          <PickServiceButtons
-            getService={(thisService) => {
-              setThisService(thisService);
-            }}
-          />
-          <MainTable
-            getService={(serviceCall) => setThisService(serviceCall)}
-            getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
-            languageTeam={languageTeam}
-            service={thisService}
-            onChange={(e) => {
-              tableChanged(e);
-            }}
-          />
+            <div className="introText" data-type="select">
+              <NewTextArea
+                getText={(text) => setThisIntroText(text)}
+                defaultValue={introText}
+              />
+              <p>Specific instructions:</p>
+              <NewTextArea
+                getText={(text) => setThisIntroText(text)}
+                defaultValue={instructions}
+              />
+            </div>
 
-          <RequestLists
-            sendTemplateAttachments={attachments}
-            sendTemplateRequirements={requirements}
-            getAttachments={(theseAttachments) =>
-              setThisAttachments(theseAttachments)
-            }
-            getRequirements={(theseReqs) => setThisRequirements(theseReqs)}
-            onChange={(e) => {
-              listChanged(e);
-            }}
-          />
+            <div className="projectDetailsParagraph">
+              <div className="gamesDiv">
+                <label>Game: </label>
+                <p1>
+                  <b>{game}</b>, by <b>{developer}</b>
+                </p1>
+              </div>
+              <ul>
+                <li>
+                  <label>MQ project</label>
+                  <NewInput
+                    getInput={(project) => setMqproject(project)}
+                    placeholder=""
+                  />
+                </li>
+                <li>
+                  <label>WC</label>
+                  <NewInput
+                    getInput={(number) => setWordcount(number)}
+                    placeholder=""
+                  />
+                </li>
+                <li>
+                  {" "}
+                  <label>Files</label>
+                  <NewInput
+                    getInput={(name) => setFiles(name)}
+                    placeholder=""
+                  />
+                </li>
+              </ul>
+            </div>
+            <PickServiceButtons
+              getService={(thisService) => {
+                setThisService(thisService);
+              }}
+            />
+            <MainTable
+              getService={(serviceCall) => setThisService(serviceCall)}
+              getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+              languageTeam={languageTeam}
+              service={thisService}
+              languages={languageTeam}
+              onChange={(e) => {
+                tableChanged(e);
+              }}
+            />
 
-          <CreateDeadlines
-            setService={thisService}
-            getTransDL={(thisDL) => setTransDL(thisDL)}
-            getProofDL={(thisDL) => setProofDL(thisDL)}
-          />
-        </form>
-        <input
-          type="submit"
-          value="Create"
-          onClick={(e) => HandleSubmit(e)}
-        ></input>
+            <RequestLists
+              sendTemplateAttachments={attachments}
+              sendTemplateRequirements={requirements}
+              getAttachments={(theseAttachments) =>
+                setThisAttachments(theseAttachments)
+              }
+              getRequirements={(theseReqs) => setThisRequirements(theseReqs)}
+              onChange={(e) => {
+                listChanged(e);
+              }}
+            />
+
+            <CreateDeadlines
+              setService={thisService}
+              getTransDL={(thisDL) => setTransDL(thisDL)}
+              getProofDL={(thisDL) => setProofDL(thisDL)}
+            />
+          </form>
+          <input
+            type="submit"
+            value="Create"
+            onClick={(e) => HandleSubmit(e)}
+          ></input>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return 'Template not found.'
+  }
 }
 
 export default NewRequestFromTemplate;

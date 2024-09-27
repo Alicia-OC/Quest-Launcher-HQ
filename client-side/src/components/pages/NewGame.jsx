@@ -10,7 +10,6 @@ function NewGame() {
   const [developer, setDeveloper] = useState();
   const [title, setTitle] = useState();
   const [links, setLinks] = useState([]);
-  const [languages, setlanguages] = useState([]);
   const DB_languages = GetLanguages();
   const [arrayOfLangs, setArrayOfLangs] = useState([]); 
 
@@ -75,7 +74,7 @@ function NewGame() {
 
   const languagesLoop = () => {
     if (DB_languages) {
-      const duplicate = DB_languages.map((item) =>  item.language).sort()
+      const duplicate = DB_languages.map((item) =>  item.language)
       
       return (
         <>
@@ -135,10 +134,7 @@ function NewGame() {
         </div>
         <div>
           <label>Languages:</label>
-          <input
-            placeholder="Please add the languace code only"
-            onChange={(e) => setlanguages(e.target.value)}
-          ></input>
+         
           {languagesLoop()}
         </div>
         <input

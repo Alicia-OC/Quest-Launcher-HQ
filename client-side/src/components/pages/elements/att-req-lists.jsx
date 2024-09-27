@@ -78,10 +78,7 @@ let RequestLists = (props) => {
             {attachment.map((attachmentItem, index) => {
               return (
                 <li id={attachmentItem}>
-                  <input
-                    onChange={(e) => console.log(e.target.value)}
-                    value={attachmentItem.value}
-                  ></input>
+                  <label>{attachmentItem.value}</label>
                   <button onClick={(e) => deleteAttachment(e, index)}>-</button>
                 </li>
               );
@@ -96,11 +93,7 @@ let RequestLists = (props) => {
             {requirements.map((reqItem, index) => {
               return (
                 <li id={reqItem}>
-                  <input
-                    onChange={(e) => console.log(e.target.value)}
-                    value={reqItem.value}
-                  ></input>
-
+                  <label>{reqItem.value}</label>
                   <button
                     id={reqItem}
                     onClick={(e) => deleteRequirements(e, index)}

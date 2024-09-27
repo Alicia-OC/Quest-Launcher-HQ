@@ -16,19 +16,23 @@ function CreateRequirements(props) {
   }
 
   function submitReq(e) {
-    props.onAddReq(requirement);
     e.preventDefault();
+    props.onAddReq(requirement);
+    setRequirements({ value: "" });
   }
 
   return (
     <div>
       <form className="create-requirement">
-        <input onChange={handleChange} placeholder="Write something here" />
+        <input
+          value={requirement.value}
+          onChange={handleChange}
+          placeholder="Write something here"
+        />
         <button onClick={submitReq}>Add</button>
       </form>
     </div>
   );
 }
 
-
-export default CreateRequirements
+export default CreateRequirements;

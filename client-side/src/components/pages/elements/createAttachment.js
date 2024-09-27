@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 function CreateAttachment(props) {
   const [attachment, setAttachment] = useState({
-    value: ""
+    value: "",
   });
 
   function handleChange(e) {
@@ -16,14 +16,19 @@ function CreateAttachment(props) {
   }
 
   function submitAttachment(e) {
-    props.onAdd(attachment);
     e.preventDefault();
+    props.onAdd(attachment);
+    setAttachment({ value: "" });
   }
 
   return (
     <div>
       <form className="create-attachment">
-        <input onChange={handleChange} placeholder="Write something here" />
+        <input
+          value={attachment.value}
+          onChange={handleChange}
+          placeholder="Write something here"
+        />
         <button onClick={submitAttachment}>Add</button>
       </form>
     </div>

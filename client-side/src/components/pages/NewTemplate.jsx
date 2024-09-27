@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -18,8 +18,8 @@ import { GetDevelopers } from "../../features/developersList/fetchDevelopers";
 import { GetGames } from "../../features/Games/fetchGames";
 
 /* MUI */
-
-import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 
 /* CSS */
 import "./NewTemplate.css";
@@ -121,14 +121,12 @@ function NewTemplate(props) {
    */
 
   function HandleSubmit(e) {
-    console.log();
     e.preventDefault();
 
     let attFormatted = attachments.map((att) => att.value);
     let reqFormatted = requirements.map((req) => req.value);
-    let domain = user.domain
-    let userID = user._id
-    console.log(teamTable);
+    let domain = user.domain;
+    let userID = user._id;
 
     const object = {
       templateTitle: templateTitle,
@@ -166,12 +164,18 @@ function NewTemplate(props) {
           window.location.replace(`/Template/${response.data}`);
         }
       })
-      .catch((err) => console.log(err)
-      );
+      .catch((err) => console.log(err));
 
     //.then(location.reload());
   }
 
+
+
+  const setStar = (e) => {
+    e.preventDefault();
+    setTemplateStarred(!templateStarred);
+    
+  };
 
   return (
     <div className="createTemplate">
@@ -184,10 +188,15 @@ function NewTemplate(props) {
               getInput={(title) => setTemplateTitle(title)}
               placeholder="Write your template's title here"
             />{" "}
-            <StarButton
-              getStar={(star) => setTemplateStarred(star)}
-              isToUpdateBackend={false}
-            />
+
+            <button onClick={(e) => setStar(e)} className="btnStarTemplateList">
+              {templateStarred ? (
+                <StarIcon style={{ fontSize: "1rem" }} />
+              ) : (
+                <StarBorderOutlinedIcon style={{ fontSize: "1rem" }} />
+              )}
+            </button>
+
           </div>
           <div className="gamesDiv">
             <div>

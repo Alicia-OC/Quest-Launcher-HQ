@@ -46,7 +46,7 @@ function SoloTemplate() {
 
   let attachmentsLoop = attachments.map((item) => <li>{item}</li>);
   let reqsLoop = requirements.map((item) => <li>{item}</li>);
-  let langsLoop = languageTeam.map((item)=> `${item}, `)
+  let langsLoop = languageTeam.map(item => item).join(' - ');
 
   const handleClick = (e) => {
     e.preventDefault();

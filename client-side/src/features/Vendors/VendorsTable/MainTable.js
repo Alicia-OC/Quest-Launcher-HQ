@@ -7,6 +7,7 @@ import { GetFIGS } from "../../languagesList/fetchLanguages";
 
 const MainTable = (props) => {
   let requestService = props.service;
+  let languagesFromTemplate = props.languages
 
   const [additionalLanguage, setAdditionalLanguage] = useState();
   const [updateTable, setUpdateTable] = useState();
@@ -22,6 +23,10 @@ const MainTable = (props) => {
   doesn't push any item to this array */
 
   let this_handoff_added_lang = baseLanguages2;
+
+  if(languagesFromTemplate){
+    this_handoff_added_lang = languagesFromTemplate
+  }
 
   /** 1. Stores in a const the language that triggered the delete function
    * 2. loops through the language array, looks for the object whose language is the same as the trigger
