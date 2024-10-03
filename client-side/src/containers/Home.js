@@ -71,7 +71,7 @@ const UserLoggedBody = () => {
   const content = (
     <Box>
       <p>Welcome, {user.fullName} &#9825;</p>
-      <p>You have crated {templates.length} templates and {requests.length} requests so far! </p>
+      <p>You have created {templates.length} templates and {requests.length} requests so far! </p>
       <Box
         display="grid"
         gap="30px"
@@ -80,7 +80,7 @@ const UserLoggedBody = () => {
           "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
         }}
       >
-        <h3>item 1</h3> <h3>item 2</h3>{" "}
+        <h3>{templates[0].templateTitle}</h3> <h3>{templates[1].templateTitle}</h3>{" "}
       </Box>{" "}
       <Box
         display="grid"

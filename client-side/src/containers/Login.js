@@ -60,29 +60,30 @@ const Login = (props) => {
     e.preventDefault();
 
     try {
-      Axios.post(mongoDB_Auth + "/login", {
+      const response = await Axios.post(mongoDB_Auth + "/login", {
         email: email,
         password: password,
-      })
-        .then(function (response) {
-          if (response.status === 200) {
-            dispatch(
-              setLogin({
-                user: response.data.user,
-                token: response.data.token,
-              })
-            );
-            window.location.replace("/");
-          }
-        })
-        .catch((err) => console.log(err));
-    } catch (error) {console.log(error);}
+      });
+
+      if (response.status === 200) {
+        dispatch(
+          setLogin({
+            user: response.data.user,
+            token: response.data.token,
+          })
+        );
+        window.location.replace("/");
+      }
+    } catch (error) {
+      console.log(error);
+      window.location.replace("/NoMatch");
+    }
   };
 
   const goToRegistrationForm = (e) => {
     e.preventDefault();
     window.location.replace("/register");
-    /**use replace  so users cannot click the “back” button and return to the previous, pre-redirect page*/
+    /**use replace so users cannot click the “back” button and return to the previous, pre-redirect page*/
   };
 
   return (
@@ -133,7 +134,6 @@ const Login = (props) => {
                 ></input>
               </div>
             </div>
-
             <div className="form-group-div submit-btn">
               <input
                 type="submit"

@@ -54,13 +54,10 @@ function NewGame() {
     } else {
       deleteLanguages(language);
     }
-    console.log(arrayOfLangs);
   }
 
   function deleteLanguages(language) {
     setArrayOfLangs(arrayOfLangs.filter((lang) => lang !== language));
-    console.log(arrayOfLangs);
-
   }
 
   const deleteLink = (e, id) => {

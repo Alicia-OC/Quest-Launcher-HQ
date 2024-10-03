@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import moment from "moment-timezone";
 
 function Footer() {
   const weekday = [
@@ -31,22 +32,40 @@ function Footer() {
     months[time.getMonth()]
   } ${time.getDate()} - `;
 
-  const currentHour = `${time.getHours()}:${time.getMinutes()} `;
+
   const [currentTime, setCurrentTime] = useState(null);
+  const [currentTimeNew_York, setCurrentTimeNew_York] = useState(null);
+  const [currentTimeKorea, setCurrentTimeKorea] = useState(null);
+  const [currentTimeBrazil, setCurrentTimeBrazil] = useState(null);
+
+  const updateTimes = () => {
+    const timeInCest = moment().tz("Europe/Berlin").format("HH:mm");
+    const timeNew_York = moment().tz("America/New_York").format("HH:mm");
+    const timeKorea = moment().tz("Asia/Seoul").format("HH:mm");
+    const timeBrazil = moment().tz("America/Sao_Paulo").format("HH:mm");
+
+    setCurrentTime(timeInCest);
+    setCurrentTimeNew_York(timeNew_York);
+    setCurrentTimeKorea(timeKorea);
+    setCurrentTimeBrazil(timeBrazil);
+
+  };
 
   useEffect(() => {
-    setCurrentTime(currentHour);
-
+    updateTimes();
     const intervalId = setInterval(() => {
-      setCurrentTime(currentHour);
+      updateTimes();
     }, 60000);
-  
+
     return () => clearInterval(intervalId);
   }, []);
 
   return (
     <div className="App-footer">
-      <h4>{date + currentTime + 'CEST'}</h4>
+      <h4>
+        {date + currentTime} Europe | {currentTimeNew_York}-New York |{" "}
+        {currentTimeKorea}-Korea | {currentTimeBrazil}-Brazil
+      </h4>
     </div>
   );
 }
