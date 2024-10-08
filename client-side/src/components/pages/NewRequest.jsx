@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
+import Quill from "quill";
+import Editor from "./elements/Editor.js";
 
 /* SMALL COMPONENTS */
 import RequestList from "./elements/att-req-lists.jsx";
@@ -23,7 +25,7 @@ function NewRequest(props) {
   const user = useSelector((state) => state.user);
 
   const [projectTitle, setprojectTitle] = useState();
-  const [greetings, setGreetings] = useState("hi");
+  const [greetings, setGreetings] = useState(randomGreetings[0]);
   const [instructions, setInstructions] = useState("");
   const [attachments, setAttachments] = useState();
   const [requirements, setRequirements] = useState();
@@ -40,6 +42,7 @@ function NewRequest(props) {
 
   const DB_games = GetGames();
   let GamesLoop = [];
+
   if (DB_games) {
     for (let i = 0; i < DB_games.length; i++) {
       GamesLoop.push(
@@ -54,15 +57,20 @@ function NewRequest(props) {
     }
   }
   const GreetingsLoop = randomGreetings.map((greet) => (
-    <option key={greet} value={greet}>
+    <option className="greetingsSelectDropdown" key={greet} value={greet}>
       {greet}
     </option>
   ));
 
-  const randomgreeting = Math.floor(Math.random() * randomGreetings.length);
-  function handleChange() {
-    let greetingValue = document.querySelector("#greetingsSelectDropdown");
-    setGreetings(greetingValue.value);
+  function handleChange(e) {
+    e.preventDefault();
+    const randomgreeting =
+    randomGreetings[Math.floor(Math.random() * randomGreetings.length)];
+    let chosenGreet = e.target.value
+    if (chosenGreet == 'Random greet') {
+      chosenGreet = randomgreeting
+    }
+    setGreetings(chosenGreet);
   }
 
   const tableChanged = (e) => {
@@ -201,12 +209,18 @@ function NewRequest(props) {
             <div className="introText" data-type="select">
               <div className="dropDownGreetings" data-type="select">
                 <select
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
                   id="greetingsSelectOptions"
                   className="greetingsSelectOptions"
                 >
                   {GreetingsLoop}
                   <option value="Random greet">Random greet</option>
                 </select>
+                <br/>
+                <br/>
+
                 <NewTextArea
                   getText={(text) => setIntroText(text)}
                   defaultValue={greetings}
@@ -244,7 +258,7 @@ function NewRequest(props) {
                 </li>
                 <li>
                   {" "}
-                  <label>Files</label>
+                  <label>File(s)</label>
                   <NewInput
                     getInput={(name) => setFiles(name)}
                     placeholder=""

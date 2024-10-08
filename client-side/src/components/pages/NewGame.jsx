@@ -131,7 +131,6 @@ function NewGame() {
         </div>
         <div>
           <label>Languages:</label>
-         
           {languagesLoop()}
         </div>
         <input
