@@ -65,21 +65,6 @@ function NewRequestFromTemplate() {
     let greetingValue = document.querySelector("#greetingsSelectDropdown");
     setGreetings(greetingValue.value);
   }
-  const GreetingsLoop = randomGreetings.map((greet) => (
-    <option key={greet} value={greet}>
-      {greet}
-    </option>
-  ));
-
-  const editInstructions = (e) => {
-    e.preventDefault();
-    setInstructionsIsEditable(!instructionsIsEditable);
-    console.log(instructionsIsEditable);
-    instructionsIsEditable
-      ? setInstructionsContent("hello")
-      : setInstructionsContent("hi");
-    setThisIntroText(<textarea></textarea>);
-  };
 
   const tableChanged = (e) => {
     let table = document.getElementsByTagName("table")[0];
@@ -201,22 +186,15 @@ function NewRequestFromTemplate() {
               getInput={(title) => setprojectTitle(title)}
               placeholder="Write your request's title here"
             />
+            <br></br>
+            <br></br>
 
-            <div className="dropDownGreetings" data-type="select">
-              <select
-                id="greetingsSelectOptions"
-                className="greetingsSelectOptions"
-              >
-                {GreetingsLoop}
-                <option value="Random greet">Random greet</option>
-              </select>
-            </div>
             <div className="introText" data-type="select">
               <NewTextArea
                 getText={(text) => setThisIntroText(text)}
                 defaultValue={introText}
               />
-              <p>Specific instructions:</p>
+              <label>Specific instructions:</label>
               <NewTextArea
                 getText={(text) => setThisIntroText(text)}
                 defaultValue={instructions}
@@ -298,7 +276,7 @@ function NewRequestFromTemplate() {
       </div>
     );
   } else {
-    return 'Template not found.'
+    return "Template not found.";
   }
 }
 

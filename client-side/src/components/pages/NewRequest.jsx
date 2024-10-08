@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
-import Quill from "quill";
-import Editor from "./elements/Editor.js";
 
 /* SMALL COMPONENTS */
 import RequestList from "./elements/att-req-lists.jsx";
@@ -65,10 +63,10 @@ function NewRequest(props) {
   function handleChange(e) {
     e.preventDefault();
     const randomgreeting =
-    randomGreetings[Math.floor(Math.random() * randomGreetings.length)];
-    let chosenGreet = e.target.value
-    if (chosenGreet == 'Random greet') {
-      chosenGreet = randomgreeting
+      randomGreetings[Math.floor(Math.random() * randomGreetings.length)];
+    let chosenGreet = e.target.value;
+    if (chosenGreet == "Random greet") {
+      chosenGreet = randomgreeting;
     }
     setGreetings(chosenGreet);
   }
@@ -218,22 +216,19 @@ function NewRequest(props) {
                   {GreetingsLoop}
                   <option value="Random greet">Random greet</option>
                 </select>
-                <br/>
-                <br/>
-
-                <NewTextArea
-                  getText={(text) => setIntroText(text)}
-                  defaultValue={greetings}
-                />
               </div>
-
-              <p>{initialParagraph}</p>
+              <NewTextArea
+                getText={(text) => setIntroText(text)}
+                defaultValue={greetings}
+              />
             </div>{" "}
-            <TextAreaComponent
-              changeInstructions={(thisInstructions) =>
-                setInstructions(thisInstructions)
-              }
-            />
+            <div className="textAreaAddInstructions">
+              <TextAreaComponent
+                changeInstructions={(thisInstructions) =>
+                  setInstructions(thisInstructions)
+                }     
+              />
+            </div>
             <div className="projectDetailsParagraph">
               <div className="gamesDiv">
                 <label>Game</label>

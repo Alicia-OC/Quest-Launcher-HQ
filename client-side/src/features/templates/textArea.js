@@ -1,48 +1,42 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import ReactQuill from 'react-quill'; 
+import 'react-quill/dist/quill.snow.css'; 
 
 const TextAreaComponent = (props) => {
-  const [instrucctionsButton, setInstrucctionsButton] = useState(false);
-  const [instructionsArea, setInstructionsArea] = useState(false);
+  const [instructionsVisible, setInstructionsVisible] = useState(false);
+  const [instructionsValue, setInstructionsValue] = useState("");
 
-  function instructionsForm(e) {
-    setInstrucctionsButton(!instrucctionsButton);
-    setInstructionsArea(!instructionsArea);
-    /**clears the text area when you click the remove button */
-    if (instrucctionsButton) {
-      document.getElementById("textArea").value = "";
-      childToParent(e);
+  function toggleInstructions() {
+    setInstructionsVisible((prev) => !prev);
+    // Clear instructions if hiding the editor
+    if (instructionsVisible) {
+      setInstructionsValue(""); 
+      props.changeInstructions(""); 
+    } else {
+      props.changeInstructions(instructionsValue); 
     }
-    e.preventDefault();
   }
 
-  function childToParent(e) {
-    e.preventDefault();
-    const value = document.getElementById("textArea").value;
-    props.changeInstructions(value);
+  function handleChange(value) {
+    setInstructionsValue(value); 
+    props.changeInstructions(value); // Notify parent of the change
+    console.log(value);
   }
 
   return (
     <div>
-      {" "}
       <div className="instructionsSection">
-        <button onClick={(e) => instructionsForm(e)} type="text">
-          {instrucctionsButton ? "Remove instructions" : "Add instructions"}
+        <button onClick={toggleInstructions} type="button">
+          {instructionsVisible ? "Remove instructions" : "Add instructions"}
         </button>
-        <div>
-          <textarea
-            id="textArea"
-            rows="4"
-            cols="100"
-            type="text"
-            style={{
-              display: instructionsArea ? "block" : "none",
-            }}
-            onKeyUp={(e) => {
-              childToParent(e);
-            }}
-          ></textarea>
-        </div>
-      </div>{" "}
+        {instructionsVisible && (
+          <ReactQuill
+            value={instructionsValue}
+            onChange={handleChange} 
+            placeholder="Type your instructions here..."
+          />
+        )}
+      </div>
     </div>
   );
 };
