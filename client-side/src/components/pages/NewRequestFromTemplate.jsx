@@ -7,7 +7,7 @@ import RequestLists from "./elements/att-req-lists.jsx";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
 import NewInput from "./elements/NewInput.js";
-import NewTextArea from "./elements/NewTextArea.js";
+import NewTextArea from "./elements/textArea_general.js";
 
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines.js";
@@ -194,7 +194,7 @@ function NewRequestFromTemplate() {
                 getText={(text) => setThisIntroText(text)}
                 defaultValue={introText}
               />
-              <label>Specific instructions:</label>
+<label>Specific instructions:</label>
               <NewTextArea
                 getText={(text) => setThisIntroText(text)}
                 defaultValue={instructions}

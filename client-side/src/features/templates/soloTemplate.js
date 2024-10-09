@@ -58,7 +58,7 @@ function SoloTemplate() {
       <h3>
         {templateTitle}
         <button
-          className=""
+          className="buttonNew"
           onClick={(e) => {
             handleClick(e);
           }}

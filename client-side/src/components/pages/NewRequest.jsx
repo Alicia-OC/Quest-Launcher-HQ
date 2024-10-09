@@ -4,12 +4,11 @@ import { useSelector } from "react-redux";
 
 /* SMALL COMPONENTS */
 import RequestList from "./elements/att-req-lists.jsx";
-import TextAreaComponent from "../../features/templates/textArea";
 import PickServiceButtons from "./elements/PickServiceButtons.js";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
 import NewInput from "./elements/NewInput.js";
-import NewTextArea from "./elements/NewTextArea.js";
-
+import NewTextArea from "./elements/textArea_general.js";
+import TextAreaComponent from "../../features/templates/textArea_instructions.js";
 /* DEFAULT VARIABLES */
 import { initialParagraph, randomGreetings } from "../../apis";
 import { mongoDB_Request } from "../../apis";

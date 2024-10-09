@@ -82,7 +82,7 @@ function StarButton(props) {
   };
 
   return (
-    <button onClick={(e) => handleChange(e)} className="btnStarTemplateList">
+    <button onClick={(e) => handleChange(e)} className="buttonNew">
       {starred ? (
         <StarIcon style={{ fontSize: "1rem" }} />
       ) : (

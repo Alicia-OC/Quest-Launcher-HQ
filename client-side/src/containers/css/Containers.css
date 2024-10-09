@@ -63,12 +63,6 @@
   border-top: 10px;
 }
 
-.mainContainer a {
-  color: black;
-  text-decoration: none;
-  padding-left: 0.5rem;
-}
-
 .mainContainer a:hover {
   text-decoration: dotted;
   cursor: pointer;
@@ -91,6 +85,10 @@
   border-radius: 25px;
   align-self: left;
   text-decoration: none;
+}
+.itemListSideMenu {
+  padding-bottom: 0.5rem;
+
 }
 
 .templateScreenshot {
@@ -198,6 +196,9 @@ th {
   border: 1px solid black;
 }
 
+.buttonNew{
+  margin-left: 0.5rem;
+}
 /* NEWVENDOR*/
 
 .AddVendorButton:focus {

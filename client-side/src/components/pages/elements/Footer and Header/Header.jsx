@@ -47,7 +47,7 @@ function Navbar() {
         </div>
       </div>
       <div className="NavbarItem-right" id="NavbarNew">
-        <button className="NavbarButton">New</button>
+        <button className="NavbarButton">Create</button>
         <div class="dropdown-content">
           <Link to="/NewRequest">Request</Link>
           <Link to="/NewTemplate">Template</Link>
@@ -128,25 +128,21 @@ function Navbar() {
                 }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
+                className="creationMenuHeader"
               >
                 <MenuItem>
-                  {" "}
                   <Link to="/NewRequest">Request</Link>
                 </MenuItem>
                 <MenuItem>
-                  {" "}
                   <Link to="/NewTemplate">Template</Link>
                 </MenuItem>
                 <MenuItem>
-                  {" "}
                   <Link to="/NewGame">Game</Link>
                 </MenuItem>
                 <MenuItem>
-                  {" "}
                   <Link to="/NewVendor">Vendor</Link>
                 </MenuItem>
                 <MenuItem>
-                  {" "}
                   <Link onClick={handleCloseNavMenu} to="/register">
                     Account
                   </Link>
@@ -173,9 +169,9 @@ function Navbar() {
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <Tooltip>
-                <IconButton onClick={handleOpenNavMenu}>New</IconButton>
+                <IconButton onClick={handleOpenNavMenu}>Create</IconButton>
               </Tooltip>
-              <Menu>
+              <Menu className="creationMenuHeader">
                 <MenuItem>
                   {" "}
                   <Link to="/NewRequest">Request</Link>
@@ -236,7 +232,7 @@ function Navbar() {
                 <MenuItem
                   onClick={(e) => {
                     logOut(e);
-                    navigate('/login')
+                    navigate("/login");
                   }}
                 >
                   Log Out

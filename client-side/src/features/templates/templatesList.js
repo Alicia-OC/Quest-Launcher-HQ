@@ -8,7 +8,7 @@ function TemplateList() {
   const user = useSelector((state) => state.user); //
   const templates = user.templates;
   const templateArr = [];
-  console.log(templates)
+  console.log(templates);
 
   const handleClick = (e, id) => {
     console.log(id);
@@ -16,21 +16,21 @@ function TemplateList() {
     navigate("/NewRequestFromTemplate/" + id);
   };
 
-
   if (templates) {
     for (let i = 0; i < templates.length; i++) {
       templateArr.push(
-        <li className="itemTemplateList"
+        <li
+          className="itemTemplateList"
           key={templates[i]._id}
           id={templates[i]._id}
           value={templates[i].templateTitle}
         >
-          <a href={"Template/" + templates[i]._id} className="templateList">
+          <a href={"Template/" + templates[i]._id} className="libraryDiv">
             {" "}
             {templates[i].templateTitle}
           </a>
           <button
-            className="btnTemplateList"
+            className="buttonNew"
             onClick={(e) => {
               handleClick(e, templates[i]._id);
             }}
@@ -44,10 +44,12 @@ function TemplateList() {
         </li>
       );
     }
-  } 
+  }
 
   return (
-    <div className="TemplateListed">
+    <div className="libraryDiv">
+      <h2>Your templates:</h2>
+
       <button>Create new</button>
       <ul>{templateArr}</ul>
     </div>

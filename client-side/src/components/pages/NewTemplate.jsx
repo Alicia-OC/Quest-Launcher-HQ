@@ -4,11 +4,10 @@ import { useSelector } from "react-redux";
 
 /* SMALL COMPONENTS */
 import RequestList from "./elements/att-req-lists";
-import TextAreaComponent from "../../features/templates/textArea";
+import NewTextArea from "./elements/textArea_general";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable";
 import PickServiceButtons from "./elements/PickServiceButtons";
 import NewInput from "./elements/NewInput";
-import StarButton from "./elements/StarButton";
 
 /* DEFAULT VARIABLES */
 import { mongoDB_Template, mongoDB_Users } from "../../apis";
@@ -34,7 +33,7 @@ function NewTemplate(props) {
   const [templateTitle, setTemplateTitle] = useState();
   const [developer, setDeveloper] = useState("Frozen District");
   const [introText, setIntroText] = useState(
-    "Write a small instroduction to the project here."
+    "Write a small introduction about project."
   );
   const [templateStarred, setTemplateStarred] = useState(false);
   const [thisListOfLanguages, setThisListOfLanguages] = useState();
@@ -169,12 +168,9 @@ function NewTemplate(props) {
     //.then(location.reload());
   }
 
-
-
   const setStar = (e) => {
     e.preventDefault();
     setTemplateStarred(!templateStarred);
-    
   };
 
   return (
@@ -188,7 +184,6 @@ function NewTemplate(props) {
               getInput={(title) => setTemplateTitle(title)}
               placeholder="Write your template's title here"
             />{" "}
-
             <button onClick={(e) => setStar(e)} className="btnStarTemplateList">
               {templateStarred ? (
                 <StarIcon style={{ fontSize: "1rem" }} />
@@ -196,7 +191,6 @@ function NewTemplate(props) {
                 <StarBorderOutlinedIcon style={{ fontSize: "1rem" }} />
               )}
             </button>
-
           </div>
           <div className="gamesDiv">
             <div>
@@ -215,20 +209,12 @@ function NewTemplate(props) {
               <p1>{developer}</p1>
             </div>
           </div>
-          <div className="introText" data-type="select">
-            <textarea
-              onChange={(e) => setIntroText(e.target.value)}
-              placeholder={introText}
-              rows="4"
-              cols="100"
-              type="text"
-            ></textarea>
+          <div className="introText" data-type="text">
+            <NewTextArea
+              getText={(text) => setIntroText(text)}
+              defaultValue={introText}
+            />
           </div>
-          <TextAreaComponent
-            changeInstructions={(thisInstructions) =>
-              setInstructions(thisInstructions)
-            }
-          />{" "}
         </div>
 
         <PickServiceButtons

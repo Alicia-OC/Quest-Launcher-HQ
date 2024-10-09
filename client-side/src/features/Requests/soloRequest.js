@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import GetRequest from "./fetchRequest.js";
+import parse from 'html-react-parser';
+
 
 /**CSS */
 
@@ -59,14 +61,16 @@ function SoloRequest() {
       return (
         <>
           <label>Specific Instructions: </label>
-          <p1>{instructions}</p1>
+          {parse(instructions)}
         </>
       );
     }
   };
 
-  let attachmentsLoop = attachments.map((item) => <li>{item.value}</li>);
-  let reqsLoop = requirements.map((item) => <li>{item.value}</li>);
+  let attachmentsLoop = attachments.map((item) => (
+    <li key={item.value}>{item.value}</li>
+  ));
+  let reqsLoop = requirements.map((item) => <li key={item.value}>{item.value}</li>);
 
   return (
     <div className="SoloRequest">
@@ -74,7 +78,7 @@ function SoloRequest() {
         <h3>{projectTitle}</h3>
         <p1>{greeting},</p1>
         <br />
-        <p1>{introText}</p1>
+        <p1>{parse(introText)}</p1>
         <br /> <br />
         {instructionsBlock()}
         <br />

@@ -41,11 +41,8 @@ function App() {
     if (isAuth) {
       const tokenExpiresAt = jwtDecode(token);
       const currentTime = Math.floor(Date.now() / 1000);
-      console.log(jwtDecode(token));
-      console.log(tokenExpiresAt.exp, currentTime);
 
       if (currentTime > tokenExpiresAt.exp) {
-        console.log("bye token");
         dispatch(setLogout());
         // window.location.reload();
       }

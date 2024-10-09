@@ -32,12 +32,12 @@ function RequestList() {
   if (requests !== null) {
     for (let i = 0; i < requests.length; i++) {
       requestArr.push(
-        <li
+        <li className="libraryDiv"
           key={requests[i]._id}
           id={requests[i]._id}
           value={requests[i].projectTitle}
         >
-          <a href={"Request/" + requests[i]._id}> {requests[i].projectTitle}</a>
+          <a  href={"Request/" + requests[i]._id}> {requests[i].projectTitle}</a>
         </li>
       );
     }
@@ -47,6 +47,7 @@ function RequestList() {
 
   return (
     <div className="RequestListed">
+      <h2>Your requests:</h2>
       <button onClick={(e) => window.location.replace("/NewRequest")}>
         Create new
       </button>

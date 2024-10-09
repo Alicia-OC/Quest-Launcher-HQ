@@ -10,11 +10,10 @@ function UserSideMenu() {
   if (favTemplates) {
     map = favTemplates.map((item) => {
       return (
-        <li key={item._id} id={item._id}>
+        <li  className="itemListSideMenu" key={item._id} id={item._id}>
           <a className="SideMenuLinks" href={"/Template/" + item._id}>
             {item.templateTitle.slice(0, 20)}...
           </a>
-          <Divider />
         </li>
       );
     });

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
 import ReactQuill from 'react-quill'; 
 import 'react-quill/dist/quill.snow.css'; 
 
