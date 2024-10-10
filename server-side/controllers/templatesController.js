@@ -52,7 +52,7 @@ const createTemplate = asyncHandler(async (req, res) => {
     const {
       userId,
       domain,
-      templateTitle,
+      title,
       game,
       developer,
       instructions,
@@ -64,7 +64,7 @@ const createTemplate = asyncHandler(async (req, res) => {
     } = req.body;
     const user = await User.findById(userId);
 
-    const duplicate = await Template.findOne({ templateTitle }).lean().exec();
+    const duplicate = await Template.findOne({ title }).lean().exec();
 
     if (duplicate) {
       return res.status(409).json({
@@ -74,7 +74,7 @@ const createTemplate = asyncHandler(async (req, res) => {
       const templateObject = {
         userId: userId,
         domain: domain,
-        templateTitle: templateTitle,
+        title: title,
         game: game,
         developer: developer,
         introText: introText,
@@ -111,7 +111,7 @@ const deleteTemplate = asyncHandler(async (req, res) => {
 const updateTemplate = asyncHandler(async (req, res) => {
   console.log('dasdd');
   try {
-    const { id, templateTitle, introText, game, instructions, favorite } =
+    const { id, title, introText, game, instructions, favorite } =
       req.body;
 
     const template = await Template.findById(id).exec();
@@ -126,8 +126,8 @@ const updateTemplate = asyncHandler(async (req, res) => {
       return res.status(409).json({ message: "Duplicate title" });
     }
 
-    if (templateTitle) {
-      template.templateTitle = templateTitle;
+    if (title) {
+      template.title = title;
     }
 
     if (game) {
@@ -145,7 +145,7 @@ const updateTemplate = asyncHandler(async (req, res) => {
 
     const updatedTemplate = await template.save();
 
-    res.json({ message: `${updatedTemplate.templateTitle} updated` });
+    res.json({ message: `${updatedTemplate.title} updated` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -159,7 +159,7 @@ const starTemplate = asyncHandler(async (req, res) => {
 
     const updatedTemplate = await template.save();
 
-    res.json({ message: `${updatedTemplate.templateTitle} with id: ${updatedTemplate._id} updated` });
+    res.json({ message: `${updatedTemplate.title} with id: ${updatedTemplate._id} updated` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

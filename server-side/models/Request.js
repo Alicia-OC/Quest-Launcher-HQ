@@ -5,7 +5,7 @@ const requestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  projectTitle: { type: String, required: true },
+  title: { type: String, required: true },
   greeting: { type: String, required: true },
   introText: { type: String, required: true },
   instructions: { type: String, required: false },

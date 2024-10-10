@@ -82,7 +82,7 @@ const getAllUserTemplates = async (req, res) => {
     const formattedTemplates = templates.map(
       ({
         _id,
-        templateTitle,
+        title,
         game,
         developer,
         instructions,
@@ -93,7 +93,7 @@ const getAllUserTemplates = async (req, res) => {
       }) => {
         return {
           _id,
-          templateTitle,
+          title,
           game,
           developer,
           instructions,
@@ -120,7 +120,7 @@ const getAllUserRequests = async (req, res) => {
     const formattedRequests = requests.map(
       ({
         _id,
-        projectTitle,
+        title,
         greeting,
         introText,
         instructions,
@@ -136,7 +136,7 @@ const getAllUserRequests = async (req, res) => {
       }) => {
         return {
           _id,
-          projectTitle,
+          title,
           greeting,
           introText,
           instructions,

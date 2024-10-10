@@ -9,7 +9,7 @@ const getAllRequest = asyncHandler(async (req, res) => {
       const formattedRequest = data.map(
         ({
           _id,
-          projectTitle,
+          title,
           greeting,
           introText,
           instructions,
@@ -25,7 +25,7 @@ const getAllRequest = asyncHandler(async (req, res) => {
         }) => {
           return {
             _id,
-            projectTitle,
+            title,
             greeting,
             introText,
             instructions,
@@ -42,7 +42,6 @@ const getAllRequest = asyncHandler(async (req, res) => {
         }
       );
       res.status(200).json(formattedRequest);
-      console.log(formattedRequest);
       return formattedRequest;
     });
   } catch (err) {
@@ -64,7 +63,7 @@ const createNewRequest = asyncHandler(async (req, res) => {
   try {
     const {
       userId,
-      projectTitle,
+      title,
       greeting,
       introText,
       instructions,
@@ -79,7 +78,7 @@ const createNewRequest = asyncHandler(async (req, res) => {
       deadlines,
     } = req.body;
 
-    const duplicate = await Request.findOne({ projectTitle }).lean().exec();
+    const duplicate = await Request.findOne({ title }).lean().exec();
 
     if (duplicate) {
       return res.status(409).json({
@@ -88,7 +87,7 @@ const createNewRequest = asyncHandler(async (req, res) => {
     } else {
       const requestObject = {
         userId: userId,
-        projectTitle: projectTitle,
+        title: title,
         greeting: greeting,
         introText: introText,
         instructions: instructions,
@@ -103,8 +102,6 @@ const createNewRequest = asyncHandler(async (req, res) => {
         deadlines: deadlines,
       };
       const newRequest = await Request.create(requestObject);
-      console.log(newRequest);
-
       res.status(200).send(newRequest._id);
     }
   } catch (err) {
