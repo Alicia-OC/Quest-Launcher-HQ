@@ -1,33 +1,18 @@
 import Axios from "axios";
 import { useEffect } from "react";
-import Public from "./Public";
+import Public from "../../containers/Public";
 import { Box, useMediaQuery, Grid, Typography } from "@mui/material";
-import { HomeCard } from "../components/pages/widgets/HomeCards.";
-import { mongoDB_Template, mongoDB_Request } from "../apis";
-import { setTemplates, setFavTemplates, setRequests } from "../state";
+import { HomeCard } from "./widgets/HomeCards.";
+import { mongoDB_Template, mongoDB_Request } from "../../apis";
+import { setTemplates, setFavTemplates, setRequests } from "../../state";
 import { useDispatch, useSelector } from "react-redux";
 
-import HomeListComponents from "../components/pages/HomeListComponents";
-
-const Public2 = () => {
-  const content = (
-    <div>
-      {" "}
-      <Public />
-      <img alt="babybel" id="babybel" className="templateScreenshot" />
-    </div>
-  );
-
-  return content;
-};
-
-const UserLoggedBody = () => {
+const HomeListComponents = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const templates = user?.templates;
   const requests = user?.requests;
-  const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const getTemplates = async () => {
     if (!user?._id) return;
@@ -127,26 +112,28 @@ const UserLoggedBody = () => {
     return array;
   }
 
-  if (user && user._id) {
-    return (
-      <>
-        <Box>
-          <p>Welcome, {user.fullName} &#9825;</p>
-          <p>
-            You have created {templates.length} templates and {requests.length}{" "}
-            requests so far!{" "}
-          </p>
-          <HomeListComponents />
-        </Box>
-      </>
-    );
-  } else {
-    return "Loading...";
-  }
+  return (
+    <Grid container spacing={1}>
+      <Grid item xs={6}>
+        <h3>Last requests created:</h3>
+        {lastRequests().map((item) => (
+          <HomeCard
+            key={item._id}
+            text={<a href={"Request/" + item._id}> {item.projectTitle}</a>}
+          />
+        ))}
+      </Grid>
+
+      <Grid item xs={6}>
+        <h3>Last templates created:</h3>
+        {lastTemplates().map((item) => (
+          <HomeCard
+            key={item._id}
+            text={<a href={"Template/" + item._id}> {item.templateTitle}</a>}
+          />
+        ))}
+      </Grid>
+    </Grid>
+  );
 };
-
-function Home({ isUserLoged }) {
-  return isUserLoged ? <UserLoggedBody /> : <Public2 />;
-}
-
-export default Home;
+export default HomeListComponents;

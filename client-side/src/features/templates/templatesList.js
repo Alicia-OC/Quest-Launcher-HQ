@@ -8,7 +8,6 @@ function TemplateList() {
   const user = useSelector((state) => state.user); //
   const templates = user.templates;
   const templateArr = [];
-  console.log(templates);
 
   const handleClick = (e, id) => {
     console.log(id);

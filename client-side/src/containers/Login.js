@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { mongoDB_Auth } from "../apis";
 import ".//css/RegistrationForm.css";
@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import { setLogin } from "../state";
 import { useDispatch, useSelector } from "react-redux";
-import { setTemplates, setFavTemplates } from "../state";
-import { mongoDB_Template } from "../apis";
+import { setTemplates, setFavTemplates, setRequests } from "../state";
+import { mongoDB_Template, mongoDB_Request } from "../apis";
 
 const Login = (props) => {
   const dispatch = useDispatch();
@@ -20,41 +20,56 @@ const Login = (props) => {
 
   const user = useSelector((state) => state.user); //
   const token = useSelector((state) => state.token);
+  const templates = user?.templates;
+  const requests = user?.requests;
+  const favTemplates = user?.favTemplates;
 
-  /** */
+  /** */useEffect(() => {
+  console.log("Updated user templates:", templates);
+  console.log("Updated user requests:", requests);
+}, [templates, requests]); 
 
-  const getTemplates = async () => {
-    const templates = user.templates;
-    const templateArr = [];
-    console.log(templates);
-    Axios.get(mongoDB_Template + `/${user._id}/alltemplates`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        return dispatch(setTemplates({ templates: res.data }));
-      })
-      .catch((err) => console.error(err));
+  const getTemplates = async (userId, token) => {
+    if (userId && token) {
+      try {
+        const res = await Axios.get(
+          mongoDB_Template + `/${userId}/alltemplates`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        dispatch(setTemplates({ templates: res.data }));
+      } catch (err) {
+        console.error("Error loading templates:", err);
+      }
+    } else {
+      console.error("User ID is not available");
+    }
   };
 
-  const getFavTemplates = async () => {
-    Axios.get(mongoDB_Template + `/${user._id}/favTemplates`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        dispatch(setFavTemplates({ favTemplates: res.data }));
-      })
-      .catch((err) => {
-        const error = err.response.data.message;
-        if (error === "jwt expired") {
-          console.log(error);
-          // dispatch(setLogout())
-        }
-      });
+  const getRequests = async (userId, token) => {
+    console.log('userId for get requests',userId);
+    if (userId && token) {
+      try {
+        const res = await Axios.get(
+          mongoDB_Request + `/${userId}/allrequests`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        dispatch(setRequests({ requests: res.data }));
+      } catch (err) {
+        console.error("Error loading requests:", err);
+      }
+    } else {
+      console.error("User ID is not available");
+    }
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,17 +81,26 @@ const Login = (props) => {
       });
 
       if (response.status === 200) {
+        const loggedInUser = response.data.user;
+        const token = response.data.token;
         dispatch(
           setLogin({
-            user: response.data.user,
-            token: response.data.token,
+            user: loggedInUser,
+            token: token,
           })
         );
-        window.location.replace("/");
+        console.log("User after dispatch:", loggedInUser);
+
+        if (loggedInUser && loggedInUser._id) {
+          await Promise.all([getTemplates(loggedInUser._id, token), getRequests(loggedInUser._id, token)]);
+          console.log(user.templates);
+          console.log(user.requests);
+        }
+
+        //  <window.location.replace("/");
       }
     } catch (error) {
       console.log(error);
-      window.location.replace("/NoMatch");
     }
   };
 

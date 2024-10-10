@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   mode: "light",
-  user: null,
+  user: {},
   token: null,
-  templates: [],
-  requests: [],
-  favTemplates: [],
+  templates: null,
+  requests: null,
+  favTemplates: null,
 };
 
 export const authSlice = createSlice({
@@ -43,6 +43,7 @@ export const authSlice = createSlice({
         state.user.requests = action.payload.requests;
       } else console.log("You haven't created any request yet");
     },
+
     setTemplate: (state, action) => {
       const updatedTemplate = state.templates.map((template) => {
         if (template._id === action.payload.template_id)

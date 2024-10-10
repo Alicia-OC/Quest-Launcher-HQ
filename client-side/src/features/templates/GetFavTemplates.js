@@ -12,7 +12,6 @@ const GetFavTemplates2 = async () =>{
     const token = useSelector((state) => state.token);
     console.log(user.fav)
 
-
     Axios.get(mongoDB_Template + `/${user._id}/favTemplates`, {
         headers: {
           Authorization: `Bearer ${token}`,
