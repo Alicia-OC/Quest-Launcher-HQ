@@ -1,38 +1,37 @@
 import React, { useState, useRef, useEffect } from "react";
 
-function NewInput(props) {
-  const placeholder = props.placeholder;
-  const [input, setInput] = useState();
+function ExpandableInput(props) {
+  const [content, setValue] = useState({
+    value: "",
+  });
 
   const inputRef = useRef(null);
   const spanRef = useRef(null);
 
   function handleChange(e) {
     const { value } = e.target;
-    setInput(value);
-    props.getInput(value);
+    setValue(value);
   }
 
   useEffect(() => {
     if (inputRef.current && spanRef.current) {
-      spanRef.current.textContent = input || " ";
+      spanRef.current.textContent = content.value || " ";
       inputRef.current.style.width = `${spanRef.current.offsetWidth - 100}px`;
     }
-  }, [input]);
-
+  }, [content.value]);
 
   return (
     <>
       <input
-        className="expandableGeneralInput"
+        className="attReqListInputs"
         ref={inputRef}
         type="text"
-        value={input}
+        value={content.value}
         onChange={handleChange}
-        placeholder={placeholder}
-        />
+        placeholder="Write something here"
+      />
       <span
-        className="expandableGeneralInputSpan"
+        className="attReqListInputsSpan"
         ref={spanRef}
         style={{
           visibility: "hidden",
@@ -44,4 +43,4 @@ function NewInput(props) {
   );
 }
 
-export default NewInput;
+export default ExpandableInput;

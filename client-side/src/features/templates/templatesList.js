@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import StarButton from "../../components/pages/elements/StarButton.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function TemplateList() {
   const navigate = useNavigate();
@@ -22,11 +22,11 @@ function TemplateList() {
           className="itemTemplateList"
           key={templates[i]._id}
           id={templates[i]._id}
-          value={templates[i].templateTitle}
+          value={templates[i].title}
         >
           <a href={"Template/" + templates[i]._id} className="libraryDiv">
             {" "}
-            {templates[i].templateTitle}
+            {templates[i].title}
           </a>
           <button
             className="buttonNew"

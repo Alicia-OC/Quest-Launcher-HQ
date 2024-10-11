@@ -15,10 +15,6 @@ import "react-datepicker/dist/react-datepicker.css";
 let RequestLists = (props) => {
   const [attachment, setAttachment] = useState([]);
   const [requirements, setRequirements] = useState([]);
-
-  props.getAttachments(attachment);
-  props.getRequirements(requirements);
-
   const TemplateAttachments = props.sendTemplateAttachments;
   const TemplateRequirements = props.sendTemplateRequirements;
 
@@ -83,7 +79,10 @@ let RequestLists = (props) => {
                 </li>
               );
             })}{" "}
-            <CreateAttachment onAdd={addAttachment} />
+            <CreateAttachment
+              itemsFromTemplate={TemplateAttachments}
+              onAdd={addAttachment}
+            />
           </ul>
         </div>
         <div className="deliverablesList">

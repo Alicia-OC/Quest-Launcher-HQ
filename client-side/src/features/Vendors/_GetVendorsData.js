@@ -22,7 +22,7 @@ const GetProofreaders = () => {
   }, []);
 
   const filteredProof = vendors.filter(
-    (vendor) => vendor.service.proofreading == true
+    (vendor) => vendor.service.proofreading === true
   );
 
   return filteredProof;
@@ -37,7 +37,7 @@ const GetTranslators = () => {
   }, []);
 
   const filteredTrans = vendors.filter(
-    (vendor) => vendor.service.translation == true
+    (vendor) => vendor.service.translation === true
   );
 
   return filteredTrans;

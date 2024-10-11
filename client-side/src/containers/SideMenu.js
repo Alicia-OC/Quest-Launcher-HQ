@@ -7,12 +7,12 @@ function UserSideMenu() {
   const favTemplates = useSelector((state) => state.user.favTemplates);
   let map;
 
-  if (favTemplates) {
+  if (favTemplates) {    
     map = favTemplates.map((item) => {
       return (
         <li  className="itemListSideMenu" key={item._id} id={item._id}>
           <a className="SideMenuLinks" href={"/Template/" + item._id}>
-            {item.templateTitle.slice(0, 20)}...
+            {item.title.slice(0, 20)}...
           </a>
         </li>
       );

@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
 import GetTemplate from "./GetTemplate";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+
 /**CSS */
 
 import "../../containers/css/SoloRequest.css";
@@ -22,7 +21,7 @@ function SoloTemplate() {
   }
   const {
     _id,
-    templateTitle,
+    title,
     game,
     introText,
     instructions,
@@ -56,7 +55,7 @@ function SoloTemplate() {
   return (
     <div className="SoloRequest">
       <h3>
-        {templateTitle}
+        {title}
         <button
           className="buttonNew"
           onClick={(e) => {

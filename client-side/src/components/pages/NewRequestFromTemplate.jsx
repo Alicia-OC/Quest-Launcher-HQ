@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 /* SMALL COMPONENTS */
 import RequestLists from "./elements/att-req-lists.jsx";
@@ -8,19 +9,19 @@ import PickServiceButtons from "./elements/PickServiceButtons.js";
 import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
 import NewInput from "./elements/NewInput.js";
 import NewTextArea from "./elements/textArea_general.js";
+import GreetingsDropdownMenu from "./elements/GreetingsDropdownMenu.js";
 
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines.js";
-import { randomGreetings } from "../../apis.js";
 import { mongoDB_Request } from "../../apis.js";
 
 import GetTemplate from "../../features/templates/GetTemplate.js";
 
-function NewRequestFromTemplate() {
+function NewRequestFromTemplate(props) {
+  const user = useSelector((state) => state.user);
+
   const template = GetTemplate();
   const { templateReqId } = useParams();
-  const [projectTitle, setprojectTitle] = useState();
-  const [greetings, setGreetings] = useState("hi");
 
   let filteredObject;
   let templateObject = {};
@@ -36,35 +37,26 @@ function NewRequestFromTemplate() {
     introText,
     instructions,
     developer,
-    templateTitle,
+    title,
     languageTeam,
     attachments,
     requirements,
   } = templateObject;
 
-  const [instructionsIsEditable, setInstructionsIsEditable] = useState(false);
-  const [instructionsContent, setInstructionsContent] = useState(instructions);
+  const [projectTitle, setprojectTitle] = useState();
+  const [greetings, setGreetings] = useState("hi");
   const [thisIntroText, setThisIntroText] = useState(instructions);
   const [wordcount, setWordcount] = useState();
   const [mqproject, setMqproject] = useState();
   const [files, setFiles] = useState();
-  const [thisService, setThisService] = useState();
+  const [thisService, setThisService] = useState("TEP");
   const [teamTable, setTeamTable] = useState();
   const [thisAttachments, setThisAttachments] = useState();
   const [thisRequirements, setThisRequirements] = useState();
   const [transDL, setTransDL] = useState();
   const [proofDL, setProofDL] = useState();
+  const [thisListOfLanguages, setThisListOfLanguages] = useState();
 
-  const randomgreeting = Math.floor(Math.random() * randomGreetings.length);
-
-  const listChanged = (e) => {
-    console.log(e.target.value);
-  };
-
-  function handleChange() {
-    let greetingValue = document.querySelector("#greetingsSelectDropdown");
-    setGreetings(greetingValue.value);
-  }
 
   const tableChanged = (e) => {
     let table = document.getElementsByTagName("table")[0];
@@ -129,8 +121,7 @@ function NewRequestFromTemplate() {
     }
 
     const object = {
-      creationDate: new Date(),
-      projectTitle: projectTitle,
+      title: projectTitle,
       game: game,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: introText,
@@ -147,8 +138,8 @@ function NewRequestFromTemplate() {
     console.log(object);
 
     Axios.post(mongoDB_Request, {
-      creationDate: new Date(),
-      projectTitle: projectTitle,
+      userId: user._id,
+      title: projectTitle,
       game: game,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: introText,
@@ -178,8 +169,7 @@ function NewRequestFromTemplate() {
           <form>
             <p className="requestWarning">
               {" "}
-              **You are using the template <i>{templateTitle}</i> for this
-              request
+              **You are using the template <i>{title}</i> for this request
             </p>
             <label className="">Project title:</label>
             <NewInput
@@ -188,13 +178,14 @@ function NewRequestFromTemplate() {
             />
             <br></br>
             <br></br>
+            <GreetingsDropdownMenu getGreet={(item) => setGreetings(item)} />
 
             <div className="introText" data-type="select">
               <NewTextArea
                 getText={(text) => setThisIntroText(text)}
-                defaultValue={introText}
+                defaultValue={greetings + " " + introText}
               />
-<label>Specific instructions:</label>
+              <label>Specific instructions:</label>
               <NewTextArea
                 getText={(text) => setThisIntroText(text)}
                 defaultValue={instructions}
@@ -242,6 +233,9 @@ function NewRequestFromTemplate() {
               getService={(serviceCall) => setThisService(serviceCall)}
               getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
               languageTeam={languageTeam}
+              getLanguages={(thisListOfLanguages) =>
+                setThisListOfLanguages(thisListOfLanguages)
+              }
               service={thisService}
               languages={languageTeam}
               onChange={(e) => {
@@ -256,9 +250,6 @@ function NewRequestFromTemplate() {
                 setThisAttachments(theseAttachments)
               }
               getRequirements={(theseReqs) => setThisRequirements(theseReqs)}
-              onChange={(e) => {
-                listChanged(e);
-              }}
             />
 
             <CreateDeadlines

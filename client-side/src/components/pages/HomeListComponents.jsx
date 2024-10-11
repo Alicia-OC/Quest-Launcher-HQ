@@ -1,7 +1,6 @@
 import Axios from "axios";
 import { useEffect } from "react";
-import Public from "../../containers/Public";
-import { Box, useMediaQuery, Grid, Typography } from "@mui/material";
+import {  Grid } from "@mui/material";
 import { HomeCard } from "./widgets/HomeCards.";
 import { mongoDB_Template, mongoDB_Request } from "../../apis";
 import { setTemplates, setFavTemplates, setRequests } from "../../state";
@@ -119,7 +118,7 @@ const HomeListComponents = () => {
         {lastRequests().map((item) => (
           <HomeCard
             key={item._id}
-            text={<a href={"Request/" + item._id}> {item.projectTitle}</a>}
+            text={<a href={"Request/" + item._id}> {item.title}</a>}
           />
         ))}
       </Grid>
@@ -129,7 +128,7 @@ const HomeListComponents = () => {
         {lastTemplates().map((item) => (
           <HomeCard
             key={item._id}
-            text={<a href={"Template/" + item._id}> {item.templateTitle}</a>}
+            text={<a href={"Template/" + item._id}> {item.title}</a>}
           />
         ))}
       </Grid>

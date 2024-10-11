@@ -128,7 +128,7 @@ function NewTemplate(props) {
     let userID = user._id;
 
     const object = {
-      templateTitle: templateTitle,
+      title: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,
       instructions: instructions,
@@ -142,7 +142,7 @@ function NewTemplate(props) {
     Axios.post(mongoDB_Template, {
       userId: userID,
       domain: domain,
-      templateTitle: templateTitle,
+      title: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,
       instructions: instructions,

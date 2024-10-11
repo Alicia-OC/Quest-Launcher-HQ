@@ -9,10 +9,11 @@ import MainTable from "../../features/Vendors/VendorsTable/MainTable.js";
 import NewInput from "./elements/NewInput.js";
 import NewTextArea from "./elements/textArea_general.js";
 import TextAreaComponent from "../../features/templates/textArea_instructions.js";
-/* DEFAULT VARIABLES */
+import GreetingsDropdownMenu from "./elements/GreetingsDropdownMenu.js"; /* DEFAULT VARIABLES */
 import { initialParagraph, randomGreetings } from "../../apis";
 import { mongoDB_Request } from "../../apis";
 import { mongoDB_Users } from "../../apis";
+import ExpandableInput from "./elements/expandableInputs.js";
 
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines";
@@ -21,7 +22,7 @@ import { GetGames } from "../../features/Games/fetchGames";
 function NewRequest(props) {
   const user = useSelector((state) => state.user);
 
-  const [projectTitle, setprojectTitle] = useState();
+  const [projectTitle, setProjectTitle] = useState();
   const [greetings, setGreetings] = useState(randomGreetings[0]);
   const [instructions, setInstructions] = useState("");
   const [attachments, setAttachments] = useState();
@@ -52,22 +53,6 @@ function NewRequest(props) {
         </option>
       );
     }
-  }
-  const GreetingsLoop = randomGreetings.map((greet) => (
-    <option className="greetingsSelectDropdown" key={greet} value={greet}>
-      {greet}
-    </option>
-  ));
-
-  function handleChange(e) {
-    e.preventDefault();
-    const randomgreeting =
-      randomGreetings[Math.floor(Math.random() * randomGreetings.length)];
-    let chosenGreet = e.target.value;
-    if (chosenGreet == "Random greet") {
-      chosenGreet = randomgreeting;
-    }
-    setGreetings(chosenGreet);
   }
 
   const tableChanged = (e) => {
@@ -123,13 +108,7 @@ function NewRequest(props) {
    * Should fix that.
    */
 
-  const listChanged = (e) => {
-    console.log(e.target.value);
-  };
-
   function HandleSubmit(e) {
-    const isSucess = false;
-    const newRequestId = "";
     e.preventDefault();
 
     let attFormatted = attachments.map((att) => att.value);
@@ -140,7 +119,7 @@ function NewRequest(props) {
 
     const object = {
       userId: user._id,
-      projectTitle: projectTitle,
+      title: projectTitle,
       game: document.getElementById("gamesSelectOptions").value,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: introText,
@@ -154,11 +133,10 @@ function NewRequest(props) {
       requirements: reqFormatted,
       deadlines: { translation: transDL, proofreading: proofDL },
     };
-    console.log(object);
 
     Axios.post(mongoDB_Request, {
       userId: user._id,
-      projectTitle: projectTitle,
+      title: projectTitle,
       greeting: document.getElementById("greetingsSelectOptions").value,
       introText: initialParagraph,
       instructions: instructions,
@@ -200,22 +178,10 @@ function NewRequest(props) {
             {" "}
             <label className="">Project title:</label>
             <NewInput
-              getInput={(title) => setprojectTitle(title)}
-              placeholder="Write your request's title here"
+              getInput={(title) => setProjectTitle(title)}
             />
             <div className="introText" data-type="select">
-              <div className="dropDownGreetings" data-type="select">
-                <select
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                  id="greetingsSelectOptions"
-                  className="greetingsSelectOptions"
-                >
-                  {GreetingsLoop}
-                  <option value="Random greet">Random greet</option>
-                </select>
-              </div>
+              <GreetingsDropdownMenu getGreet={(item) => setGreetings(item)} />
               <NewTextArea
                 getText={(text) => setIntroText(text)}
                 defaultValue={greetings}
@@ -225,7 +191,7 @@ function NewRequest(props) {
               <TextAreaComponent
                 changeInstructions={(thisInstructions) =>
                   setInstructions(thisInstructions)
-                }     
+                }
               />
             </div>
             <div className="projectDetailsParagraph">
@@ -281,9 +247,7 @@ function NewRequest(props) {
                 setAttachments(theseAttachments)
               }
               getRequirements={(theseReqs) => setRequirements(theseReqs)}
-              onChange={(e) => {
-                listChanged(e);
-              }}
+
             />
             <CreateDeadlines
               setService={thisService}

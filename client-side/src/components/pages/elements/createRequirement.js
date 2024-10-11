@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 function CreateRequirements(props) {
-  const [requirement, setRequirements] = useState({
-    content: "",
+  const [requirements, setRequirements] = useState({
+    value: "",
   });
+
+  const inputRef = useRef(null);
+  const spanRef = useRef(null);
 
   function handleChange(e) {
     const { value } = e.target;
@@ -17,20 +20,37 @@ function CreateRequirements(props) {
 
   function submitReq(e) {
     e.preventDefault();
-    props.onAddReq(requirement);
+    props.onAddReq(requirements);
     setRequirements({ value: "" });
   }
 
+  useEffect(() => {
+    if (inputRef.current && spanRef.current) {
+      spanRef.current.textContent = requirements.value || " ";
+      inputRef.current.style.width = `${spanRef.current.offsetWidth - 100}px`;
+    }
+  }, [requirements.value]);
+
   return (
     <div>
-      <form className="create-requirement">
-        <input
-          value={requirement.value}
-          onChange={handleChange}
-          placeholder="Write something here"
-        />
-        <button onClick={submitReq}>Add</button>
-      </form>
+      <input
+        className="attReqListInputs"
+        ref={inputRef}
+        type="text"
+        value={requirements.value}
+        onChange={handleChange}
+        placeholder="Write something here"
+      />
+      <span
+        className="attReqListInputsSpan"
+        ref={spanRef}
+        style={{
+          visibility: "hidden",
+          whiteSpace: "pre",
+          position: "absolute",
+        }}
+      ></span>
+      <button onClick={submitReq}>Add</button>
     </div>
   );
 }

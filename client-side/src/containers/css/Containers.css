@@ -1,5 +1,3 @@
-.App {}
-
 .App-header {
   display: flex;
   flex-direction: column;
@@ -86,6 +84,7 @@
   align-self: left;
   text-decoration: none;
 }
+
 .itemListSideMenu {
   padding-bottom: 0.5rem;
 
@@ -196,9 +195,10 @@ th {
   border: 1px solid black;
 }
 
-.buttonNew{
+.buttonNew {
   margin-left: 0.5rem;
 }
+
 /* NEWVENDOR*/
 
 .AddVendorButton:focus {
@@ -219,9 +219,10 @@ th {
   color: rgb(238, 231, 218);
 }
 
-.itemTemplateList{
+.itemTemplateList {
   padding-bottom: 3px;
 }
+
 .templateList {
   padding-right: 8px;
 }
@@ -241,11 +242,11 @@ th {
 /*CREATE USER*/
 
 
-.Input_50{
+.Input_50 {
   width: 70%
 }
 
-.languagesInputsList{
+.languagesInputsList {
   margin: 0;
 }
 
@@ -253,5 +254,48 @@ th {
 
 .SideMenuLinks a:visited {
   color: blue;
-  
+
+}
+
+.attReqListInputs input[type="text"]{
+  font-size: 1.75rem;
+
+}
+
+.attReqListInputs {
+  width: 35%;
+  max-width: 85%;
+  height: 0.5em;
+  padding: 0.5em 1em;
+  outline: 0;
+}
+
+.attReqListInputsSpan {
+  max-width: 85%;
+  position: absolute;
+  left: -9999px;
+  display: inline-block;
+  min-width: 35%;
+}
+
+
+.expandableGeneralInput input[type="text"]{
+  font-size: 1.75rem;
+
+}
+
+.expandableGeneralInput {
+  width: 25%;
+  max-width: 85%;
+  height: 0.5em;
+  padding: 0.5em 1em;
+  outline: 0;
+}
+
+.expandableGeneralInputSpan {
+  max-width: 85%;
+  position: absolute;
+  left: -9999px;
+  display: inline-block;
+  min-width: 25%;
 }

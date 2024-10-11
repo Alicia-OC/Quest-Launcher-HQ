@@ -93,11 +93,9 @@ const Login = (props) => {
 
         if (loggedInUser && loggedInUser._id) {
           await Promise.all([getTemplates(loggedInUser._id, token), getRequests(loggedInUser._id, token)]);
-          console.log(user.templates);
-          console.log(user.requests);
         }
 
-        //  <window.location.replace("/");
+         window.location.replace("/");
       }
     } catch (error) {
       console.log(error);

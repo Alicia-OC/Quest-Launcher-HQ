@@ -20,7 +20,7 @@ function SoloRequest() {
     return "Loading...";
   }
   const {
-    projectTitle,
+    title,
     greeting,
     introText,
     instructions,
@@ -75,7 +75,7 @@ function SoloRequest() {
   return (
     <div className="SoloRequest">
       <div className="introduction">
-        <h3>{projectTitle}</h3>
+        <h3>{title}</h3>
         <p1>{greeting},</p1>
         <br />
         <p1>{parse(introText)}</p1>

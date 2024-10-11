@@ -35,9 +35,9 @@ function RequestList() {
         <li className="libraryDiv"
           key={requests[i]._id}
           id={requests[i]._id}
-          value={requests[i].projectTitle}
+          value={requests[i].title}
         >
-          <a  href={"Request/" + requests[i]._id}> {requests[i].projectTitle}</a>
+          <a  href={"Request/" + requests[i]._id}> {requests[i].title}</a>
         </li>
       );
     }

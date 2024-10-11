@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 
 function CreateAttachment(props) {
+
+    const oldAttachments = props.itemsFromTemplate
+
   const [attachment, setAttachment] = useState({
-    value: "",
+    value: oldAttachments,
   });
 
   function handleChange(e) {
@@ -23,14 +26,14 @@ function CreateAttachment(props) {
 
   return (
     <div>
-      <form className="create-attachment">
         <input
+        className="attReqListInputs"
           value={attachment.value}
           onChange={handleChange}
           placeholder="Write something here"
         />
         <button onClick={submitAttachment}>Add</button>
-      </form>
+
     </div>
   );
 }
