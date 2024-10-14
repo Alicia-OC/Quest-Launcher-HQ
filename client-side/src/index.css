@@ -42,5 +42,8 @@ body {
 	text-decoration: none;
 	color: rgb(49, 47, 47);
 }
+.generalButton {
+	margin-left: 5px;
+}
 
 /*SIDE MENU*/

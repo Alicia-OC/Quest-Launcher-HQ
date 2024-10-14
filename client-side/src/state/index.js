@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   mode: "light",
-  user: {},
+  user: {
+    fullName: "",
+    email: "",
+  },
   token: null,
   templates: null,
   requests: null,
@@ -44,20 +47,17 @@ export const authSlice = createSlice({
       } else console.log("You haven't created any request yet");
     },
 
-    setTemplate: (state, action) => {
-      const updatedTemplate = state.templates.map((template) => {
-        if (template._id === action.payload.template_id)
-          return action.payload.template;
-      });
-      state.templates = updatedTemplate;
+    setFullName: (state, action) => {
+      if (state.user) {
+        state.user.fullName = action.payload.fullName;
+      } else console.log("You haven't created any request yet");
     },
-    setRequest: (state, action) => {
-      const updatedRequest = state.templates.map((request) => {
-        if (request._id === action.payload.request)
-          return action.payload.request;
-      });
-      state.requests = updatedRequest;
+    setEmail: (state, action) => {
+      if (state.user) {
+        state.user.email = action.payload.email;
+      } else console.log("You haven't created any request yet");
     },
+
     setOrganization: (state, action) => {
       if (state.user) {
         state.user.organization = action.payload.organization;
@@ -79,6 +79,7 @@ export const {
   setTemplate,
   setOrganization,
   setFavTemplates,
+  setFullName,
 } = authSlice.actions;
 
 export default authSlice.reducer;

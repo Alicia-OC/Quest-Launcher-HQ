@@ -32,7 +32,7 @@ function CreateAttachment(props) {
           onChange={handleChange}
           placeholder="Write something here"
         />
-        <button onClick={submitAttachment}>Add</button>
+        <button className="generalButton" onClick={submitAttachment}>Add</button>
 
     </div>
   );

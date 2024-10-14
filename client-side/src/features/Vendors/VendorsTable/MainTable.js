@@ -253,7 +253,7 @@ const MainTable = (props) => {
         <table>{RowContent("TEP")}</table>
         <div className="AddLanguageButton">
           <SelectLanguage value={additionalLanguage} onChange={handleChange} />
-          <button onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
+          <button className="generalButton" onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
         </div>
       </div>
     );
@@ -263,7 +263,7 @@ const MainTable = (props) => {
         <table>{RowContent(requestService)}</table>
         <div className="AddLanguageButton">
           <SelectLanguage value={additionalLanguage} onChange={handleChange} />
-          <button onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
+          <button className="generalButton" onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
         </div>
       </div>
     );

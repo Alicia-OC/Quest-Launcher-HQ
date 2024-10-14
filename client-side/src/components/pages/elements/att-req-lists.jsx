@@ -75,7 +75,7 @@ let RequestLists = (props) => {
               return (
                 <li key={attachmentItem} id={attachmentItem}>
                   <label>{attachmentItem.value}</label>
-                  <button onClick={(e) => deleteAttachment(e, index)}>-</button>
+                  <button className="generalButton" onClick={(e) => deleteAttachment(e, index)}>-</button>
                 </li>
               );
             })}{" "}
@@ -93,7 +93,7 @@ let RequestLists = (props) => {
               return (
                 <li id={reqItem}>
                   <label>{reqItem.value}</label>
-                  <button
+                  <button className="generalButton"
                     id={reqItem}
                     onClick={(e) => deleteRequirements(e, index)}
                   >

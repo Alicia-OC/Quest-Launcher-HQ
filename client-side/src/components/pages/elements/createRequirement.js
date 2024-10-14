@@ -50,7 +50,7 @@ function CreateRequirements(props) {
           position: "absolute",
         }}
       ></span>
-      <button onClick={submitReq}>Add</button>
+      <button className="generalButton" onClick={submitReq}>Add</button>
     </div>
   );
 }

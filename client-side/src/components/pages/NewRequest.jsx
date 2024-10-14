@@ -13,7 +13,6 @@ import GreetingsDropdownMenu from "./elements/GreetingsDropdownMenu.js"; /* DEFA
 import { initialParagraph, randomGreetings } from "../../apis";
 import { mongoDB_Request } from "../../apis";
 import { mongoDB_Users } from "../../apis";
-import ExpandableInput from "./elements/expandableInputs.js";
 
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines";
