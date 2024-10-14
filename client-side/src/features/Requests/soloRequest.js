@@ -131,7 +131,6 @@ function SoloRequest() {
         <label>Requirements list </label>
         <br></br>
         <ul> {reqsLoop}</ul>
-        <a href="https://www.w3schools.com/html/html_links.asp">LINK</a>
       </div>
       <div className="Deadlines">
         <label>Deadlines:</label>

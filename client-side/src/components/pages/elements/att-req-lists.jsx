@@ -73,7 +73,7 @@ let RequestLists = (props) => {
             {TemplateAttachmentsLoop}
             {attachment.map((attachmentItem, index) => {
               return (
-                <li id={attachmentItem}>
+                <li key={attachmentItem} id={attachmentItem}>
                   <label>{attachmentItem.value}</label>
                   <button onClick={(e) => deleteAttachment(e, index)}>-</button>
                 </li>
