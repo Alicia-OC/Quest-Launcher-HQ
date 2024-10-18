@@ -152,7 +152,7 @@ const Library = ({}) => {
       languages.map((language) => {
         result.push(
           <li>
-            <Link to={`/${language.language}Vendors`}>{language.language}</Link>
+            <Link to={`/Vendors/${language.language}`}>{language.language}</Link>
           </li>
         );
       });

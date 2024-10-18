@@ -50,26 +50,3 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
-
-/**
- * 
- * <BrowserRouter>
-<Provider store={store}>
-  <PersistGate loading={null} persistor={persistStore(store)}>
-    <App />
-  </PersistGate>
-</Provider>
-</BrowserRouter> 
-
-
-*/
-
-/**
- * 
-
-    <BrowserRouter>
-      {" "}
-      <App />
-    </BrowserRouter>
-
- */

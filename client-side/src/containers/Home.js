@@ -1,25 +1,12 @@
 import Axios from "axios";
 import { useEffect } from "react";
 import Public from "./Public";
-import { Box, useMediaQuery, Grid, Typography } from "@mui/material";
-import { HomeCard } from "../components/pages/widgets/HomeCards.";
+import { Box, useMediaQuery} from "@mui/material";
 import { mongoDB_Template, mongoDB_Request } from "../apis";
 import { setTemplates, setFavTemplates, setRequests } from "../state";
 import { useDispatch, useSelector } from "react-redux";
 
 import HomeListComponents from "../components/pages/HomeListComponents";
-
-const Public2 = () => {
-  const content = (
-    <div>
-      {" "}
-      <Public />
-      <img alt="babybel" id="babybel" className="templateScreenshot" />
-    </div>
-  );
-
-  return content;
-};
 
 const UserLoggedBody = () => {
   const dispatch = useDispatch();
@@ -97,35 +84,6 @@ const UserLoggedBody = () => {
     fetchData();
   }, []);
 
-  function lastRequests() {
-    if (!user?._id || !requests || requests.length === 0) {
-      return [];
-    }
-    let array = [];
-    for (
-      let i = requests.length - 1, count = 0;
-      count < 5 && i >= 0;
-      i--, count++
-    ) {
-      array.push(requests[i]);
-    }
-    return array;
-  }
-
-  function lastTemplates() {
-    if (!user?._id || !templates || templates.length === 0) {
-      return [];
-    }
-    let array = [];
-    for (
-      let i = templates.length - 1, count = 0;
-      count < 5 && i >= 0;
-      i--, count++
-    ) {
-      array.push(templates[i]);
-    }
-    return array;
-  }
 
   if (user && user._id) {
     return (
@@ -146,7 +104,7 @@ const UserLoggedBody = () => {
 };
 
 function Home({ isUserLoged }) {
-  return isUserLoged ? <UserLoggedBody /> : <Public2 />;
+  return isUserLoged ? <UserLoggedBody /> : <Public />;
 }
 
 export default Home;

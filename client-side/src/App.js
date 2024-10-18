@@ -31,6 +31,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setLogout } from "./state/index.js";
 import { useEffect } from "react";
+import VendorPerLangList from "./features/Vendors/VendorPerLangList.jsx";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
@@ -114,9 +115,18 @@ function App() {
             element={isAuth ? <SoloRequest /> : <UnauthorizedAccess />}
           />
           <Route
+            path="/Vendors/:language"
+            element={isAuth ? <VendorPerLangList /> : <UnauthorizedAccess />}
+          />
+          <Route
             path="/Template/:templateId"
             element={isAuth ? <SoloTemplate /> : <UnauthorizedAccess />}
           />
+          <Route
+            path="/Template/:templateId/test"
+            element={isAuth ? <SoloTemplate /> : <UnauthorizedAccess />}
+          />
+
           <Route
             path="/NewRequestFromTemplate/:templateReqId"
             element={

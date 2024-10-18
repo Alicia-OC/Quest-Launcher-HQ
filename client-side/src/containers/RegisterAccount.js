@@ -5,6 +5,7 @@ import ".//css/RegistrationForm.css";
 import { Link } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import * as yup from "yup";
+import cat from '../img/photo_2024-10-18_13-38-02.jpg'
 
 const registerSchema = yup.object().shape({
   fullName: yup.string().required("required"),
@@ -92,7 +93,7 @@ function NewUserCreation() {
     <Box
       p="1rem 6%"
       textAlign="center"
-      width={isNonMobileScreens ? "70%" : "100%"}
+      width={isNonMobileScreens ? "70%" : "90%"}
       m="2rem auto"
       borderRadius="3rem"
     >
@@ -218,11 +219,13 @@ function NewUserCreation() {
           </form>
           <div className="homeButton">
             <button className="goBack-btn">
-              <Link to="/">Go back</Link>
+              <Link className="goBack-btn" to="/">Go back</Link>
             </button>
           </div>
         </div>
-        <div className="register-side-div">[IMAGE]</div>
+        <div className="creationForm-image">
+          <img className="registrationImage" src={cat} ></img>
+        </div>
       </div>
     </Box>
   );

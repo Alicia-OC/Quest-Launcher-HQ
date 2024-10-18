@@ -9,13 +9,11 @@ const DashLayout = (props) => {
   const user = useSelector((state) => state.user); //
 
   let userLogged = props.isUserLoged;
-  let visibility;
-  
 
   const isUSerLogged = () => {
     if (user !== null) {
       return (
-        <div className="sideContainer" style={{ visibility: "visible" }}>
+        <div className="sideContainer">
           <SideMenu />
         </div>
       );
@@ -30,9 +28,16 @@ const DashLayout = (props) => {
       <div className="DashContainer">
         <div className="container">
           {isUSerLogged()}
-          <div className="mainContainer">
-            <Outlet />
-          </div>
+          {user ? (
+            <div className="mainContainer">
+              <Outlet />
+            </div>
+          ) : (
+            <div className="publicContainer">
+              <Outlet />
+            </div>
+          )}
+
         </div>
       </div>
       <Footer />

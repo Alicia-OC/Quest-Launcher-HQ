@@ -11,6 +11,9 @@ body {
 	margin-bottom: 5px;
 }
 
+body img {
+	border-radius: 25px;
+}
 
 /*text-decoration: none;
 	color: rgb(64, 64, 131); */
@@ -20,16 +23,32 @@ body {
 	text-decoration: none;
 	color: rgb(49, 47, 47);
 	padding-bottom: 1px;
-
 }
 
-.sideContainer a:hover {
-	text-decoration: underline
+.publicContainer {
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 1rem;
+	height: 80%;
+	flex: 1;
+	max-width: 800px;
+	padding: 2rem 3rem 3rem 3rem;
+	border-radius: 25px;
+	background-color: rgba(255, 255, 255, 0.911);
+}
+
+.publicContainer img {
+	border-radius: 50px;
+	pointer-events: none;
 }
 
 .creationMenuHeader a {
 	text-decoration: none;
 	color: rgb(49, 47, 47);
+}
+
+.generalLink {
+	text-decoration: none;
+	color: rgb(255, 255, 255);
 }
 
 .libraryDiv a {
@@ -42,8 +61,15 @@ body {
 	text-decoration: none;
 	color: rgb(49, 47, 47);
 }
+
 .generalButton {
 	margin-left: 5px;
 }
 
 /*SIDE MENU*/
+
+.registrationImage {
+
+	width: 100%;
+	height: 100%;
+}
