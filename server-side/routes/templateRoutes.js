@@ -11,7 +11,7 @@ router
   .patch(templatesController.updateTemplate)
   .delete(templatesController.deleteTemplate);
 
-router.patch("/:id", authJwt.verifyToken, templatesController.starTemplate);
+router.patch("/:id", authJwt.verifyToken, templatesController.updateTemplate);
 
 router.get("/:userId/allTemplates", authJwt.verifyToken, templatesController.getUserTemplates);
 router.get("/:userId/favTemplates", authJwt.verifyToken, templatesController.getUserFavTemplates);

@@ -159,10 +159,10 @@ const getAllUserRequests = async (req, res) => {
 };
 
 const updateUser = asyncHandler(async (req, res) => {
+  console.log('testing connection to upd user');
   try {
     const { userId, reqId, templateId, fullName, email } = req.body;
     const user = await User.findById(userId);
-    console.log(user);
 
     if (reqId) {
       if (user.requests.includes(reqId)) {
@@ -173,10 +173,11 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 
     if (templateId) {
+      console.log(templateId);
       if (user.templates.includes(templateId)) {
         user.templates = user.templates.filter((id) => id !== templateId);
       } else {
-        user.templates.push(reqId);
+        user.templates.push(templateId);
       }
     }
 
@@ -187,7 +188,6 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 
     await user.save();
-    console.log(user.fullName);
     res.json({ message: `${user.email} requests updated` });
   } catch (err) {
     res.status(500).json({ message: err.message });

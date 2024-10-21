@@ -57,14 +57,11 @@ const getOneTemplate = asyncHandler(async (req, res) => {
       console.log(template);
       res.status(200).json(template);
       console.log("fsdf");
-
     }
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        message: `Sorry, it looks like this template doesn't belong to you!`,
-      });
+    res.status(500).json({
+      message: `Sorry, it looks like this template doesn't belong to you!`,
+    });
   }
 });
 
@@ -100,6 +97,7 @@ const createTemplate = asyncHandler(async (req, res) => {
         game: game,
         developer: developer,
         introText: introText,
+        mqproject: mqproject,
         instructions: instructions,
         mqproject: mqproject,
         languageTeam: languageTeam,
@@ -132,53 +130,59 @@ const deleteTemplate = asyncHandler(async (req, res) => {
 });
 
 const updateTemplate = asyncHandler(async (req, res) => {
+  console.log('contact');
   try {
-    const { id, title, introText, mqproject, game, instructions, favorite } = req.body;
+    const {
+      id,
+      userId,
+      title,
+      introText,
+      mqproject,
+      game,
+      instructions,
+      favorite,
+    } = req.body;
 
-    const template = await Template.findById(id).exec();
-
-    if (!template) {
-      return res.status(400).json({ message: "No template found" });
+    const user = await User.findById(userId);
+    if (!user || !user.templates.includes(id)) {
+      return res.status(400).json({ message: "User or template not found" });
     }
 
-    const duplicate = await Template.findOne({ title, id });
+    // Create an object to hold the fields to be updated
+    const fieldsToUpdate = {};
 
-    if (duplicate && duplicate?._id.toString() !== id) {
-      return res.status(409).json({ message: "Duplicate title" });
-    }
+    if (title !== undefined) fieldsToUpdate.title = title;
+    if (introText !== undefined) fieldsToUpdate.introText = introText;
+    if (mqproject !== undefined) fieldsToUpdate.mqproject = mqproject;
+    if (game !== undefined) fieldsToUpdate.game = game;
+    if (instructions !== undefined) fieldsToUpdate.instructions = instructions;
+    if (favorite !== undefined) fieldsToUpdate.favorite = favorite;
 
-    if (title) {
-      template.title = title;
-    }
+    // Update the template with the filtered fields
+    const updatedTemplate = await Template.findByIdAndUpdate(
+      id,
+      fieldsToUpdate,
+      { new: true } 
+    );
 
-    if (game) {
-      template.game = game;
-    }
-    if (introText) {
-      template.introText = introText;
-    }
-    if (instructions) {
-      template.instructions = instructions;
-    }
-    if (favorite) {
-      template.favorite = favorite;
-    }
-    if(mqproject){
-      template.mqproject = mqproject
+    if (!updatedTemplate) {
+      return res.status(400).json({ message: "Template not found" });
     }
 
-    const updatedTemplate = await template.save();
+    res.json({ message: `${updatedTemplate.title} updated`, updatedTemplate });
 
-    res.json({ message: `${updatedTemplate.title} updated` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+
 const starTemplate = asyncHandler(async (req, res) => {
   try {
-    const { id, favorite } = req.body;
+    const { userId, id, favorite } = req.body;
     const template = await Template.findById(id).exec();
+    const user = await User.findById(userId);
+    console.log(userId);
     template.favorite = favorite;
 
     const updatedTemplate = await template.save();
