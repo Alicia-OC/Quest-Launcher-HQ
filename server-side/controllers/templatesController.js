@@ -30,7 +30,6 @@ const getUserFavTemplates = asyncHandler(async (req, res) => {
 });
 
 const getAllTemplates = asyncHandler(async (req, res) => {
-  console.log('dasd');
   try {
     Template.find({}).then((data) => {
       if (data.length === 0) {
@@ -47,6 +46,28 @@ const getAllTemplates = asyncHandler(async (req, res) => {
   }
 });
 
+const getOneTemplate = asyncHandler(async (req, res) => {
+  console.log("fsdf");
+  try {
+    const { userId, templateId } = req.query;
+    console.log(userId, templateId);
+    const template = await Template.findById(templateId);
+    console.log(template);
+    if (userId === template.userId) {
+      console.log(template);
+      res.status(200).json(template);
+      console.log("fsdf");
+
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        message: `Sorry, it looks like this template doesn't belong to you!`,
+      });
+  }
+});
+
 const createTemplate = asyncHandler(async (req, res) => {
   try {
     const {
@@ -56,6 +77,7 @@ const createTemplate = asyncHandler(async (req, res) => {
       game,
       developer,
       instructions,
+      mqproject,
       languageTeam,
       introText,
       attachments,
@@ -79,6 +101,7 @@ const createTemplate = asyncHandler(async (req, res) => {
         developer: developer,
         introText: introText,
         instructions: instructions,
+        mqproject: mqproject,
         languageTeam: languageTeam,
         attachments: attachments,
         requirements: requirements,
@@ -109,10 +132,8 @@ const deleteTemplate = asyncHandler(async (req, res) => {
 });
 
 const updateTemplate = asyncHandler(async (req, res) => {
-  console.log('dasdd');
   try {
-    const { id, title, introText, game, instructions, favorite } =
-      req.body;
+    const { id, title, introText, mqproject, game, instructions, favorite } = req.body;
 
     const template = await Template.findById(id).exec();
 
@@ -142,6 +163,9 @@ const updateTemplate = asyncHandler(async (req, res) => {
     if (favorite) {
       template.favorite = favorite;
     }
+    if(mqproject){
+      template.mqproject = mqproject
+    }
 
     const updatedTemplate = await template.save();
 
@@ -159,7 +183,9 @@ const starTemplate = asyncHandler(async (req, res) => {
 
     const updatedTemplate = await template.save();
 
-    res.json({ message: `${updatedTemplate.title} with id: ${updatedTemplate._id} updated` });
+    res.json({
+      message: `${updatedTemplate.title} with id: ${updatedTemplate._id} updated`,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -172,5 +198,6 @@ module.exports = {
   updateTemplate,
   starTemplate,
   getUserTemplates,
-  getUserFavTemplates
+  getUserFavTemplates,
+  getOneTemplate,
 };

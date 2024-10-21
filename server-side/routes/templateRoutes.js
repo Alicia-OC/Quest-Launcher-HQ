@@ -1,19 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const templateController = require("../controllers/templatesController");
+const templatesController = require("../controllers/templatesController");
 const authJwt = require("../middlewares/authJwt");
 
 
 router
   .route("/")
-  .get(templateController.getAllTemplates)
-  .post(templateController.createTemplate)
-  .patch(templateController.updateTemplate)
-  .delete(templateController.deleteTemplate);
+  .get(templatesController.getAllTemplates)
+  .post(templatesController.createTemplate)
+  .patch(templatesController.updateTemplate)
+  .delete(templatesController.deleteTemplate);
 
-router.patch("/:id", authJwt.verifyToken, templateController.starTemplate);
+router.patch("/:id", authJwt.verifyToken, templatesController.starTemplate);
 
-router.get("/:userId/allTemplates", authJwt.verifyToken, templateController.getUserTemplates);
-router.get("/:userId/favTemplates", authJwt.verifyToken, templateController.getUserFavTemplates);
+router.get("/:userId/allTemplates", authJwt.verifyToken, templatesController.getUserTemplates);
+router.get("/:userId/favTemplates", authJwt.verifyToken, templatesController.getUserFavTemplates);
+router.get("/:userId/:templateId/test", templatesController.getOneTemplate);
 
 module.exports = router;

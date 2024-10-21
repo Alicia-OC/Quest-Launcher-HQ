@@ -5,15 +5,39 @@ let Vendor = VendorSchemas.Vendor;
 
 const getAllVendors = asyncHandler(async (req, res) => {
   try {
-    Vendor.find({}).sort({ nickname: 1 }).then((data) => {
-      const formattedVendor = data.map(
-        ({ _id, fullName, nickname, language, service, email }) => {
-          return { _id, fullName, nickname, language, service, email };
-        }
-      );
-      res.status(200).json(formattedVendor);
-      return formattedVendor;
-    });
+    Vendor.find({})
+      .sort({ nickname: 1 })
+      .then((data) => {
+        const formattedVendor = data.map(
+          ({ _id, fullName, nickname, language, service, email }) => {
+            return { _id, fullName, nickname, language, service, email };
+          }
+        );
+        res.status(200).json(formattedVendor);
+        return formattedVendor;
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+const getLanguageBasedVendors = asyncHandler(async (req, res) => {
+  console.log("fsdf");
+  try {
+    const { language } = req.query;
+    const langUppercase = language.charAt(0).toUpperCase() + language.slice(1);
+
+    Vendor.find({ language: langUppercase })
+      .sort({ nickname: 1 })
+      .then((data) => {
+        const formattedVendor = data.map(
+          ({ _id, fullName, nickname, language, service, email }) => {
+            return { _id, fullName, nickname, language, service, email };
+          }
+        );
+        res.status(200).json(formattedVendor);
+        return formattedVendor;
+      });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -24,7 +48,12 @@ const createNewVendor = asyncHandler(async (req, res) => {
     const { fullName, nickname, language, service, email, userId } = req.body;
     const duplicate = await Vendor.findOne({ fullName }).lean().exec();
     if (duplicate) {
-      return res.status(409).json({ message: "A vendor with this name has already been added in the database" });
+      return res
+        .status(409)
+        .json({
+          message:
+            "A vendor with this name has already been added in the database",
+        });
     }
     const vendorObject = {
       createdBy: userId,
@@ -94,4 +123,5 @@ module.exports = {
   createNewVendor,
   updateVendor,
   deleteVendor,
+  getLanguageBasedVendors,
 };

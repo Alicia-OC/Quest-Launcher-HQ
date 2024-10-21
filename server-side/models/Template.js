@@ -16,6 +16,7 @@ const templateSchema = new mongoose.Schema(
     game: { type: String, required: true },
     introText: { type: String, required: true },
     instructions: { type: String, required: false },
+    mqproject: { type: String, required: true },
     languageTeam: { type: Array, required: true },
     attachments: { type: Array, required: true },
     requirements: { type: Array, required: true },
