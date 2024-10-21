@@ -9,7 +9,21 @@ import { GetDevelopers } from "../../features/developersList/fetchDevelopers";
 
 /* FONTAWESOME */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faGamepad,
+  faCode,
+  faFileLines,
+  faBook,
+  faAddressBook,
+} from "@fortawesome/free-solid-svg-icons";
+
+/**MUI */
+
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+
 
 const Library = ({}) => {
   const [dropdownVendors, setDropdownVendors] = useState(null);
@@ -31,6 +45,8 @@ const Library = ({}) => {
   const user = useSelector((state) => state.user); //
   const templates = user.templates;
   const requests = user.requests;
+
+  console.log(devs);
 
   const handleVendor = (e) => {
     e.preventDefault();
@@ -152,14 +168,16 @@ const Library = ({}) => {
       languages.map((language) => {
         result.push(
           <li>
-            <Link to={`/Vendors/${language.language}`}>{language.language}</Link>
+            <Link to={`/Vendors/${language.language}`}>
+              {language.language}
+            </Link>
           </li>
         );
       });
     } else {
       result = "Loading...";
     }
-    return result;
+    return <ul>{result}</ul>;
   };
 
   useEffect(() => {
@@ -184,6 +202,14 @@ const Library = ({}) => {
     dropDownRequestsShow,
   ]);
 
+  const content = (
+    <>
+      <List>
+        <ListItem></ListItem>
+      </List>
+    </>
+  );
+
   return (
     <>
       <div className="libraryDiv" id="libraryDiv">
@@ -195,11 +221,21 @@ const Library = ({}) => {
           >
             <FontAwesomeIcon icon={faPlus} />{" "}
           </button>{" "}
-          <Link to="/Vendors">Vendors</Link>
-          <div>
-            <ul>{dropdownVendors}</ul>
-          </div>
+          <Link className="title-profile-library" to="/Vendors">
+            Vendors
+          </Link>{" "}
+          <FontAwesomeIcon icon={faAddressBook} />{" "}
+          {languages ? (
+            <p className="small-description-profile-library">
+              More than {languages.length - 1} language pairs with many
+              vendors...
+            </p>
+          ) : (
+            ""
+          )}
         </div>
+        <Divider></Divider>
+
         <div>
           <button
             value="gamesPlusButton-library"
@@ -207,9 +243,21 @@ const Library = ({}) => {
           >
             <FontAwesomeIcon icon={faPlus} />{" "}
           </button>{" "}
-          <Link to="/Games">Games</Link>
-          <div>{dropDownGames}</div>
+          <Link className="title-profile-library" to="/Games">
+            Games
+          </Link>{" "}
+          <FontAwesomeIcon icon={faGamepad} />
+          <div>{dropDownGames}</div>{" "}
+          {games ? (
+            <p className="small-description-profile-library">
+              More than {games.length - 1} games to be used in your quests...
+            </p>
+          ) : (
+            ""
+          )}
         </div>
+        <Divider></Divider>
+
         <div className="DevsLibraryList">
           <button
             value="developersPlusButton-library"
@@ -217,9 +265,21 @@ const Library = ({}) => {
           >
             <FontAwesomeIcon icon={faPlus} />{" "}
           </button>{" "}
-          <Link to="/Developers">Developers</Link>
-          <div>{dropDownDevs}</div>
+          <Link className="title-profile-library" to="/Developers">
+            Developers
+          </Link>{" "}
+          <FontAwesomeIcon icon={faCode} />
+          <div>{dropDownDevs}</div>{" "}
+          {devs ? (
+            <p className="small-description-profile-library">
+              More than {devs.length - 1} developers...
+            </p>
+          ) : (
+            ""
+          )}{" "}
         </div>
+        <Divider></Divider>
+
         <div>
           <button
             value="templatesPlusButton-library"
@@ -227,9 +287,22 @@ const Library = ({}) => {
           >
             <FontAwesomeIcon icon={faPlus} />{" "}
           </button>{" "}
-          <Link to="/TemplateList">Templates</Link>
-          <div>{dropDownTemplates}</div>
+          <Link className="title-profile-library" to="/TemplateList">
+            Templates
+          </Link>{" "}
+          <FontAwesomeIcon icon={faBook} />
+          <div>{dropDownTemplates}</div>{" "}
+          {templates ? (
+            <p className="small-description-profile-library">
+              More than {templates.length - 1} templates created by you and your
+              team...
+            </p>
+          ) : (
+            ""
+          )}
         </div>
+        <Divider></Divider>
+
         <div>
           <button
             value="templatesPlusButton-library"
@@ -237,8 +310,18 @@ const Library = ({}) => {
           >
             <FontAwesomeIcon icon={faPlus} />{" "}
           </button>{" "}
-          <Link to="/RequestList">Requests created</Link>
+          <Link className="title-profile-library" to="/RequestList">
+            Requests created
+          </Link>{" "}
+          <FontAwesomeIcon icon={faFileLines} />
           <div>{dropDownRequests}</div>
+          {requests ? (
+            <p className="small-description-profile-library">
+              More than {requests.length - 1} requeste created by you...
+            </p>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

@@ -4,6 +4,10 @@ import Axios from "axios";
 import LanguagesDropDown from "../../components/pages/elements/languagesDropdown";
 import { useSelector } from "react-redux";
 
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
+
+
 const NewVendor = () => {
 
   const [language, setLanguage] = useState();
@@ -26,6 +30,7 @@ const NewVendor = () => {
         "proofService")
       ].value;
     if (x === "") {
+      
       alert("This field must be filled out");
       return false;
     }

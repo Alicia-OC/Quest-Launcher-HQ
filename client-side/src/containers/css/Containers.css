@@ -117,6 +117,20 @@
 
 .libraryDiv ul {
   list-style-type: none;
+
+}
+
+.libraryDiv div {
+
+  margin: 1.5rem 3rem 1.5rem 3rem;
+}
+
+.small-description-profile-library{
+  font-size: small;
+  font-style: italic;
+}
+.title-profile-library{
+  margin: 0 0 0 0.5rem;
 }
 
 table {
@@ -390,7 +404,7 @@ th {
   margin: 0px;
 }
 
-.fav-templates-side-menu{
+.fav-templates-side-menu {
 
   max-height: 264px;
   overflow: auto;

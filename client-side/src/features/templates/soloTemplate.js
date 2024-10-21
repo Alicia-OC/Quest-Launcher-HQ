@@ -8,8 +8,6 @@ import { useEffect, useState } from "react";
 
 import GetTemplate from "./GetTemplate";
 import NewInput from "../../components/pages/elements/NewInput";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import { mongoDB_Template } from "../../apis";
 

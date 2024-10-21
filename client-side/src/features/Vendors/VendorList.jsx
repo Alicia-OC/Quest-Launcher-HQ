@@ -6,6 +6,7 @@ import { GetVendors } from "./_GetVendorsData";
 
 const editButton = (e) => {
   let id = e.currentTarget.id;
+
   alert("Edit not available yet! Sorry :C");
 };
 
@@ -37,14 +38,12 @@ const VendorList = ({}) => {
   if (vendors.length === 0) {
     return (
       <div>
-        <p1>
-          Loading...
-        </p1>
+        <p1>Loading...</p1>
       </div>
     );
   } else {
     return (
-      <div >
+      <div>
         <div className="AddVendorButton">
           <button className="AddVendorButton">
             {" "}
