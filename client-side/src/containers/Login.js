@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { mongoDB_Auth } from "../apis";
-import ".//css/RegistrationForm.css";
 import { Link } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import { setLogin } from "../state";
 import { useDispatch, useSelector } from "react-redux";
-import { setTemplates, setFavTemplates, setRequests } from "../state";
+import { setTemplates, setRequests } from "../state";
 import { mongoDB_Template, mongoDB_Request } from "../apis";
+import cat from '../img/photo_2024-10-18_13-38-02.jpg'
+
 
 const Login = (props) => {
   const dispatch = useDispatch();
@@ -175,8 +176,9 @@ const Login = (props) => {
             </button>
           </div>
         </div>
-        <div className="register-side-div">[IMAGE]</div>
-      </div>
+        <div className="creationForm-image">
+          <img className="registrationImage" src={cat} ></img>
+        </div>      </div>
     </Box>
   );
 };

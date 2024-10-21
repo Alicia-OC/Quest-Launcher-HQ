@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Divider, Typography , List, ListItem } from "@mui/material";
+import { Box, Divider, Typography, List, ListItem } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import LogOut from "../features/auth/LogOut";
@@ -16,13 +16,15 @@ function UserSideMenu() {
   if (favTemplates) {
     map = favTemplates.map((item) => {
       return (
-        <ListItemButton>
-          <ListItemText
-            className="favorite-templates-list"
-            primary={
-              <a href={"/Template/" + item._id}>{item.title.slice(0, 20)}...</a>
-            }
-          />
+        <ListItemButton
+          sx={{
+            paddingLeft: 4,
+            paddingRight: 1,
+            paddingTop: 0.5,
+            paddingBottom: 1,
+          }}
+        >
+          <a href={"/Template/" + item._id}>{item.title.slice(0, 20)}...</a>
         </ListItemButton>
       );
     });
@@ -33,12 +35,12 @@ function UserSideMenu() {
       sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
     >
       <List component="nav">
-        <ListItemButton>
+        <ListItemButton sx={{ paddingLeft: 3 }}>
           <DraftsIcon className="drafts-icon" />
           <ListItemText primary={<Link to="/NewRequest">New Request</Link>} />
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton sx={{ paddingLeft: 3 }}>
           <DraftsIcon className="drafts-icon" />
           <ListItemText primary={<Link to="/NewTemplate">New Template</Link>} />
         </ListItemButton>
@@ -53,7 +55,7 @@ function UserSideMenu() {
             }
           />
         </ListItem>
-        <div>{map}</div>
+        <div className="fav-templates-side-menu">{map}</div>
         <Box className="logout-box">
           <LogOut />
         </Box>

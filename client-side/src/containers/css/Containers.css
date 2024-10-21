@@ -71,6 +71,10 @@
   border-top: 10px;
 }
 
+.mainContainer div {
+  margin-bottom: 10px;
+}
+
 .mainContainer a:hover {
   text-decoration: dotted;
   cursor: pointer;
@@ -226,7 +230,7 @@ th {
 
 .requestWarning {
   font-size: 70%;
-  color: rgb(238, 231, 218);
+  color: var(--footer-color)
 }
 
 .itemTemplateList {
@@ -314,7 +318,7 @@ th {
   background: #f8f9fa;
   flex: 1;
   height: 500px;
-  max-width: 200px;
+  max-width: 230px;
   border-radius: 25px;
 }
 
@@ -371,4 +375,23 @@ th {
 
 .drafts-icon {
   padding-right: 7px;
+}
+
+.new-item-side-menu {
+  padding-left: 10px;
+}
+
+.public-main-salutation {
+  color: #343a40;
+  justify-self: center;
+}
+
+.introduction p {
+  margin: 0px;
+}
+
+.fav-templates-side-menu{
+
+  max-height: 264px;
+  overflow: auto;
 }

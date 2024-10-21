@@ -27,13 +27,11 @@ body img {
 
 .publicContainer {
 	font-family: Arial, Helvetica, sans-serif;
-	line-height: 1rem;
-	height: 80%;
-	flex: 1;
 	max-width: 800px;
 	padding: 2rem 3rem 3rem 3rem;
 	border-radius: 25px;
 	background-color: rgba(255, 255, 255, 0.911);
+    text-align: center;  
 }
 
 .publicContainer img {

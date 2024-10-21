@@ -14,6 +14,7 @@ import GreetingsDropdownMenu from "./elements/GreetingsDropdownMenu.js";
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines.js";
 import { mongoDB_Request } from "../../apis.js";
+import { randomGreetings } from "../../apis.js";
 
 import GetTemplate from "../../features/templates/GetTemplate.js";
 
@@ -38,16 +39,17 @@ function NewRequestFromTemplate(props) {
     instructions,
     developer,
     title,
+    mqproject,
     languageTeam,
     attachments,
     requirements,
   } = templateObject;
 
   const [projectTitle, setprojectTitle] = useState();
-  const [greetings, setGreetings] = useState("hi");
+  const [greetings, setGreetings] = useState(randomGreetings[0]);
   const [thisIntroText, setThisIntroText] = useState(instructions);
   const [wordcount, setWordcount] = useState();
-  const [mqproject, setMqproject] = useState();
+  const [newMqproject, setNewMqproject] = useState(mqproject);
   const [files, setFiles] = useState();
   const [thisService, setThisService] = useState("TEP");
   const [teamTable, setTeamTable] = useState();
@@ -127,7 +129,7 @@ function NewRequestFromTemplate(props) {
       introText: introText,
       instructions: instructions,
       wordcount: wordcount,
-      mqproject: mqproject,
+      newMqproject: newMqproject,
       service: thisService,
       files: files,
       languageTeam: teamTable,
@@ -145,7 +147,7 @@ function NewRequestFromTemplate(props) {
       introText: introText,
       instructions: instructions,
       wordcount: wordcount,
-      mqproject: mqproject,
+      newMqproject: newMqproject,
       service: thisService,
       files: files,
       languageTeam: teamTable,
@@ -201,11 +203,7 @@ function NewRequestFromTemplate(props) {
               </div>
               <ul>
                 <li>
-                  <label>MQ project</label>
-                  <NewInput
-                    getInput={(project) => setMqproject(project)}
-                    placeholder=""
-                  />
+                  <label>MQ project:</label> {mqproject}
                 </li>
                 <li>
                   <label>WC</label>

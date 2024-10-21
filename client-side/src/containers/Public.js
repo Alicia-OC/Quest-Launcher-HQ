@@ -14,8 +14,15 @@ const Public = () => {
     <>
       <section className="public">
         <main className="public_main">
-          <div>
-            <h1>Welcome!</h1>
+          <div className="public-main-salutation">
+            <h2>
+              Welcome to Quest Launcher HQ!
+            </h2>
+            <p>
+              Here you can inscribe the tales and tasks for your next Gaming
+              Translation Quest. Adventure awaits, but first, beware of the
+              fierce feline cerberus!
+            </p>
             <button onClick={routeLogin}> Log to start</button>
             <button onClick={routeNewAccount}> Create an account</button>
           </div>

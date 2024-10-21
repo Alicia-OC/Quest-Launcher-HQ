@@ -11,11 +11,11 @@ function NewGame() {
   const [title, setTitle] = useState();
   const [links, setLinks] = useState([]);
   const DB_languages = GetLanguages();
-  const [arrayOfLangs, setArrayOfLangs] = useState([]); 
+  const [arrayOfLangs, setArrayOfLangs] = useState([]);
 
   const user = useSelector((state) => state.user);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let object = {
       developer: developer,
@@ -26,18 +26,20 @@ function NewGame() {
     console.log(object);
     //** */
     //
-
-    Axios.post(mongoDB_Games, {
-      userId: user._id,
-      developer: developer,
-      title: title,
-      links: links,
-      languages: arrayOfLangs,
-    }).catch((err) => {
+    try {
+      const res = await Axios.post(mongoDB_Games, {
+        userId: user._id,
+        developer: developer,
+        title: title,
+        links: links,
+        languages: arrayOfLangs,
+      });
+      window.location.replace("/Games");
+    } catch (error) {
       alert(
         "This game has already been added, please try another name or check your database."
       );
-    });
+    }
   };
 
   function addLink(newLink) {
@@ -46,11 +48,10 @@ function NewGame() {
     });
   }
 
-
   function addLanguages(language) {
-    setArrayOfLangs([...arrayOfLangs, language])
+    setArrayOfLangs([...arrayOfLangs, language]);
     if (!arrayOfLangs.includes(language)) {
-      setArrayOfLangs([...arrayOfLangs, language])
+      setArrayOfLangs([...arrayOfLangs, language]);
     } else {
       deleteLanguages(language);
     }
@@ -71,8 +72,8 @@ function NewGame() {
 
   const languagesLoop = () => {
     if (DB_languages) {
-      const duplicate = DB_languages.map((item) =>  item.language)
-      
+      const duplicate = DB_languages.map((item) => item.language);
+
       return (
         <>
           {duplicate.map((language) => (

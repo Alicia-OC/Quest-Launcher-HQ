@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 /* DATABASE DEPENDENCIES*/
 
 import CreateAttachment from "./createAttachment";
 import CreateRequirement from "./createRequirement";
-
-/* FONTAWESOME */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 /* CSS */
 import "react-datepicker/dist/react-datepicker.css";
@@ -23,22 +19,23 @@ let RequestLists = (props) => {
 
   if (TemplateAttachments && TemplateRequirements) {
     TemplateAttachmentsLoop = TemplateAttachments.map((item) => (
-      <li>{item}</li>
+      <li key={item}>{item}</li>
     ));
 
     TemplateRequirementsLoop = TemplateRequirements.map((item) => (
-      <li>{item}</li>
+      <li key={item}>{item}</li>
     ));
   }
 
   /**attachments */
-  function addAttachment(newAttachment) {
+  function AddAttachment(newAttachment) {
     setAttachment((prevAttachment) => {
       return [...prevAttachment, newAttachment];
     });
+    console.log(attachment);
   }
 
-  function deleteAttachment(e, id) {
+  function DeleteAttachment(e, id) {
     e.preventDefault();
     setAttachment((prevAttachment) => {
       return prevAttachment.filter((attachmentItem, index) => {
@@ -46,11 +43,13 @@ let RequestLists = (props) => {
       });
     });
   }
+
   /**Requirements */
-  function addRequirements(newRequirements) {
+  function AddRequirements(newRequirements) {
     setRequirements((prevRequirements) => {
       return [...prevRequirements, newRequirements];
     });
+    console.log(requirements);
   }
 
   function deleteRequirements(e, id) {
@@ -62,27 +61,33 @@ let RequestLists = (props) => {
     });
   }
 
-  /**1. Button to send the att/req list props, couldn't think of anything better :( ) */
+  useEffect(() => {
+    props.getRequirements(requirements);
+    props.getAttachments(attachment);
+    console.log(attachment);
+  }, [requirements, attachment]);
 
   return (
     <>
       <div className="RequestLists">
         <div className="attachementsList">
-          <h4>List of items attached to this request:</h4>{" "}
+          <h4>List of items you will need:</h4>{" "}
           <ul id="templateLists">
             {TemplateAttachmentsLoop}
             {attachment.map((attachmentItem, index) => {
               return (
                 <li key={attachmentItem} id={attachmentItem}>
                   <label>{attachmentItem.value}</label>
-                  <button className="generalButton" onClick={(e) => deleteAttachment(e, index)}>-</button>
+                  <button
+                    className="generalButton"
+                    onClick={(e) => DeleteAttachment(e, index)}
+                  >
+                    -
+                  </button>
                 </li>
               );
             })}{" "}
-            <CreateAttachment
-              itemsFromTemplate={TemplateAttachments}
-              onAdd={addAttachment}
-            />
+            <CreateAttachment onAddAtt={AddAttachment} />
           </ul>
         </div>
         <div className="deliverablesList">
@@ -93,7 +98,8 @@ let RequestLists = (props) => {
               return (
                 <li id={reqItem}>
                   <label>{reqItem.value}</label>
-                  <button className="generalButton"
+                  <button
+                    className="generalButton"
                     id={reqItem}
                     onClick={(e) => deleteRequirements(e, index)}
                   >
@@ -104,7 +110,7 @@ let RequestLists = (props) => {
             })}
           </ul>
           <ul id="templateLists">
-            <CreateRequirement onAddReq={addRequirements} />
+            <CreateRequirement onAddReq={AddRequirements} />
           </ul>
         </div>
       </div>

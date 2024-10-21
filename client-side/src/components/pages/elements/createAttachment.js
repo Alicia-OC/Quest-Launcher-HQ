@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 function CreateAttachment(props) {
+  const oldAttachments = props.itemsFromTemplate;
 
-    const oldAttachments = props.itemsFromTemplate
-
-  const [attachment, setAttachment] = useState({
-    value: oldAttachments,
+  const [attachments, setAttachments] = useState({
+    value: "",
   });
+
+  const inputRef = useRef(null);
+  const spanRef = useRef(null);
 
   function handleChange(e) {
     const { value } = e.target;
-    setAttachment((prevAttachment) => {
+    setAttachments((prevAttachment) => {
       return {
         ...prevAttachment,
         value,
@@ -20,20 +22,39 @@ function CreateAttachment(props) {
 
   function submitAttachment(e) {
     e.preventDefault();
-    props.onAdd(attachment);
-    setAttachment({ value: "" });
+    props.onAddAtt(attachments);
+    setAttachments({ value: "" });
   }
+
+  useEffect(() => {
+    if (inputRef.current && spanRef.current) {
+      spanRef.current.textContent = attachments.value || " ";
+      inputRef.current.style.width = `${spanRef.current.offsetWidth - 100}px`;
+    }
+  }, [attachments.value]);
 
   return (
     <div>
-        <input
+      <input
         className="attReqListInputs"
-          value={attachment.value}
-          onChange={handleChange}
-          placeholder="Write something here"
-        />
-        <button className="generalButton" onClick={submitAttachment}>Add</button>
-
+        ref={inputRef}
+        type="text"
+        value={attachments.value}
+        onChange={handleChange}
+        placeholder="Write something here"
+      />
+      <span
+        className="attReqListInputsSpan"
+        ref={spanRef}
+        style={{
+          visibility: "hidden",
+          whiteSpace: "pre",
+          position: "absolute",
+        }}
+      ></span>
+      <button className="generalButton" onClick={submitAttachment}>
+        Add
+      </button>
     </div>
   );
 }

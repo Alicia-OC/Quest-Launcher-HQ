@@ -18,8 +18,8 @@ function StarButton(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-
   useEffect(() => {
+    console.log(isUpdated);
     const updateTemplates = async () => {
       if (isUpdated) {
         const dbUpdated = await updateDB(); // Await the updateDB
@@ -37,11 +37,14 @@ function StarButton(props) {
     console.log(user.favTemplates);
     {
       try {
-        const response = await Axios.get(mongoDB_Template + `/${user._id}/favTemplates`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await Axios.get(
+          mongoDB_Template + `/${user._id}/favTemplates`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         dispatch(setFavTemplates({ favTemplates: response.data }));
       } catch (err) {
         const error = err.response ? err.response.data.message : err.message;
@@ -52,8 +55,7 @@ function StarButton(props) {
           console.error("Error fetching favorite templates:", error);
         }
       }
-    };
-  
+    }
   };
 
   const updateDB = async () => {
@@ -61,14 +63,14 @@ function StarButton(props) {
     try {
       await Axios.patch(
         mongoDB_Template + `/${id}`,
-        { id: id, favorite: starred },
+        { userId: user._id, id: id, favorite: starred },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      return true; 
+      return true;
     } catch (error) {
       console.error(error);
       return false;

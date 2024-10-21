@@ -37,6 +37,7 @@ function NewTemplate(props) {
   );
   const [templateStarred, setTemplateStarred] = useState(false);
   const [thisListOfLanguages, setThisListOfLanguages] = useState();
+  const [mqproject, setMqproject] = useState();
 
   const user = useSelector((state) => state.user); //
 
@@ -121,23 +122,12 @@ function NewTemplate(props) {
 
   function HandleSubmit(e) {
     e.preventDefault();
+    console.log(attachments);
 
     let attFormatted = attachments.map((att) => att.value);
     let reqFormatted = requirements.map((req) => req.value);
     let domain = user.domain;
     let userID = user._id;
-
-    const object = {
-      title: templateTitle,
-      game: document.getElementById("gamesSelectOptions").value,
-      developer: developer,
-      instructions: instructions,
-      introText: introText,
-      languageTeam: thisListOfLanguages,
-      attachments: attachments,
-      requirements: requirements,
-      favorite: templateStarred,
-    };
 
     Axios.post(mongoDB_Template, {
       userId: userID,
@@ -145,6 +135,7 @@ function NewTemplate(props) {
       title: templateTitle,
       game: document.getElementById("gamesSelectOptions").value,
       developer: developer,
+      mqproject: mqproject,
       instructions: instructions,
       languageTeam: thisListOfLanguages,
       introText: introText,
@@ -152,8 +143,8 @@ function NewTemplate(props) {
       attachments: attFormatted,
       requirements: reqFormatted,
     })
-      .then(alert(`New template ${templateTitle} has been created!`))
       .then(function (response) {
+        console.log('TESTING');
         if (response.status == 200) {
           Axios.patch(mongoDB_Users, {
             userId: user._id,
@@ -163,6 +154,8 @@ function NewTemplate(props) {
           window.location.replace(`/Template/${response.data}`);
         }
       })
+      .then(alert(`New template ${templateTitle} has been created!`))
+
       .catch((err) => console.log(err));
 
     //.then(location.reload());
@@ -215,6 +208,11 @@ function NewTemplate(props) {
               defaultValue={introText}
             />
           </div>
+          <label>MQ project</label>
+          <NewInput
+            getInput={(project) => setMqproject(project)}
+            placeholder=""
+          />
         </div>
 
         <PickServiceButtons
@@ -235,10 +233,14 @@ function NewTemplate(props) {
         />
 
         <RequestList
-          getAttachments={(theseAttachments) =>
-            setAttachments(theseAttachments)
-          }
-          getRequirements={(theseReqs) => setRequirements(theseReqs)}
+          getAttachments={(theseAttachments) => {
+            setAttachments(theseAttachments);
+            console.log(theseAttachments);
+          }}
+          getRequirements={(theseReqs) => {
+            setRequirements(theseReqs);
+            console.log(theseReqs);
+          }}
         />
 
         <input

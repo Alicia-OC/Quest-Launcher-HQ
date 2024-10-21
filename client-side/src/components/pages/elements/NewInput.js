@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 function NewInput(props) {
   const placeholder = props.placeholder;
-  const [input, setInput] = useState();
-
+  const [input, setInput] = useState(props.parentData);
   const inputRef = useRef(null);
   const spanRef = useRef(null);
 
@@ -20,7 +19,6 @@ function NewInput(props) {
     }
   }, [input]);
 
-
   return (
     <>
       <input
@@ -30,7 +28,7 @@ function NewInput(props) {
         value={input}
         onChange={handleChange}
         placeholder={placeholder}
-        />
+      />
       <span
         className="expandableGeneralInputSpan"
         ref={spanRef}

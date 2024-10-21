@@ -63,8 +63,8 @@ function Footer() {
   return (
     <div className="App-footer">
       <h4>
-        {date + currentTime} Europe | {currentTimeNew_York}-New York |{" "}
-        {currentTimeKorea}-Korea | {currentTimeBrazil}-Brazil
+        {date + currentTime} Spain | {currentTimeNew_York} New York/Toronto |{" "}
+        {currentTimeKorea} Korea/Tokyo | {currentTimeBrazil} Brazil
       </h4>
     </div>
   );

@@ -19,10 +19,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 /**ICONS */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHouseUser,
-  faBookOpen,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHouseUser, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -83,11 +80,6 @@ function Navbar() {
       setAnchorElUser(null);
     };
 
-    function logOut(e) {
-      e.preventDefault();
-      dispatch(setLogout());
-    }
-
     return (
       <AppBar position="static" style={{ background: "#507DBC" }}>
         <Container maxWidth="xl">
@@ -106,7 +98,7 @@ function Navbar() {
                 textDecoration: "none",
               }}
             >
-              Email request generator
+              Quest Launcher HQ
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -169,7 +161,7 @@ function Navbar() {
                 textDecoration: "none",
               }}
             >
-              Email request generator
+              Quest Launcher HQ
             </Typography>
 
             <Box sx={{ flexGrow: 1 }}>
@@ -287,7 +279,6 @@ function Navbar() {
               href="/"
               sx={{
                 mr: 2,
-                display: { xs: "flex", md: "none" },
                 flexGrow: 1,
                 fontFamily: "arial",
                 fontWeight: 500,
@@ -295,7 +286,7 @@ function Navbar() {
                 textDecoration: "none",
               }}
             >
-              Email request generator
+              Quest Launcher HQ 
             </Typography>
           </Toolbar>
         </Container>
