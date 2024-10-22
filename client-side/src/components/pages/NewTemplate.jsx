@@ -124,6 +124,10 @@ function NewTemplate(props) {
     e.preventDefault();
     console.log(attachments);
 
+    if (!developer || !templateTitle || !mqproject || !introText) {
+      alert("Please make sure all required fields are filled.");
+      return;
+    }
     let attFormatted = attachments.map((att) => att.value);
     let reqFormatted = requirements.map((req) => req.value);
     let domain = user.domain;

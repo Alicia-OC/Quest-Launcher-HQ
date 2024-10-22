@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -47,18 +47,27 @@ function NewRequestFromTemplate(props) {
 
   const [projectTitle, setprojectTitle] = useState();
   const [greetings, setGreetings] = useState(randomGreetings[0]);
-  const [thisIntroText, setThisIntroText] = useState(instructions);
+  const [thisIntroText, setThisIntroText] = useState(introText);
+  const [thisInstructions, setThisInstructions] = useState("");
   const [wordcount, setWordcount] = useState();
   const [newMqproject, setNewMqproject] = useState(mqproject);
   const [files, setFiles] = useState();
   const [thisService, setThisService] = useState("TEP");
   const [teamTable, setTeamTable] = useState();
-  const [thisAttachments, setThisAttachments] = useState();
-  const [thisRequirements, setThisRequirements] = useState();
+  const [thisAttachments, setThisAttachments] = useState([]);
+  const [thisRequirements, setThisRequirements] = useState([]);
   const [transDL, setTransDL] = useState();
   const [proofDL, setProofDL] = useState();
-  const [thisListOfLanguages, setThisListOfLanguages] = useState();
+  const [thisListOfLanguages, setThisListOfLanguages] = useState([]);
 
+
+  useEffect(() => {
+    if (templateObject) {
+      setThisIntroText(introText);
+      setThisInstructions(instructions);
+      setNewMqproject(mqproject);
+    }
+  }, [templateObject]);
 
   const tableChanged = (e) => {
     let table = document.getElementsByTagName("table")[0];
@@ -109,8 +118,31 @@ function NewRequestFromTemplate(props) {
     setTeamTable(tableToObjectArrSliced);
   };
 
-  function HandleSubmit(e) {
+  async function HandleSubmit(e) {
     e.preventDefault();
+
+    const object = {
+      title: projectTitle,
+      game: game,
+      greeting: document.getElementById("greetingsSelectOptions").value,
+      introText: thisIntroText,
+      instructions: thisInstructions,
+      wordcount: wordcount,
+      mqproject: newMqproject,
+      service: thisService,
+      files: files,
+      languageTeam: teamTable,
+      attachments: thisAttachments,
+      requirements: thisRequirements,
+      deadlines: { translation: transDL, proofreading: proofDL },
+    };
+    console.log(object);
+
+    if (!projectTitle || !wordcount || !newMqproject || !teamTable.length) {
+      alert("Please make sure all required fields are filled.");
+      return;
+    }
+
     let attFormatted = thisAttachments.map((att) => att.value);
     let reqFormatted = thisRequirements.map((req) => req.value);
 
@@ -122,46 +154,32 @@ function NewRequestFromTemplate(props) {
       reqFormatted.push(requirements[i]);
     }
 
-    const object = {
-      title: projectTitle,
-      game: game,
-      greeting: document.getElementById("greetingsSelectOptions").value,
-      introText: introText,
-      instructions: instructions,
-      wordcount: wordcount,
-      newMqproject: newMqproject,
-      service: thisService,
-      files: files,
-      languageTeam: teamTable,
-      attachments: attFormatted,
-      requirements: reqFormatted,
-      deadlines: { translation: transDL, proofreading: proofDL },
-    };
-    console.log(object);
+    try {
+      const res = await Axios.post(mongoDB_Request, {
+        userId: user._id,
+        title: projectTitle,
+        game: game,
+        greeting: document.getElementById("greetingsSelectOptions").value,
+        introText: thisIntroText,
+        instructions: thisInstructions,
+        wordcount: wordcount,
+        mqproject: mqproject,
+        service: thisService,
+        files: files,
+        languageTeam: teamTable,
+        attachments: thisAttachments,
+        requirements: thisRequirements,
+        deadlines: { translation: transDL, proofreading: proofDL },
+      });
 
-    Axios.post(mongoDB_Request, {
-      userId: user._id,
-      title: projectTitle,
-      game: game,
-      greeting: document.getElementById("greetingsSelectOptions").value,
-      introText: introText,
-      instructions: instructions,
-      wordcount: wordcount,
-      newMqproject: newMqproject,
-      service: thisService,
-      files: files,
-      languageTeam: teamTable,
-      attachments: attFormatted,
-      requirements: reqFormatted,
-      deadlines: { translation: transDL, proofreading: proofDL },
-    })
-      .catch((err) => {
-        alert(
-          "The request wasnt createDispatchHook, please make sure all required fields are filled"
-        );
-        console.log(err);
-      })
-      .then(alert(`New request ${projectTitle} has been created!`));
+      alert(`New request ${projectTitle} has been created!`);
+      window.location.replace(`/Request/${res.data}`);
+    } catch (error) {
+      console.log(error);
+      alert(
+        "The quest hasn't been created properly, please make sure all the required fields are filled"
+      );
+    }
   }
 
   if (templateObject) {
@@ -189,7 +207,7 @@ function NewRequestFromTemplate(props) {
               />
               <label>Specific instructions:</label>
               <NewTextArea
-                getText={(text) => setThisIntroText(text)}
+                getText={(text) => setThisInstructions(text)}
                 defaultValue={instructions}
               />
             </div>

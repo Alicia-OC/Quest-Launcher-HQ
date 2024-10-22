@@ -14,25 +14,30 @@ let RequestLists = (props) => {
   const TemplateAttachments = props.sendTemplateAttachments;
   const TemplateRequirements = props.sendTemplateRequirements;
 
-  let TemplateAttachmentsLoop;
-  let TemplateRequirementsLoop;
+  const formattedAttachmentsList = [];
+  const formattedRequirementsList = [];
 
   if (TemplateAttachments && TemplateRequirements) {
-    TemplateAttachmentsLoop = TemplateAttachments.map((item) => (
-      <li key={item}>{item}</li>
-    ));
-
-    TemplateRequirementsLoop = TemplateRequirements.map((item) => (
-      <li key={item}>{item}</li>
-    ));
+    for (let i = 0; i < TemplateAttachments.length; i++) {
+      formattedAttachmentsList.push({ value: TemplateAttachments[i] });
+    }
+    for (let x = 0; x < TemplateRequirements.length; x++) {
+      formattedRequirementsList.push({ value: TemplateRequirements[x] });
+    }
   }
+
+  useEffect(() => {
+    if (TemplateAttachments && TemplateRequirements) {
+      setAttachment(formattedAttachmentsList);
+      setRequirements(formattedRequirementsList);
+    }
+  }, [TemplateAttachments, TemplateRequirements]);
 
   /**attachments */
   function AddAttachment(newAttachment) {
     setAttachment((prevAttachment) => {
       return [...prevAttachment, newAttachment];
     });
-    console.log(attachment);
   }
 
   function DeleteAttachment(e, id) {
@@ -49,7 +54,6 @@ let RequestLists = (props) => {
     setRequirements((prevRequirements) => {
       return [...prevRequirements, newRequirements];
     });
-    console.log(requirements);
   }
 
   function deleteRequirements(e, id) {
@@ -64,7 +68,6 @@ let RequestLists = (props) => {
   useEffect(() => {
     props.getRequirements(requirements);
     props.getAttachments(attachment);
-    console.log(attachment);
   }, [requirements, attachment]);
 
   return (
@@ -73,7 +76,6 @@ let RequestLists = (props) => {
         <div className="attachementsList">
           <h4>List of items you will need:</h4>{" "}
           <ul id="templateLists">
-            {TemplateAttachmentsLoop}
             {attachment.map((attachmentItem, index) => {
               return (
                 <li key={attachmentItem} id={attachmentItem}>
@@ -93,7 +95,6 @@ let RequestLists = (props) => {
         <div className="deliverablesList">
           <h4>List of items expected to be received upon delivery:</h4>{" "}
           <ul id="templateLists">
-            {TemplateRequirementsLoop}
             {requirements.map((reqItem, index) => {
               return (
                 <li id={reqItem}>

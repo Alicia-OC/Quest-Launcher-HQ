@@ -228,7 +228,7 @@ const Library = ({}) => {
           {languages ? (
             <p className="small-description-profile-library">
               More than {languages.length - 1} language pairs with many
-              vendors...
+              vendors to work with...
             </p>
           ) : (
             ""
