@@ -36,7 +36,7 @@ const VendorPerLangList = () => {
   
   useEffect(() => {
     getVendors();
-  }, []);
+  }, [user?._id, token]);
 
   if (!vendors) {
     return (

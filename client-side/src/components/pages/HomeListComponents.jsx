@@ -72,14 +72,15 @@ const HomeListComponents = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getTemplates();
-      await getFavTemplates();
-      await getRequests();
-    };
-
-    fetchData();
-  }, []);
+    if (user?._id && token) {
+      const fetchData = async () => {
+        await getTemplates();
+        await getFavTemplates();
+        await getRequests();
+      };
+      fetchData();
+    }
+  }, [user?._id, token]);
 
   function lastRequests() {
     if (!user?._id || !requests || requests.length === 0) {

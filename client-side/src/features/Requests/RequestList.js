@@ -27,7 +27,7 @@ function RequestList() {
 
   useEffect(() => {
     getRequests();
-  }, []);
+  }, [user?._id, token]);
 
   if (requests !== null) {
     for (let i = 0; i < requests.length; i++) {

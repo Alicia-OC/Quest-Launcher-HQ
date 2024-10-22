@@ -75,14 +75,15 @@ const UserLoggedBody = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getTemplates();
-      await getFavTemplates();
-      await getRequests();
-    };
-
-    fetchData();
-  }, []);
+    if (user?._id && token) {
+      const fetchData = async () => {
+        await getTemplates();
+        await getFavTemplates();
+        await getRequests();
+      };
+      fetchData();
+    }
+  }, [user?._id, token]);
 
 
   if (user && user._id) {

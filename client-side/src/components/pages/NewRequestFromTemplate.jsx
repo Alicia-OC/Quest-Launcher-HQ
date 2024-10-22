@@ -48,7 +48,7 @@ function NewRequestFromTemplate(props) {
   const [projectTitle, setprojectTitle] = useState();
   const [greetings, setGreetings] = useState(randomGreetings[0]);
   const [thisIntroText, setThisIntroText] = useState(introText);
-  const [thisInstructions, setThisInstructions] = useState("");
+  const [thisInstructions, setThisInstructions] = useState(" ");
   const [wordcount, setWordcount] = useState();
   const [newMqproject, setNewMqproject] = useState(mqproject);
   const [files, setFiles] = useState();
@@ -60,10 +60,8 @@ function NewRequestFromTemplate(props) {
   const [proofDL, setProofDL] = useState();
   const [thisListOfLanguages, setThisListOfLanguages] = useState([]);
 
-
   useEffect(() => {
     if (templateObject) {
-      setThisIntroText(introText);
       setThisInstructions(instructions);
       setNewMqproject(mqproject);
     }
@@ -117,7 +115,6 @@ function NewRequestFromTemplate(props) {
     const tableToObjectArrSliced = tableToObjectArr.slice(1);
     setTeamTable(tableToObjectArrSliced);
   };
-
   async function HandleSubmit(e) {
     e.preventDefault();
 
@@ -136,7 +133,7 @@ function NewRequestFromTemplate(props) {
       requirements: thisRequirements,
       deadlines: { translation: transDL, proofreading: proofDL },
     };
-    console.log(object);
+    console.log({value: thisIntroText});
 
     if (!projectTitle || !wordcount || !newMqproject || !teamTable.length) {
       alert("Please make sure all required fields are filled.");
@@ -202,7 +199,9 @@ function NewRequestFromTemplate(props) {
 
             <div className="introText" data-type="select">
               <NewTextArea
-                getText={(text) => setThisIntroText(text)}
+                getText={(text) => {
+                  setThisIntroText(text);
+                }}
                 defaultValue={greetings + " " + introText}
               />
               <label>Specific instructions:</label>

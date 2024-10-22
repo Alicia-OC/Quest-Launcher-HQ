@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import GetRequest from "./fetchRequest.js";
-import parse from 'html-react-parser';
-
+import parse from "html-react-parser";
 
 /**CSS */
 
@@ -33,7 +32,7 @@ function SoloRequest() {
     requirements,
     deadlines,
   } = requestObject;
-
+console.log(introText);
   let teamTableLoop = () => {
     let array = [];
     const team = languageTeam;
@@ -55,7 +54,7 @@ function SoloRequest() {
   };
 
   let instructionsBlock = () => {
-    if (instructions.length === 0) {
+    if (!instructions) {
       return "";
     } else {
       return (
@@ -70,7 +69,9 @@ function SoloRequest() {
   let attachmentsLoop = attachments.map((item) => (
     <li key={item.value}>{item.value}</li>
   ));
-  let reqsLoop = requirements.map((item) => <li key={item.value}>{item.value}</li>);
+  let reqsLoop = requirements.map((item) => (
+    <li key={item.value}>{item.value}</li>
+  ));
 
   return (
     <div className="SoloRequest">
@@ -109,12 +110,6 @@ function SoloRequest() {
       </div>
       <br />{" "}
       <div className="teamTableDisplayed">
-        <label>
-          {" "}
-          <u>Team:</u>
-        </label>
-        <br />
-        <br />
         <table>
           <thead>
             <th></th>

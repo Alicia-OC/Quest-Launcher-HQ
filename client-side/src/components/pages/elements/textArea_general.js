@@ -6,7 +6,6 @@ function NewTextArea(props) {
   const defaultValue = props.defaultValue || ""; 
   const [text, setText] = useState(defaultValue);
 
-
   const handleChange = (value) => {
     setText(value); 
     props.getText(value); 
