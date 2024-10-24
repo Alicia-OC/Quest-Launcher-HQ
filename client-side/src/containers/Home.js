@@ -14,6 +14,8 @@ const UserLoggedBody = () => {
   const token = useSelector((state) => state.token);
   const templates = user?.templates;
   const requests = user?.requests;
+  const greetings = user?.greetings
+
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const getTemplates = async () => {

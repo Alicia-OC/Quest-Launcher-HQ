@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { randomGreetings } from "../../../apis";
+import { useSelector } from "react-redux";
 
 function GreetingsDropdownMenu(props) {
-  const [greetings, setGreetings] = useState(randomGreetings[0]);
+  const user = useSelector((state) => state.user);
+  const userGreetings = user?.greetings;
+  const [greetings, setGreetings] = useState(null);
 
-  const GreetingsLoop = randomGreetings.map((greet) => (
+  const GreetingsLoop = userGreetings.map((greet) => (
     <option className="greetingsSelectDropdown" key={greet} value={greet}>
       {greet}
     </option>
@@ -14,13 +16,13 @@ function GreetingsDropdownMenu(props) {
     e.preventDefault();
     let chosenGreet = e.target.value;
     const randomGreet =
-      randomGreetings[Math.floor(Math.random() * randomGreetings.length)];
+      userGreetings[Math.floor(Math.random() * (userGreetings.length - 1)) + 1];
 
     if (chosenGreet === "Random greet") {
       chosenGreet = randomGreet;
     }
     setGreetings(chosenGreet);
-    props.getGreet(chosenGreet)
+    props.getGreet(chosenGreet);
   }
 
   return (
@@ -33,7 +35,6 @@ function GreetingsDropdownMenu(props) {
         className="greetingsSelectOptions"
       >
         {GreetingsLoop}
-        <option value="Random greet">Random greet</option>
       </select>
     </div>
   );

@@ -14,13 +14,11 @@ import GreetingsDropdownMenu from "./elements/GreetingsDropdownMenu.js";
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines.js";
 import { mongoDB_Request } from "../../apis.js";
-import { randomGreetings } from "../../apis.js";
 
 import GetTemplate from "../../features/templates/GetTemplate.js";
 
 function NewRequestFromTemplate(props) {
   const user = useSelector((state) => state.user);
-
   const template = GetTemplate();
   const { templateReqId } = useParams();
 
@@ -46,7 +44,7 @@ function NewRequestFromTemplate(props) {
   } = templateObject;
 
   const [projectTitle, setprojectTitle] = useState();
-  const [greetings, setGreetings] = useState(randomGreetings[0]);
+  const [greetings, setGreetings] = useState('');
   const [thisIntroText, setThisIntroText] = useState(introText);
   const [thisInstructions, setThisInstructions] = useState(" ");
   const [wordcount, setWordcount] = useState();
@@ -62,7 +60,6 @@ function NewRequestFromTemplate(props) {
 
   useEffect(() => {
     if (templateObject) {
-      setThisInstructions(instructions);
       setNewMqproject(mqproject);
     }
   }, [templateObject]);
@@ -133,7 +130,7 @@ function NewRequestFromTemplate(props) {
       requirements: thisRequirements,
       deadlines: { translation: transDL, proofreading: proofDL },
     };
-    console.log({value: thisIntroText});
+    console.log(object);
 
     if (!projectTitle || !wordcount || !newMqproject || !teamTable.length) {
       alert("Please make sure all required fields are filled.");
@@ -169,12 +166,12 @@ function NewRequestFromTemplate(props) {
         deadlines: { translation: transDL, proofreading: proofDL },
       });
 
-      alert(`New request ${projectTitle} has been created!`);
+      alert(`New reQuest ${projectTitle} has been created!`);
       window.location.replace(`/Request/${res.data}`);
     } catch (error) {
       console.log(error);
       alert(
-        "The quest hasn't been created properly, please make sure all the required fields are filled"
+        "The reQuest hasn't been created properly, please make sure all the required fields are filled"
       );
     }
   }
@@ -186,12 +183,14 @@ function NewRequestFromTemplate(props) {
           <form>
             <p className="requestWarning">
               {" "}
-              **You are using the template <i>{title}</i> for this request
+              **You are using the template <u><i>{title}</i></u> for this request
             </p>
-            <label className="">Project title:</label>
+            <label className="">
+              <i>re</i>Quest:
+            </label>
             <NewInput
               getInput={(title) => setprojectTitle(title)}
-              placeholder="Write your request's title here"
+              placeholder="Write your reQuest's title here"
             />
             <br></br>
             <br></br>
@@ -206,8 +205,11 @@ function NewRequestFromTemplate(props) {
               />
               <label>Specific instructions:</label>
               <NewTextArea
-                getText={(text) => setThisInstructions(text)}
-                defaultValue={instructions}
+                getText={(text) => {
+                  setThisInstructions(text);
+                  console.log(text);
+                }}
+                defaultValue={instructions === "" ? "" : instructions}
               />
             </div>
 

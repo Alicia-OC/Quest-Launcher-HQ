@@ -14,13 +14,14 @@ import { initialParagraph, randomGreetings } from "../../apis";
 import { mongoDB_Request } from "../../apis";
 import { mongoDB_Users } from "../../apis";
 
+import MainTableRemanu from "../../features/Vendors/VendorsTable/MainTableRemanu.js";
+
 /* DATABASE DEPENDENCIES*/
 import CreateDeadlines from "../../features/templates/createDeadlines";
 import { GetGames } from "../../features/Games/fetchGames";
 
 function NewRequest(props) {
   const user = useSelector((state) => state.user);
-
   const [projectTitle, setProjectTitle] = useState();
   const [greetings, setGreetings] = useState(randomGreetings[0]);
   const [instructions, setInstructions] = useState("");
@@ -61,6 +62,9 @@ function NewRequest(props) {
 
     for (let index = 0; index < rows.length; index++) {
       let language = rows[index].id;
+      
+      console.log(rows[index]);
+
       let selectTRoptions;
       let selectPRFoptions;
       let result;
@@ -69,7 +73,6 @@ function NewRequest(props) {
           selectTRoptions = document.querySelector(
             `#${language}-Translator > select`
           ).value;
-
           selectPRFoptions = document.querySelector(
             `#${language}-Proofreader > select`
           ).value;
@@ -98,6 +101,7 @@ function NewRequest(props) {
         }
       }
       tableToObjectArr.push(result);
+      console.log(result);
     }
     const tableToObjectArrSliced = tableToObjectArr.slice(1);
     setTeamTable(tableToObjectArrSliced);
@@ -132,6 +136,19 @@ function NewRequest(props) {
       requirements: reqFormatted,
       deadlines: { translation: transDL, proofreading: proofDL },
     };
+
+    console.log(object);
+    if (
+      !projectTitle ||
+      !wordcount ||
+      !introText ||
+      !teamTable.length ||
+      !mqproject ||
+      !files
+    ) {
+      alert("Please make sure all required fields are filled.");
+      return;
+    }
 
     Axios.post(mongoDB_Request, {
       userId: user._id,
@@ -176,9 +193,7 @@ function NewRequest(props) {
           <form>
             {" "}
             <label className="">Project title:</label>
-            <NewInput
-              getInput={(title) => setProjectTitle(title)}
-            />
+            <NewInput getInput={(title) => setProjectTitle(title)} />
             <div className="introText" data-type="select">
               <GreetingsDropdownMenu getGreet={(item) => setGreetings(item)} />
               <NewTextArea
@@ -230,9 +245,12 @@ function NewRequest(props) {
                 setThisService(thisService);
               }}
             />
-            <MainTable
+            <MainTableRemanu
               getService={(serviceCall) => setThisService(serviceCall)}
-              getTeamTable={(thisTeamTable) => setTeamTable(thisTeamTable)}
+              getTeamTable={(thisTeamTable) => {
+                setTeamTable(thisTeamTable);
+                console.log(thisTeamTable);
+              }}
               getLanguages={(thisListOfLanguages) =>
                 setThisListOfLanguages(thisListOfLanguages)
               }
@@ -246,7 +264,6 @@ function NewRequest(props) {
                 setAttachments(theseAttachments)
               }
               getRequirements={(theseReqs) => setRequirements(theseReqs)}
-
             />
             <CreateDeadlines
               setService={thisService}

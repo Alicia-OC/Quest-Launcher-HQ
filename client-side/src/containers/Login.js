@@ -5,10 +5,9 @@ import { Link } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import { setLogin } from "../state";
 import { useDispatch, useSelector } from "react-redux";
-import { setTemplates, setRequests } from "../state";
+import { setTemplates, setRequests, setGreetings } from "../state";
 import { mongoDB_Template, mongoDB_Request } from "../apis";
-import cat from '../img/photo_2024-10-18_13-38-02.jpg'
-
+import cat from "../img/photo_2024-10-18_13-38-02.jpg";
 
 const Login = (props) => {
   const dispatch = useDispatch();
@@ -25,10 +24,10 @@ const Login = (props) => {
   const requests = user?.requests;
   const favTemplates = user?.favTemplates;
 
-  /** */useEffect(() => {
-  console.log("Updated user templates:", templates);
-  console.log("Updated user requests:", requests);
-}, [templates, requests]); 
+  /** */ useEffect(() => {
+    console.log("Updated user templates:", templates);
+    console.log("Updated user requests:", requests);
+  }, [templates, requests]);
 
   const getTemplates = async (userId, token) => {
     if (userId && token) {
@@ -51,7 +50,6 @@ const Login = (props) => {
   };
 
   const getRequests = async (userId, token) => {
-    console.log('userId for get requests',userId);
     if (userId && token) {
       try {
         const res = await Axios.get(
@@ -71,7 +69,6 @@ const Login = (props) => {
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -90,13 +87,14 @@ const Login = (props) => {
             token: token,
           })
         );
-        console.log("User after dispatch:", loggedInUser);
-
         if (loggedInUser && loggedInUser._id) {
-          await Promise.all([getTemplates(loggedInUser._id, token), getRequests(loggedInUser._id, token)]);
+          await Promise.all([
+            getTemplates(loggedInUser._id, token),
+            getRequests(loggedInUser._id, token),
+          ]);
+          setGreetings(loggedInUser.greetings)
         }
-
-         window.location.replace("/");
+        window.location.replace("/");
       }
     } catch (error) {
       console.log(error);
@@ -177,8 +175,9 @@ const Login = (props) => {
           </div>
         </div>
         <div className="creationForm-image">
-          <img className="registrationImage" src={cat} ></img>
-        </div>      </div>
+          <img className="registrationImage" src={cat}></img>
+        </div>{" "}
+      </div>
     </Box>
   );
 };

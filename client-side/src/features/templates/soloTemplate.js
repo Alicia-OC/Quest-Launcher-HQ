@@ -28,10 +28,6 @@ function SoloTemplate() {
 
   const [newMqTitle, setNewMqTitle] = useState(null);
 
-  useEffect(() => {
-    console.log(newMqTitle);
-  }, [newMqTitle]);
-
   if (request) {
     filteredObject = request.filter((element) => element._id === templateId);
     Object.assign(requestObject, filteredObject[0]);
@@ -143,7 +139,7 @@ function SoloTemplate() {
       <div className="req-att-list">
         <label>Attachments list</label> <br></br>
         <ul>{attachmentsLoop}</ul>
-        <label>Requirements list </label>
+        <label>Deliverables list </label>
         <br></br>
         <ul> {reqsLoop}</ul>
       </div>

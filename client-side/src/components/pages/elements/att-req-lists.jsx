@@ -78,7 +78,7 @@ let RequestLists = (props) => {
           <ul id="templateLists">
             {attachment.map((attachmentItem, index) => {
               return (
-                <li key={attachmentItem} id={attachmentItem}>
+                <li id={attachmentItem}>
                   <label>{attachmentItem.value}</label>
                   <button
                     className="generalButton"

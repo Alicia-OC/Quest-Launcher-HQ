@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
 import { GetProofreaders, GetTranslators } from "../_GetVendorsData";
-import { baseLanguages2 } from "../../../apis";
+import { baseLanguages2, baseLanguages } from "../../../apis";
 import RemoveIcon from "@mui/icons-material/Remove";
 import SelectLanguage from "../../../components/pages/elements/SelectLanguage";
-import { GetFIGS } from "../../languagesList/fetchLanguages";
+import { GetFIGS, GetFIGSOBJ } from "../../languagesList/fetchLanguages";
 
 const MainTable = (props) => {
   let requestService = props.service;
-  let languagesFromTemplate = props.languages
+  let languagesFromTemplate = props.languages;
 
   const [additionalLanguage, setAdditionalLanguage] = useState();
   const [updateTable, setUpdateTable] = useState();
+  const [additionalObjLanguage, setAdditionalObjLanguage] = useState();
 
   /**backend data */
   const translators = GetTranslators();
   const proofreaders = GetProofreaders();
   const figs = GetFIGS();
+
   const figsArr =
     Array.from(
       figs
@@ -23,9 +25,12 @@ const MainTable = (props) => {
   doesn't push any item to this array */
 
   let this_handoff_added_lang = baseLanguages2;
+  let this_handoff_added_lang_obj = baseLanguages
+  console.log(baseLanguages);
 
-  if(languagesFromTemplate){
-    this_handoff_added_lang = languagesFromTemplate
+  let objectLangsAdded = []
+  if (languagesFromTemplate) {
+    this_handoff_added_lang = languagesFromTemplate;
   }
 
   /** 1. Stores in a const the language that triggered the delete function
@@ -58,19 +63,29 @@ const MainTable = (props) => {
 
   const handleChange = (e) => {
     setAdditionalLanguage(e.target.value);
+
+    const selectedOption = e.target.selectedOptions[0];
+    const langCode = selectedOption.getAttribute("data-langcode");
+
+    setAdditionalObjLanguage({ language: e.target.value, languageCode: langCode });
+    //console.log(additionalObjLanguage);
+    //console.log("Selected Language Code:", langCode);
   };
 
   const NewLanguagesButtonClicked = (e) => {
     e.preventDefault();
 
     if (!this_handoff_added_lang.includes(additionalLanguage)) {
-      
       this_handoff_added_lang.push(additionalLanguage);
+      objectLangsAdded.push(additionalObjLanguage)
+      console.log(objectLangsAdded);
 
       setUpdateTable(RowContent(requestService));
 
-      props.getLanguages(this_handoff_added_lang) //send language list to main component NewTemplate.jsx
-    } 
+      props.getLanguages(this_handoff_added_lang);
+      console.log(this_handoff_added_lang); 
+      //send language list to main component NewTemplate.jsx
+    }
   };
 
   /**1. Function takes a language in scope as parameter, loops through the translators const,
@@ -253,7 +268,12 @@ const MainTable = (props) => {
         <table>{RowContent("TEP")}</table>
         <div className="AddLanguageButton">
           <SelectLanguage value={additionalLanguage} onChange={handleChange} />
-          <button className="generalButton" onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
+          <button
+            className="generalButton"
+            onClick={(e) => NewLanguagesButtonClicked(e)}
+          >
+            Add
+          </button>
         </div>
       </div>
     );
@@ -263,7 +283,12 @@ const MainTable = (props) => {
         <table>{RowContent(requestService)}</table>
         <div className="AddLanguageButton">
           <SelectLanguage value={additionalLanguage} onChange={handleChange} />
-          <button className="generalButton" onClick={(e) => NewLanguagesButtonClicked(e)}>Add</button>
+          <button
+            className="generalButton"
+            onClick={(e) => NewLanguagesButtonClicked(e)}
+          >
+            Add
+          </button>
         </div>
       </div>
     );

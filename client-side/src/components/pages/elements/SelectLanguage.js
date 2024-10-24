@@ -12,7 +12,7 @@ const SelectLanguage = ({ label, value, onChange }) => {
           {DB_languages.map((language) => (
             <option
               value={language.language}
-              langCode={language.languageCode}
+              data-langCode={language.languageCode}
               id={language._id}
             >
               {language.language}

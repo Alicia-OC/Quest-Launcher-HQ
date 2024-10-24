@@ -1,0 +1,2 @@
+1. learn to make reference documents from different collections
+2. Instead of adding game and dev values in the request/template documents, I want to just reference the game document

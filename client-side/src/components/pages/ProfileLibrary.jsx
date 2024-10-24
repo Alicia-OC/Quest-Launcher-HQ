@@ -46,8 +46,6 @@ const Library = ({}) => {
   const templates = user.templates;
   const requests = user.requests;
 
-  console.log(devs);
-
   const handleVendor = (e) => {
     e.preventDefault();
     setDropdownVendorsShow(!dropdownVendorsShow);
@@ -225,6 +223,7 @@ const Library = ({}) => {
             Vendors
           </Link>{" "}
           <FontAwesomeIcon icon={faAddressBook} />{" "}
+          {dropdownVendors}
           {languages ? (
             <p className="small-description-profile-library">
               More than {languages.length - 1} language pairs with many

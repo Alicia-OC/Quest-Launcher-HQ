@@ -29,6 +29,11 @@ export const authSlice = createSlice({
       state.token = null;
       state.id = null;
     },
+    setGreetings: (state, action) => {
+      if (state.user) {
+        state.user.greetings = action.payload.templates;
+      }
+    },
     setTemplates: (state, action) => {
       if (state.user) {
         state.user.templates = action.payload.templates;
@@ -80,6 +85,7 @@ export const {
   setOrganization,
   setFavTemplates,
   setFullName,
+  setGreetings
 } = authSlice.actions;
 
 export default authSlice.reducer;

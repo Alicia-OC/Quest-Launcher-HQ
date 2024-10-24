@@ -30,4 +30,21 @@ const GetFIGS = () => {
   return arr;
 };
 
-export { GetLanguages, GetFIGS };
+const GetFIGSOBJ = () => {
+  const [languages, setLanguages] = useState([]);
+  useEffect(() => {
+    Axios.get(mongoDB_Languages)
+      .then((res) => setLanguages(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const filteredFIGS = languages.slice(0, 4);
+  let arr = [];
+  for (let index = 0; index < filteredFIGS.length; index++) {
+    arr.push(filteredFIGS[index]);
+  }
+
+  return arr;
+};
+
+export { GetLanguages, GetFIGS, GetFIGSOBJ };

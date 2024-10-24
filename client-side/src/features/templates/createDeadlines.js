@@ -23,20 +23,34 @@ let CreateDeadlines = (props) => {
   let thisHandoffService = props.setService;
 
   const childToParentTRA = (date) => {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
+    let hours = String(date.getHours()).padStart(2, '0'); 
+    let minutes = String(date.getMinutes()).padStart(2, '0');
+
     let month = months[date.getMonth()];
     let day = date.getDate();
-    let result = `${month} ${day} - ${hours}:${minutes} ${timezone}`;
+
+    let daySuffix = "th";
+    if (day === 1 || day === 21 || day === 31) daySuffix = "st";
+    else if (day === 2 || day === 22) daySuffix = "nd";
+    else if (day === 3 || day === 23) daySuffix = "rd";
+
+    let result = `${month} ${day}${daySuffix} - ${hours}:${minutes} ${timezone}`;
     settransDate(date);
     props.getTransDL(result);
   };
   const childToParentPRF = (date) => {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
+    let hours = String(date.getHours()).padStart(2, '0'); 
+    let minutes = String(date.getMinutes()).padStart(2, '0');
+
     let month = months[date.getMonth()];
     let day = date.getDate();
-    let result = `${month} ${day} - ${hours}:${minutes} ${timezone}`;
+
+    let daySuffix = "th";
+    if (day === 1 || day === 21 || day === 31) daySuffix = "st";
+    else if (day === 2 || day === 22) daySuffix = "nd";
+    else if (day === 3 || day === 23) daySuffix = "rd";
+
+    let result = `${month} ${day}${daySuffix} - ${hours}:${minutes} ${timezone}`;
     setProofDate(date);
     props.getProofDL(result);
   };
