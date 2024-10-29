@@ -47,20 +47,16 @@ const getAllTemplates = asyncHandler(async (req, res) => {
 });
 
 const getOneTemplate = asyncHandler(async (req, res) => {
-  console.log("fsdf");
   try {
-    const { userId, templateId } = req.query;
-    console.log(userId, templateId);
+    const { userId, templateId } = req.params;
     const template = await Template.findById(templateId);
-    console.log(template);
+
     if (userId === template.userId) {
-      console.log(template);
       res.status(200).json(template);
-      console.log("fsdf");
     }
   } catch (err) {
     res.status(500).json({
-      message: `Sorry, it looks like this template doesn't belong to you!`,
+      message: `Sorry, something went wrong. You might have introduced the wrong ID`,
     });
   }
 });
@@ -97,7 +93,6 @@ const createTemplate = asyncHandler(async (req, res) => {
         game: game,
         developer: developer,
         introText: introText,
-        mqproject: mqproject,
         instructions: instructions,
         mqproject: mqproject,
         languageTeam: languageTeam,
@@ -130,7 +125,7 @@ const deleteTemplate = asyncHandler(async (req, res) => {
 });
 
 const updateTemplate = asyncHandler(async (req, res) => {
-  console.log('contact');
+  console.log("contact");
   try {
     const {
       id,
@@ -162,7 +157,7 @@ const updateTemplate = asyncHandler(async (req, res) => {
     const updatedTemplate = await Template.findByIdAndUpdate(
       id,
       fieldsToUpdate,
-      { new: true } 
+      { new: true }
     );
 
     if (!updatedTemplate) {
@@ -170,12 +165,10 @@ const updateTemplate = asyncHandler(async (req, res) => {
     }
 
     res.json({ message: `${updatedTemplate.title} updated`, updatedTemplate });
-
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 const starTemplate = asyncHandler(async (req, res) => {
   try {

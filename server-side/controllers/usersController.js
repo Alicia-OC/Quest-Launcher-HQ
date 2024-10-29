@@ -159,9 +159,9 @@ const getAllUserRequests = async (req, res) => {
 };
 
 const updateUser = asyncHandler(async (req, res) => {
-  console.log('testing connection to upd user');
+  console.log("testing connection to upd user");
   try {
-    const { userId, reqId, templateId, fullName, email } = req.body;
+    const { userId, reqId, templateId, fullName, email, greetings } = req.body;
     const user = await User.findById(userId);
 
     if (reqId) {
@@ -182,9 +182,15 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 
     if (fullName) {
-      user.fullName = fullName
+      user.fullName = fullName;
     }
     if (email) {
+    }
+
+    if (greetings) {
+      if (!user.greetings.includes(greetings)) {
+        user.greetings.push(greetings);
+      }
     }
 
     await user.save();
@@ -201,30 +207,38 @@ const allAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
 
-const userBoard = (req, res) => {
-  console.log("user");
+const newGreet = asyncHandler(async (req, res) => {
+  try {
+    const { userId, value } = req.body;
+    console.log(value);
+    const duplicateGreeting = await User.findById(userId).lean().exec();
 
-  res.status(200).send("User Content.");
-};
+    if (duplicateGreeting) {
+      res.status(409).json({ message: "Greeting already in database" });
+    }
+    const greetingObject = {
+      createdBy: userId,
+      value: value,
+    };
 
-const adminBoard = (req, res) => {
-  console.log("admin");
-  res.status(200).send("Admin Content.");
-};
+    const newGreeting = await Greetings.create(greetingObject);
 
-const moderatorBoard = (req, res) => {
-  console.log("moderator");
-  res.status(200).send("Moderator Content.");
-};
+    if (newGreeting) {
+      console.log(newGreeting);
+      res.status(201).json({
+        message: `New Greeting ${value} has been created`,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = {
   getUser,
   updateUser,
   deleteUser,
   allAccess,
-  userBoard,
-  adminBoard,
-  moderatorBoard,
   getUserTemplate,
   getUserRequest,
   getAllUserTemplates,

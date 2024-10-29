@@ -14,4 +14,10 @@ router.get(
   requestController.getUserRequests
 );
 
+router.get(
+  "/:userId/:requestId",
+  authJwt.verifyToken,
+  requestController.getOneRequest
+);
+
 module.exports = router;

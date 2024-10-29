@@ -22,7 +22,6 @@ const getAllVendors = asyncHandler(async (req, res) => {
 });
 
 const getLanguageBasedVendors = asyncHandler(async (req, res) => {
-  console.log("fsdf");
   try {
     const { language } = req.query;
     const langUppercase = language.charAt(0).toUpperCase() + language.slice(1);

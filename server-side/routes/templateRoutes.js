@@ -15,6 +15,6 @@ router.patch("/:id", authJwt.verifyToken, templatesController.updateTemplate);
 
 router.get("/:userId/allTemplates", authJwt.verifyToken, templatesController.getUserTemplates);
 router.get("/:userId/favTemplates", authJwt.verifyToken, templatesController.getUserFavTemplates);
-router.get("/:userId/:templateId/test", templatesController.getOneTemplate);
+router.get("/:userId/:templateId", authJwt.verifyToken, templatesController.getOneTemplate);
 
 module.exports = router;

@@ -5,7 +5,6 @@ const authJwt = require("../middlewares/authJwt");
 
 router
   .route("/")
-  .get(usersController.getUser)
   .patch(usersController.updateUser)
   .delete(usersController.deleteUser);
 

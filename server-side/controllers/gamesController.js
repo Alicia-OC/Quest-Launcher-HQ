@@ -52,7 +52,19 @@ const createnewGame = asyncHandler(async (req, res) => {
   }
 });
 
+const getOneGame = asyncHandler(async (req, res) => {
+  try {
+    const { gameTitle } = req.params;  // Changed to req.params
+    const game = await Games.find({ title: gameTitle });
+
+    res.status(200).json(game);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 module.exports = {
   getAllGames,
   createnewGame,
+  getOneGame,
 };

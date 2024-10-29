@@ -37,8 +37,10 @@ const userSchema = new mongoose.Schema(
     },
     organization: { type: String, required: false },
 
-    templates: { type: Array, required: false, default: [""] },
-    requests: { type: Array, required: false, default: [""] },
+    templates: { type: Array, required: false, default: ["66f0525e47d8bce95a7a932c"] },
+    requests: { type: Array, required: false, default: ["6717f238fbc0771345290769"] },
+    greetings: { type: Array, required: false, default: ["Random greet"] },
+
     active: {
       type: Boolean,
       default: true,

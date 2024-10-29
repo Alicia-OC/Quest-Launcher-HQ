@@ -5,6 +5,7 @@ const greetingsController = require("../controllers/greetingsController");
 router
   .route("/")
   .get(greetingsController.getAllGreetings)
-  .delete(greetingsController.deleteGreeting);
+  .delete(greetingsController.deleteGreeting)
+  .post(greetingsController.createNewGreeting)
 
 module.exports = router;

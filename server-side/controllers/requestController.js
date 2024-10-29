@@ -101,6 +101,7 @@ const createNewRequest = asyncHandler(async (req, res) => {
         requirements: requirements,
         deadlines: deadlines,
       };
+      console.log(requestObject);
       const newRequest = await Request.create(requestObject);
       res.status(200).send(newRequest._id);
     }
@@ -109,8 +110,24 @@ const createNewRequest = asyncHandler(async (req, res) => {
   }
 });
 
+const getOneRequest = asyncHandler(async (req, res) => {
+  try {
+    const { userId, requestId } = req.params;
+    const request = await Request.findById(requestId);
+
+    if (userId === request.userId) {
+      res.status(200).json(request);
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: `Sorry, something went wrong. You might have introduced the wrong ID`,
+    });
+  }
+});
+
 module.exports = {
   getAllRequest,
   createNewRequest,
   getUserRequests,
+  getOneRequest
 };
