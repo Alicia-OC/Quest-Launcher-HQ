@@ -6,6 +6,13 @@
 
 }
 
+.SoloRequest ul {
+  margin: 0;
+}
+
+.SoloRequest p {
+  margin: 0;
+}
 
 .languageColumnSoloRequest {
   font-weight: bolder;

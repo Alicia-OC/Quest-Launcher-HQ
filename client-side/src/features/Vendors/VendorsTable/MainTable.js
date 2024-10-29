@@ -26,7 +26,6 @@ const MainTable = (props) => {
 
   let this_handoff_added_lang = baseLanguages2;
   let this_handoff_added_lang_obj = baseLanguages
-  console.log(baseLanguages);
 
   let objectLangsAdded = []
   if (languagesFromTemplate) {

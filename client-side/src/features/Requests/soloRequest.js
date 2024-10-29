@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
-import GetRequest from "./fetchRequest.js";
 import parse from "html-react-parser";
-import { mongoDB_Games } from "../../apis.js";
+import { mongoDB_Games, mongoDB_Request } from "../../apis.js";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -11,19 +10,32 @@ import "../../containers/css/SoloRequest.css";
 
 function SoloRequest() {
   const { requestId } = useParams();
-  const request = GetRequest();
   const [gameObj, setGameObj] = useState(null);
+
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
 
-  let filteredObject;
-  let requestObject = {};
+  const [requestIs, setRequestIs] = useState(null);
 
-  if (request) {
-    filteredObject = request.filter((element) => element._id === requestId);
-    Object.assign(requestObject, filteredObject[0]);
-    console.log(filteredObject);
-  }
+  const requestInScope = async () => {
+    try {
+      const res = await Axios.get(
+        `${mongoDB_Request}/${user._id}/${requestId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setRequestIs(res.data);
+    } catch (error) {
+      console.error("Error fetching template:", error);
+    }
+  };
+
+  useEffect(() => {
+    requestInScope();
+  }, [user?._id, token]);
 
   const {
     title,
@@ -38,7 +50,7 @@ function SoloRequest() {
     attachments,
     requirements,
     deadlines,
-  } = requestObject;
+  } = requestIs || {};
 
   const GetDev = async () => {
     try {
@@ -48,7 +60,6 @@ function SoloRequest() {
         },
       });
       setGameObj(res.data);
-      console.log(res.data[0].developer);
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +71,7 @@ function SoloRequest() {
     }
   }, [game, token]);
 
-  if (!request) {
+  if (requestIs === null) {
     return "Loading...";
   }
 
@@ -84,21 +95,6 @@ function SoloRequest() {
     return array;
   };
 
-  let instructionsBlock = () => {
-    if (!instructions) {
-      return null;
-    } else {
-      return (
-        <>
-          <label>
-            <strong>Specific Instructions: </strong>
-          </label>
-          {parse(instructions)}
-        </>
-      );
-    }
-  };
-
   const attachmentsLoop = attachments.map((item) => (
     <li key={item.value}>{item.value}</li>
   ));
@@ -113,10 +109,17 @@ function SoloRequest() {
         <p>{greeting},</p>
         <br />
         <p>{parse(introText)}</p>
-         <br />
-        <p> {instructionsBlock()}</p>
+
+        {instructions ? (
+          <>
+            <br />{" "}
+            <label>
+              <b>Notes: </b>
+            </label>
+            <p> {parse(instructions)}</p> <br />
+          </>
+        ) : null}
       </div>
-       <br />
       <div className="details">
         <div>
           <strong>Videogame: </strong>
@@ -157,11 +160,12 @@ function SoloRequest() {
       </div>
       <br />{" "}
       <div className="req-att-list">
-        <label>Attachments list</label>  <br />
-        <ul>{attachmentsLoop}</ul>
+        <label>Attachments list</label> <br />
+        <ul>{attachmentsLoop}</ul> <br />
         <label>Deliverables list </label>
         <ul> {reqsLoop}</ul>
-      </div>
+      </div>{" "}
+      <br />
       <div className="Deadlines">
         <strong>
           <label>DEADLINE:</label>
@@ -176,12 +180,14 @@ function SoloRequest() {
           </strong>
         </ul>
       </div>
+      <br />
       <div>
         <p>
           {" "}
           Please confirm safe receipt of the files and the deadline. Should you
           have any queries, please let me know as soon as possible.{" "}
         </p>
+        <br />
         Thank you!
       </div>
     </div>

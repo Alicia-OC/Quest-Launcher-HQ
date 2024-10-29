@@ -1,12 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
-import { useEffect, useState } from "react";
-
-import GetTemplate from "./GetTemplate";
 import NewInput from "../../components/pages/elements/NewInput";
 
 import { mongoDB_Template } from "../../apis";
@@ -22,18 +19,35 @@ function SoloTemplate() {
   const token = useSelector((state) => state.token);
 
   const { templateId } = useParams();
-  const request = GetTemplate();
-  let filteredObject;
-  let requestObject = {};
 
   const [newMqTitle, setNewMqTitle] = useState(null);
+  const [templateIs, setTemplateIs] = useState(null);
 
-  if (request) {
-    filteredObject = request.filter((element) => element._id === templateId);
-    Object.assign(requestObject, filteredObject[0]);
-  } else {
+  const templateInScope = async () => {
+    try {
+      const res = await Axios.get(
+        `${mongoDB_Template}/${user._id}/${templateId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTemplateIs(res.data);
+    } catch (error) {
+      console.error("Error fetching template:", error);
+     
+    }
+  };
+
+  useEffect(() => {
+    templateInScope();
+  }, [user?._id, token]);
+
+  if (templateIs === null) {
     return "Loading...";
   }
+
   const {
     _id,
     title,
@@ -45,19 +59,7 @@ function SoloTemplate() {
     languageTeam,
     attachments,
     requirements,
-  } = requestObject;
-
-  let instructionsBlock = () => {
-    if (!instructions) {
-      return "";
-    } else {
-      return (
-        <>
-          <p1>{instructions}</p1>
-        </>
-      );
-    }
-  };
+  } = templateIs || {};
 
   let attachmentsLoop = attachments.map((item) => <li>{item}</li>);
   let reqsLoop = requirements.map((item) => <li>{item}</li>);
@@ -70,7 +72,6 @@ function SoloTemplate() {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    console.log(newMqTitle);
 
     try {
       const res = await Axios.patch(
@@ -114,11 +115,15 @@ function SoloTemplate() {
         <br />
         <p1 className="main-paragraph-rendered">{parse(introText)}</p1>
         <br />
-        <label>
-          <b>Specific instructions: </b>
-        </label>
-        {instructionsBlock()}
-        <br />
+        {instructions ? (
+          <>
+            <br />{" "}
+            <label>
+              <b>Notes: </b>
+            </label>
+            <p> {parse(instructions)}</p> <br />
+          </>
+        ) : null}
         <br />
         <label>
           <b>MemoQ project title:</b>
