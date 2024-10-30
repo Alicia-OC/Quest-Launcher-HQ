@@ -78,7 +78,6 @@ function SoloRequest() {
   const teamTableLoop = () => {
     let array = [];
     const team = languageTeam;
-
     if (team) {
       for (let i = 0; i < team.length; i++) {
         let object = (
@@ -92,6 +91,7 @@ function SoloRequest() {
       }
     } else array.push("Loading...");
 
+    
     return array;
   };
 
@@ -185,7 +185,7 @@ function SoloRequest() {
         <p>
           {" "}
           Please confirm safe receipt of the files and the deadline. Should you
-          have any queries, please let me know as soon as possible.{" "}
+          have any queries, let me know as soon as possible :){" "}
         </p>
         <br />
         Thank you!

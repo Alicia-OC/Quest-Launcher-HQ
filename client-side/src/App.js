@@ -27,11 +27,13 @@ import TemplateList from "./features/templates/templatesList.js";
 
 import SoloRequest from "./features/Requests/soloRequest.js";
 import SoloTemplate from "./features/templates/soloTemplate.js";
+import gameCard from "./features/Games/gameCard.js";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setLogout } from "./state/index.js";
 import { useEffect } from "react";
 import VendorPerLangList from "./features/Vendors/VendorPerLangList.jsx";
+import GameCard from "./features/Games/gameCard.js";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
@@ -118,6 +120,12 @@ function App() {
             path="/Vendors/:language"
             element={isAuth ? <VendorPerLangList /> : <UnauthorizedAccess />}
           />
+
+          <Route
+            path="/Games/:gameId"
+            element={isAuth ? <GameCard /> : <UnauthorizedAccess />}
+          />
+
           <Route
             path="/Template/:templateId"
             element={isAuth ? <SoloTemplate /> : <UnauthorizedAccess />}

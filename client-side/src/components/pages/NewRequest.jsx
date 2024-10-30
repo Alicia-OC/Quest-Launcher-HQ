@@ -62,9 +62,6 @@ function NewRequest(props) {
 
     for (let index = 0; index < rows.length; index++) {
       let language = rows[index].id;
-      
-      console.log(rows[index]);
-
       let selectTRoptions;
       let selectPRFoptions;
       let result;
@@ -101,7 +98,6 @@ function NewRequest(props) {
         }
       }
       tableToObjectArr.push(result);
-      console.log(result);
     }
     const tableToObjectArrSliced = tableToObjectArr.slice(1);
     setTeamTable(tableToObjectArrSliced);

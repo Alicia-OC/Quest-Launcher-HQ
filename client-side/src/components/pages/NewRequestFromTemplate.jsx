@@ -64,54 +64,24 @@ function NewRequestFromTemplate(props) {
     }
   }, [templateObject]);
 
-  const tableChanged = (e) => {
-    let table = document.getElementsByTagName("table")[0];
-    let rows = table.rows;
-    let tableToObjectArr = [];
+  const tableChanged = () => {
+    const rows = Array.from(document.querySelectorAll("table tr"));
+    const newTableData = rows.slice(1).map((row) => {
+      const language = row.id;
+      const translator = document.querySelector(`#${language}-Translator > select`)?.value;
+      const proofreader = document.querySelector(`#${language}-Proofreader > select`)?.value;
 
-    for (let index = 0; index < rows.length; index++) {
-      let language = rows[index].id;
-      let selectTRoptions;
-      let selectPRFoptions;
-      let result;
-      if (language) {
-        if (thisService === "TEP") {
-          selectTRoptions = document.querySelector(
-            `#${language}-Translator > select`
-          ).value;
-
-          selectPRFoptions = document.querySelector(
-            `#${language}-Proofreader > select`
-          ).value;
-
-          result = {
-            language: language,
-            translator: selectTRoptions,
-            proofreader: selectPRFoptions,
-          };
-        } else if (thisService === "TRA") {
-          selectTRoptions = document.querySelector(
-            `#${language}-Translator > select`
-          ).value;
-          result = {
-            language: language,
-            translator: selectTRoptions,
-          };
-        } else if (thisService === "PRF") {
-          selectPRFoptions = document.querySelector(
-            `#${language}-Proofreader > select`
-          ).value;
-          result = {
-            language: language,
-            proofreader: selectPRFoptions,
-          };
-        }
-      }
-      tableToObjectArr.push(result);
-    }
-    const tableToObjectArrSliced = tableToObjectArr.slice(1);
-    setTeamTable(tableToObjectArrSliced);
+      return {
+        language,
+        ...(thisService === "TEP" && { translator, proofreader }),
+        ...(thisService === "TRA" && { translator }),
+        ...(thisService === "PRF" && { proofreader })
+      };
+    });
+    setTeamTable(newTableData);
   };
+
+
   async function HandleSubmit(e) {
     e.preventDefault();
 
