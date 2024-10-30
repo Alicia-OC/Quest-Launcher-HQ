@@ -55,6 +55,7 @@ const createnewGame = asyncHandler(async (req, res) => {
 const getOneGame = asyncHandler(async (req, res) => {
   try {
     const { gameTitle } = req.params;  // Changed to req.params
+    console.log(gameTitle);
     const game = await Games.find({ title: gameTitle });
 
     res.status(200).json(game);
